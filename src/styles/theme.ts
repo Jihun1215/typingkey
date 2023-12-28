@@ -57,7 +57,7 @@ export const DarkTheme: DefaultTheme = {
   ...theme,
   bgColor: "#111827",
   //   #1f2937
-  bgColor2: "#333",
+  bgColor2: "#1F2937",
   color: "#FFFFFF99",
   color2: "#191A23",
 };

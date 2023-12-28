@@ -1,0 +1,21 @@
+import styled from "styled-components";
+
+export const Footer = () => {
+  return (
+    <Conaienrt>
+      <span>대충 깃허브, 메일, 블로그, 등등 Svg 로고들로 넣기</span>
+      <p>@Jirune</p>
+      <span>all rights reserved</span>
+    </Conaienrt>
+  );
+};
+
+const Conaienrt = styled.footer`
+  position: absolute;
+  width: 80vw;
+  height: 50px;
+  ${({ theme }) => theme.BoxCenter};
+  background-color: ${({ theme }) => theme.bgColor2};
+  bottom: 5px;
+  border-radius: 6px;
+`;
