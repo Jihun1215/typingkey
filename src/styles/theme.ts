@@ -8,6 +8,7 @@ const colors: DefaultTheme["colors"] = {
   blue: "#337ab7",
   gray: "#9A9A9A",
   deepblue: "#6366F1",
+  lavender: "#8A7EBE",
 };
 
 const WH100 = css`
@@ -56,7 +57,6 @@ export const Theme: DefaultTheme = {
 export const DarkTheme: DefaultTheme = {
   ...theme,
   bgColor: "#111827",
-  //   #1f2937
   bgColor2: "#1F2937",
   color: "#FFFFFF99",
   color2: "#191A23",

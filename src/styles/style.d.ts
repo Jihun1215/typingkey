@@ -22,6 +22,7 @@ declare module "styled-components" {
       blue: string;
       gray: string;
       deepblue: string;
+      lavender: string;
     };
   }
 }

@@ -6,7 +6,7 @@ export const Home = () => {
 
 const Container = styled.div`
   width: 80vw;
-  height: 650px;
+  height: 600px;
   background-color: ${({ theme }) => theme.bgColor2};
   border-radius: 12px;
 `;

@@ -5,15 +5,15 @@ import { Header, Footer } from "shared";
 
 export const Layout = () => {
   return (
-    <LayoutContiner>
+    <LayoutContainer>
       <Header />
       <Outlet />
       <Footer />
-    </LayoutContiner>
+    </LayoutContainer>
   );
 };
 
-const LayoutContiner = styled.div`
+const LayoutContainer = styled.div`
   position: relative;
   width: 100vw;
   height: 100vh;
