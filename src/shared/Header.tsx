@@ -8,8 +8,6 @@ import { IoSunnySharp, IoMoon } from "react-icons/io5";
 export const Header = () => {
   const [darkmode, SetDarkmode] = useRecoilState(ModeToggleState);
 
-  console.log(darkmode);
-
   const onClickChangeDarkMode = () => {
     SetDarkmode(!darkmode);
   };
@@ -36,8 +34,6 @@ export const Header = () => {
               }}
             />
           )}
-          {/* <IoSunnySharp fill="#8A7EBE" />
-          <IoMoon fill="#8A7EBE" /> */}
         </Toggle>
       </MenuArea>
     </Container>
