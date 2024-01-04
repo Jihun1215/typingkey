@@ -14,6 +14,7 @@ export default defineConfig({
       { find: "element", replacement: "/src/element" },
       { find: "state", replacement: "/src/state" },
       { find: "hooks", replacement: "/src/hooks" },
+      { find: "utils", replacement: "/src/utils" },
     ],
   },
 });

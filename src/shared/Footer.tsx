@@ -12,10 +12,10 @@ export const Footer = () => {
 
 const Container = styled.footer`
   position: absolute;
+  bottom: 25px;
   width: 80vw;
   height: 50px;
   ${({ theme }) => theme.BoxCenter};
   background-color: ${({ theme }) => theme.bgColor2};
-  bottom: 5px;
   border-radius: 6px;
 `;

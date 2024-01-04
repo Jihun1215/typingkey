@@ -42,7 +42,7 @@ export const Header = () => {
 
 const Container = styled.header`
   position: absolute;
-  top: 5px;
+  top: 25px;
   width: 80vw;
   ${({ theme }) => theme.BoxCenter};
   /* height: 80px; */
