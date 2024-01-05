@@ -123,7 +123,6 @@ export const Typing = () => {
         console.log(mismatchIndexes);
         const isMatch = typingValue.split("").every((char, index) => {
           // console.log(char);
-          // console.log(index);ㄴ
           if (char !== currentTypingText[index]) {
             mismatchIndexes.push(index);
             console.log(index);
@@ -214,7 +213,10 @@ export const Typing = () => {
           onKeyDown={onKeyDown}
           placeholder="위 문장을 타이핑 하세요."
         />
-        <NextTypingTextArea>{nextTypingText}</NextTypingTextArea>
+        <NextTypingTextArea>
+          NEXT
+          <p>{nextTypingText}</p>
+        </NextTypingTextArea>
       </InputArea>
     </Container>
   );
@@ -268,7 +270,6 @@ const TextInput = styled.input`
   }
   &:focus {
     border-bottom: 2px solid #0288d1;
-    /* #63a080 */
   }
 `;
 
@@ -278,5 +279,9 @@ const NextTypingTextArea = styled.div`
   padding-left: 10px;
   ${({ theme }) => theme.FlexRow};
   align-items: center;
-  color: #333;
+  gap: 0 5px;
+  color: ${({ theme }) => theme.colors.gray};
+  p {
+    color: ${({ theme }) => theme.colors.black};
+  }
 `;
