@@ -9,3 +9,8 @@ export const TextValueState = atom<string>({
   key: "TextValue",
   default: "",
 });
+
+export const TypingCountState = atom<number>({
+  key: "TypingCount",
+  default: 0,
+});

@@ -2,98 +2,219 @@ import { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 
 import { useRecoilState } from "recoil";
-import { TextValueState } from "state/atoms";
+import { TextValueState, TypingCountState } from "state/atoms";
+
+import { useRandomTypingText } from "hooks/useRandomTypingText";
 
 import { defaultTypingData } from "utils/TypingMockData";
 
 export const Typing = () => {
-  const [typingText, setTypingText] = useState<
-    Array<{ contents: string; author: string }>
-  >([]);
-
-  // 배열에서 랜덤한 인덱스를 가져오는 함수
-  const getRandomIndexes = (max: number, count: number) => {
-    const indexes = Array.from({ length: max }, (_, index) => index);
-    for (let i = indexes.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [indexes[i], indexes[j]] = [indexes[j], indexes[i]];
-    }
-    return indexes.slice(0, count);
-  };
-
-  // 컴포넌트가 마운트될 때 랜덤한 텍스트를 설정하기 위한 useEffect
-  useEffect(() => {
-    const randomIndexes = getRandomIndexes(defaultTypingData.length, 10);
-    const randomTexts = randomIndexes.map(
-      (index) => defaultTypingData[index] || {}
-    );
-    // setTypingText(randomTexts);
-    // console.log(randomIndexes);
-    // console.log(randomTexts);
-    setTypingText(randomTexts as Array<{ contents: string; author: string }>);
-  }, []);
-
-  // console.log(typingText);
-  // console.log(typingText.length);
-  const [typingValue, setTypingValue] = useRecoilState(TextValueState);
+  const typingText = useRandomTypingText(defaultTypingData);
 
   const valueRef = useRef<HTMLInputElement>(null);
+  // 타이핑 된 문장 갯수를 카우팅 하는 State
+  const [typingCount, setTypingCount] = useRecoilState(TypingCountState);
+
+  // 따라 칠 문장을 보여주기 위한 코드
+  const [currentTypingText, setCurrentTypingText] = useState("");
+  // useEffect를 사용하여 따라친 문장을 가져오는 함수
+  useEffect(() => {
+    if (typingText.length > 0) {
+      if (typingCount === 10) {
+        setCurrentTypingText("");
+      } else {
+        setCurrentTypingText(typingText[typingCount].contents);
+      }
+    }
+  }, [typingCount, typingText]);
+
+  // 타이핑된 값
+  const [typingValue, setTypingValue] = useRecoilState(TextValueState);
+
+  // 바꿔야할 코드
+  // const onChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const inputValue = e.target.value;
+  //   setTypingValue(inputValue);
+
+  //   // 입력된 값과 따라 쳐야 할 문장의 길이가 같을 때 비교
+  //   if (inputValue.length === currentTypingText.length) {
+  //     // 각 글자를 비교하여 일치 여부에 따라 상태 업데이트
+  //     const isMatch = inputValue
+  //       .split("")
+  //       .every((char, index) => char === currentTypingText[index]);
+
+  //     if (isMatch) {
+  //       // 입력된 값과 따라 쳐야 할 문장이 일치할 때의 처리
+  //       setTypingCount(typingCount + 1);
+  //       setTypingValue(""); // 다음 문장을 받기 위해 입력 값 초기화
+
+  //       if (typingCount === 9) {
+  //         console.log("끝");
+  //         // 여기서 끝나는 로직 추가
+  //       }
+  //     } else {
+  //       // 입력된 값과 따라 쳐야 할 문장이 일치하지 않을 때의 처리
+  //       console.log("틀림");
+  //     }
+  //   }
+  // };
+
+  const [incorrectIndices, setIncorrectIndices] = useState<number[]>([]);
+  // console.log(incorrectIndices);
 
   const onChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTypingValue(e.target.value);
-  };
+    const inputValue = e.target.value;
+    // console.log(currentTypingText.length);
+    // console.log(inputValue);
 
-  const [typingCount, setTypingCount] = useState<number>(0);
-  console.log("함수밖카운테", typingCount);
-
-  const onSubmit = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    if (typingValue === "") {
-      return;
-    }
-
-    // 입력된 input 값과 따라칠 Text값이 동일될떄
-    // Typing count가 올라가야 하고, 다른 타이핑 값이 나오야 한다.
-    if (
-      typingText.length > 0 &&
-      typingText[typingCount].contents === typingValue
-    ) {
-      console.log("확인");
-      setTypingValue("");
-      setTypingCount(typingCount + 1);
-      console.log("정답", typingCount);
-      // console.log(typingCount);
-      // 10개가 되면 바로 점수판 나오고 타이핑 끝나게 구현하기
-      if (typingCount === 10) {
-        console.log("끝");
+    // 틀린 부분을 찾아서 인덱스를 저장
+    const incorrectIndices: number[] = [];
+    for (let i = 0; i < Math.max(prompt.length, inputValue.length); i++) {
+      if (currentTypingText[i] !== inputValue[i]) {
+        incorrectIndices.push(i);
       }
+    }
+    setIncorrectIndices(incorrectIndices);
 
-      //   window.scrollTo({ top: 0 });
-    } else {
-      console.log("틀림");
+    setTypingValue(inputValue);
+  };
+
+  // const liveCheck = () => {
+  //   // 실시간 타이핑 체크
+  //   const typingCheckInterval = setInterval(() => {
+  //     const typingValue = valueRef.current?.value;
+  //     // 여기에서 타이핑 체크 로직을 호출
+  //     // liveGrammarCheck(typingValue);
+  //   }, 60);
+
+  //   // 실시간 타수 체크
+  //   const typingSpeedInterval = setInterval(() => {
+  //     if (typingStartTime !== null) {
+  //       // 현재 시간과 타이핑 시작 시간을 이용하여 타이핑 속도 계산
+  //       const elapsedMilliseconds = Date.now() - typingStartTime;
+  //       const speed = (typingValue.length / elapsedMilliseconds) * 1000; // 타수를 초당으로 계산
+  //       setTypingSpeed(speed);
+  //     }
+  //   }, 150);
+
+  //   // setInterval ID들을 저장
+  //   return { typingCheckInterval, typingSpeedInterval };
+  // };
+
+  // const stopLiveCheck = (intervals: any) => {
+  //   // clearInterval을 사용하여 정지
+  //   clearInterval(intervals.typingCheckInterval);
+  //   clearInterval(intervals.typingSpeedInterval);
+  // };
+
+  // useEffect(() => {
+  //   // 컴포넌트가 마운트될 때 liveCheck 호출
+  //   const intervals = liveCheck();
+  //   // 컴포넌트가 언마운트될 때 clearInterval을 사용하여 정지
+  //   return () => stopLiveCheck(intervals);
+  // }, []); // 빈 배열을 전달하여 최초 한 번만 실행되도록 함
+
+  // 변경된 부분
+  const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      if (typingValue.length === currentTypingText.length) {
+        const mismatchIndexes: number[] = [];
+        console.log(mismatchIndexes);
+        const isMatch = typingValue.split("").every((char, index) => {
+          // console.log(char);
+          // console.log(index);ㄴ
+          if (char !== currentTypingText[index]) {
+            mismatchIndexes.push(index);
+            console.log(index);
+            return false;
+          }
+          return true;
+        });
+
+        if (isMatch) {
+          setTypingCount(typingCount + 1);
+          setTypingValue("");
+
+          if (typingCount === 9) {
+            console.log("끝");
+            // 여기서 끝나는 로직 추가
+          }
+        } else {
+          console.log("틀림");
+          console.log("틀린 부분 인덱스:", mismatchIndexes);
+
+          // // 여기에서 mismatchIndexes를 사용하여 시각적으로 어떤 부분이 틀렸는지 표시
+          // const mismatchedText = currentTypingText
+          //   .split("")
+          //   .map((char, index) => {
+          //     if (mismatchIndexes.includes(index)) {
+          //       return `<span style="color: red">${char}</span>`;
+          //     }
+          //     return char;
+          //   })
+          //   .join("");
+
+          // console.log("시각적으로 표시:", mismatchedText);
+          // 여기에서 mismatchedText를 활용하여 시각적으로 틀린 부분을 표시하는 등의 로직을 추가하면 됩니다.
+        }
+      }
     }
   };
 
+  // 다음 타이핑 문장 미리보여주는 변수
+  const [nextTypingText, setNextTypingText] = useState("");
+  useEffect(() => {
+    if (typingText.length > 0) {
+      // 이번째 타이핑 끝 나고 점수판 보여주고 다시 시작할 수 있게 구현ㄴ
+      if (typingCount >= 10) {
+        setNextTypingText("");
+        alert("점수판");
+      } else if (typingCount === 9) {
+        setNextTypingText("");
+      } else {
+        setNextTypingText(typingText[typingCount + 1].contents);
+      }
+    }
+  }, [typingCount, typingText]);
+
+  const data = currentTypingText.split("");
   return (
     <Container>
       <TextView>
         <Text>
-          {typingText.length > 0  ? (
-            <p> {typingText[typingCount].contents} </p>
-          ) : null}
-          {/* {typingText.length > 0 ? <Text> {typingText[0]} </Text>} */}
-          {/* {typingText} */}
+          {data.map((char, index) => {
+            return (
+              <p
+                key={index}
+                style={{
+                  whiteSpace: "pre",
+                  color: incorrectIndices.includes(index) ? "red" : "inherit",
+                }}
+              >
+                {incorrectIndices.includes(index) && char === " " ? (
+                  <span>_</span>
+                ) : (
+                  char
+                )}
+              </p>
+            );
+          })}
         </Text>
       </TextView>
 
-      <InputArea onSubmit={onSubmit}>
+      <InputArea
+      // onSubmit={onSubmit}
+      >
         <TextInput
           type="text"
           ref={valueRef}
           value={typingValue}
           onChange={onChangeValue}
-          placeholder=""
+          onKeyDown={onKeyDown}
+          placeholder="위 문장을 타이핑 하세요."
         />
+        <NextTypingTextArea>{nextTypingText}</NextTypingTextArea>
       </InputArea>
     </Container>
   );
@@ -126,11 +247,12 @@ const Text = styled.div`
   padding-left: 10px;
 `;
 
-const InputArea = styled.form`
+const InputArea = styled.div`
   width: 100%;
   height: 80px;
-  border: 1px solid red;
-  ${({ theme }) => theme.BoxCenter};
+  ${({ theme }) => theme.FlexCol};
+  ${({ theme }) => theme.FlexCenter};
+  gap: 5px 0;
 `;
 
 const TextInput = styled.input`
@@ -139,13 +261,22 @@ const TextInput = styled.input`
   border-bottom: 2px solid #63a080;
   font-size: 20px;
   color: #333;
-  padding-left: 10px;
   transition: 0.3s;
+  padding-left: 10px;
   &::placeholder {
-    color: ${({ theme }) => theme.color2};
+    color: ${({ theme }) => theme.colors.gray};
   }
   &:focus {
     border-bottom: 2px solid #0288d1;
     /* #63a080 */
   }
+`;
+
+const NextTypingTextArea = styled.div`
+  width: 90%;
+  height: 20px;
+  padding-left: 10px;
+  ${({ theme }) => theme.FlexRow};
+  align-items: center;
+  color: #333;
 `;
