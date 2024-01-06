@@ -19,3 +19,4 @@ export const TypingWrongCountState = atom<number>({
   key: "TypingWrongCount",
   default: 0,
 });
+

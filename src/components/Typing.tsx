@@ -12,6 +12,11 @@ import { useRandomTypingText } from "hooks/useRandomTypingText";
 
 import { defaultTypingData } from "utils/TypingMockData";
 
+interface TextItem {
+  contents: string;
+  author: string;
+}
+
 export const Typing = () => {
   const typingText = useRandomTypingText(defaultTypingData);
 
@@ -22,14 +27,17 @@ export const Typing = () => {
   const [wrongCount, SetWrongCount] = useRecoilState(TypingWrongCountState);
 
   // 따라 칠 문장을 보여주기 위한 코드
-  const [currentTypingText, setCurrentTypingText] = useState("");
+  const [currentTypingText, setCurrentTypingText] = useState<
+    TextItem | undefined
+  >(undefined);
+
   // useEffect를 사용하여 따라친 문장을 가져오는 함수
   useEffect(() => {
     if (typingText.length > 0) {
       if (typingCount === 10) {
-        setCurrentTypingText("");
+        setCurrentTypingText(undefined);
       } else {
-        setCurrentTypingText(typingText[typingCount].contents);
+        setCurrentTypingText(typingText[typingCount]);
       }
     }
   }, [typingCount, typingText]);
@@ -37,46 +45,15 @@ export const Typing = () => {
   // 타이핑된 값
   const [typingValue, setTypingValue] = useRecoilState(TextValueState);
 
-  // 바꿔야할 코드
-  // const onChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const inputValue = e.target.value;
-  //   setTypingValue(inputValue);
-
-  //   // 입력된 값과 따라 쳐야 할 문장의 길이가 같을 때 비교
-  //   if (inputValue.length === currentTypingText.length) {
-  //     // 각 글자를 비교하여 일치 여부에 따라 상태 업데이트
-  //     wconst isMatch = inputValue
-  //       .split("")
-  //       .every((char, index) => char === currentTypingText[index]);
-
-  //     if (isMatch) {
-  //       // 입력된 값과 따라 쳐야 할 문장이 일치할 때의 처리
-  //       setTypingCount(typingCount + 1);
-  //       setTypingValue(""); // 다음 문장을 받기 위해 입력 값 초기화
-
-  //       if (typingCount === 9) {
-  //         console.log("끝");
-  //         // 여기서 끝나는 로직 추가
-  //       }
-  //     } else {
-  //       // 입력된 값과 따라 쳐야 할 문장이 일치하지 않을 때의 처리
-  //       console.log("틀림");
-  //     }
-  //   }
-  // };
-
   const [incorrectIndices, setIncorrectIndices] = useState<number[]>([]);
-  // console.log(incorrectIndices);
 
   const onChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
-    // console.log(currentTypingText.length);
-    // console.log(inputValue);
 
     // 틀린 부분을 찾아서 인덱스를 저장
     const incorrectIndices: number[] = [];
     for (let i = 0; i < Math.max(prompt.length, inputValue.length); i++) {
-      if (currentTypingText[i] !== inputValue[i]) {
+      if (currentTypingText?.contents[i] !== inputValue[i]) {
         incorrectIndices.push(i);
       }
     }
@@ -89,12 +66,12 @@ export const Typing = () => {
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      if (typingValue.length === currentTypingText.length) {
+      if (typingValue.length === currentTypingText?.contents.length) {
         const mismatchIndexes: number[] = [];
 
         const isMatch = typingValue.split("").every((char, index) => {
           // console.log(char);
-          if (char !== currentTypingText[index]) {
+          if (char !== currentTypingText.contents[index]) {
             mismatchIndexes.push(index);
             console.log(index);
             return false;
@@ -152,12 +129,13 @@ export const Typing = () => {
     }
   }, [typingCount, typingText]);
 
-  const data = currentTypingText.split("");
+  const currentTypingArr = currentTypingText?.contents.split("");
+
   return (
     <Container>
       <TextView>
         <Text>
-          {data.map((char, index) => {
+          {currentTypingArr?.map((char, index) => {
             return (
               <p
                 key={index}
@@ -174,6 +152,8 @@ export const Typing = () => {
               </p>
             );
           })}
+
+          <span>{currentTypingText?.author}</span>
         </Text>
       </TextView>
 
@@ -211,17 +191,25 @@ const TextView = styled.div`
   width: 100%;
   height: 80px;
   ${({ theme }) => theme.BoxCenter};
+  border: 1px solid red;
 `;
 
 const Text = styled.div`
+  position: relative;
   width: 90%;
-  height: 50px;
+  height: 70px;
   background-color: ${({ theme }) => theme.bgColor};
   color: #fff;
   font-size: 20px;
   ${({ theme }) => theme.FlexRow};
   align-items: center;
   padding-left: 10px;
+  span {
+    position: absolute;
+    bottom: 5px;
+    font-size: 14px;
+    color: ${({ theme }) => theme.colors.gray};
+  }
 `;
 
 const InputArea = styled.div`
