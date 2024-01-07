@@ -6,11 +6,14 @@ import {
   TextValueState,
   TypingCountState,
   TypingWrongCountState,
+  AlertModalState,
 } from "state/atoms";
 
 import { useRandomTypingText } from "hooks/useRandomTypingText";
 
 import { defaultTypingData } from "utils/TypingMockData";
+
+import { Alert } from "./Alert";
 
 interface TextItem {
   contents: string;
@@ -18,6 +21,9 @@ interface TextItem {
 }
 
 export const Typing = () => {
+  const [alertModalVisibility, SetAlertModalVisibility] =
+    useRecoilState(AlertModalState);
+
   const typingText = useRandomTypingText(defaultTypingData);
 
   const valueRef = useRef<HTMLInputElement>(null);
@@ -44,6 +50,7 @@ export const Typing = () => {
 
   // 타이핑된 값
   const [typingValue, setTypingValue] = useRecoilState(TextValueState);
+  // console.log("타이핑된 값 :", typingValue);
 
   const [incorrectIndices, setIncorrectIndices] = useState<number[]>([]);
 
@@ -73,15 +80,16 @@ export const Typing = () => {
           // console.log(char);
           if (char !== currentTypingText.contents[index]) {
             mismatchIndexes.push(index);
-            console.log(index);
+            // console.log(index);
             return false;
           }
           return true;
         });
 
         if (isMatch) {
-          setTypingCount(typingCount + 1);
           setTypingValue("");
+          setTypingCount(typingCount + 1);
+          console.log("일치한 뒤 타이핑 값:", typingValue);
 
           if (typingCount === 9) {
             console.log("끝");
@@ -90,24 +98,9 @@ export const Typing = () => {
         }
         // 틀렸을때 틀리부분을 카운트올리고 초기화 시키기
         else {
-          SetWrongCount(wrongCount + mismatchIndexes.length);
           setTypingValue("");
-          console.log("틀림");
-          console.log("틀린 부분 인덱스:", mismatchIndexes);
-
-          // // 여기에서 mismatchIndexes를 사용하여 시각적으로 어떤 부분이 틀렸는지 표시
-          // const mismatchedText = currentTypingText
-          //   .split("")
-          //   .map((char, index) => {
-          //     if (mismatchIndexes.includes(index)) {
-          //       return `<span style="color: red">${char}</span>`;
-          //     }
-          //     return char;
-          //   })
-          //   .join("");
-
-          // console.log("시각적으로 표시:", mismatchedText);
-          // 여기에서 mismatchedText를 활용하여 시각적으로 틀린 부분을 표시하는 등의 로직을 추가하면 됩니다.
+          setTypingCount(typingCount + 1);
+          SetWrongCount(wrongCount + mismatchIndexes.length);
         }
       }
     }
@@ -120,7 +113,7 @@ export const Typing = () => {
       // 이번째 타이핑 끝 나고 점수판 보여주고 다시 시작할 수 있게 구현ㄴ
       if (typingCount >= 10) {
         setNextTypingText("");
-        alert("점수판");
+        SetAlertModalVisibility(true);
       } else if (typingCount === 9) {
         setNextTypingText("");
       } else {
@@ -135,25 +128,34 @@ export const Typing = () => {
     <Container>
       <TextView>
         <Text>
-          {currentTypingArr?.map((char, index) => {
-            return (
-              <p
-                key={index}
-                style={{
-                  whiteSpace: "pre",
-                  color: incorrectIndices.includes(index) ? "red" : "inherit",
-                }}
-              >
-                {incorrectIndices.includes(index) && char === " " ? (
-                  <span>_</span>
-                ) : (
-                  char
-                )}
-              </p>
-            );
-          })}
-
-          <span>{currentTypingText?.author}</span>
+          <TypingWord>
+            {currentTypingArr?.map((char, index) => {
+              return (
+                <p
+                  key={index}
+                  style={{
+                    position: "relative",
+                    whiteSpace: "pre",
+                  }}
+                >
+                  <Circle
+                    style={{
+                      whiteSpace: "pre",
+                      background: incorrectIndices.includes(index)
+                        ? "#f03e3e"
+                        : "inherit",
+                    }}
+                  />
+                  {incorrectIndices.includes(index) && char === " " ? (
+                    <p style={{ color: "#f03e3e" }}>_</p>
+                  ) : (
+                    char
+                  )}
+                </p>
+              );
+            })}
+          </TypingWord>
+          <TypingAuthor>{currentTypingText?.author}</TypingAuthor>
         </Text>
       </TextView>
 
@@ -173,6 +175,7 @@ export const Typing = () => {
           <p>{nextTypingText}</p>
         </NextTypingTextArea>
       </InputArea>
+      {alertModalVisibility && <Alert />}
     </Container>
   );
 };
@@ -201,15 +204,37 @@ const Text = styled.div`
   background-color: ${({ theme }) => theme.bgColor};
   color: #fff;
   font-size: 20px;
-  ${({ theme }) => theme.FlexRow};
+  ${({ theme }) => theme.FlexCol};
   align-items: center;
   padding-left: 10px;
-  span {
-    position: absolute;
-    bottom: 5px;
-    font-size: 14px;
-    color: ${({ theme }) => theme.colors.gray};
-  }
+`;
+
+const TypingWord = styled.div`
+  position: relative;
+  width: 100%;
+  height: 80%;
+  margin-top: 15px;
+  ${({ theme }) => theme.FlexRow};
+  align-items: center;
+`;
+
+const TypingAuthor = styled.span`
+  width: 100%;
+  height: 20%;
+  /* bottom: 5px; */
+  font-size: 14px;
+  color: ${({ theme }) => theme.colors.gray};
+`;
+
+const Circle = styled.span`
+  position: absolute;
+  margin: 0px auto;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
 `;
 
 const InputArea = styled.div`

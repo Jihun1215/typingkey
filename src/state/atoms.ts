@@ -20,3 +20,7 @@ export const TypingWrongCountState = atom<number>({
   default: 0,
 });
 
+export const AlertModalState = atom<boolean>({
+  key: "AlertModal",
+  default: false,
+});
