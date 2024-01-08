@@ -1,7 +1,3 @@
-
-
 export const Typing = () => {
-  return (
-    <div>Typing</div>
-  )
-}
+  return <>2</>;
+};

@@ -1,7 +1,12 @@
 import styled from "styled-components";
 
 import { useRecoilValue } from "recoil";
-import { TypingCountState, TypingWrongCountState } from "state/atoms";
+import {
+  TypingCountState,
+  TypingWrongCountState,
+  TypingTimeState,
+} from "state/atoms";
+
 
 export const TypingInfo = () => {
   // 타이핑 된 문장 갯수를 카우팅 하는 State
@@ -9,10 +14,15 @@ export const TypingInfo = () => {
   // 타이핑 틀린 갯수 카운팅 하는 State
   const wrongCount = useRecoilValue(TypingWrongCountState);
 
+  // 최초 타이핑 후 지속된 시간 State
+  const time = useRecoilValue(TypingTimeState);
+
+ 
+
   return (
     <Container>
       <OneArea>1</OneArea>
-      <TwoArea></TwoArea>
+      <TwoArea>{time}</TwoArea>
       <CountArea>
         <WrongArea>틀린 갯수 {wrongCount}</WrongArea>
         <TypingArea>남은 문장 {typingCount} / 10</TypingArea>
@@ -42,7 +52,8 @@ const OneArea = styled.div`
 const TwoArea = styled.div`
   width: 33.3%;
   height: 100%;
-  border: 1px solid red;
+  border: 2px solid ${({ theme }) => theme.bgColor2};
+  color: ${({ theme }) => theme.colors.white};
 `;
 
 const CountArea = styled.div`

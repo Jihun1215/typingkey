@@ -7,6 +7,7 @@ import {
   TypingCountState,
   TypingWrongCountState,
   AlertModalState,
+  TypingTimeState,
 } from "state/atoms";
 
 import { useRandomTypingText } from "hooks/useRandomTypingText";
@@ -37,6 +38,55 @@ export const Typing = () => {
     TextItem | undefined
   >(undefined);
 
+  // 최초 타이핑 시작 시간
+  const [, setTime] = useRecoilState(TypingTimeState);
+  const [timecheck, setTimeCheck] = useState<boolean>(false);
+  const [startTime, setStartTime] = useState<number | null>(null);
+
+  useEffect(() => {
+    let timer: number | null = null;
+
+    if (timecheck) {
+      // 시작 시간 기록
+      if (startTime === null) {
+        setStartTime(Date.now());
+      }
+
+      // 1초마다 현재 시간 갱신
+      timer = setInterval(() => {
+        const elapsedTime = Date.now() - (startTime || 0);
+        console.log(elapsedTime);
+        console.log(elapsedTime.toString().charAt(0), 10);
+
+
+        setTime(parseInt(elapsedTime.toString().slice(0, 2), 10));
+      }, 1000);
+    } else {
+      // 시간 초기화 및 타이머 해제
+      setTime(0);
+      setStartTime(null);
+      if (timer) {
+        clearInterval(timer);
+      }
+    }
+
+    // 컴포넌트 언마운트 시 타이머 정리
+    return () => {
+      if (timer) {
+        clearInterval(timer);
+      }
+    };
+  }, [timecheck, startTime, setTime]);
+
+  // timecheck === ture 일때 실시간 시간 변경되게 구현
+  // useEffect(() => {
+  //   // 이 조건일 에서만 시간이 계속해서 변경되게구현
+  //   if (timecheck) {
+  //   } else {
+  //     // 시간 초기화
+  //   }
+  // }, [timecheck]);
+
   // useEffect를 사용하여 따라친 문장을 가져오는 함수
   useEffect(() => {
     if (typingText.length > 0) {
@@ -50,7 +100,6 @@ export const Typing = () => {
 
   // 타이핑된 값
   const [typingValue, setTypingValue] = useRecoilState(TextValueState);
-  // console.log("타이핑된 값 :", typingValue);
 
   const [incorrectIndices, setIncorrectIndices] = useState<number[]>([]);
 
@@ -67,8 +116,17 @@ export const Typing = () => {
     setIncorrectIndices(incorrectIndices);
 
     setTypingValue(inputValue);
-  };
+    setTimeCheck(true);
 
+    // 최초로 타이핑이 시작되면 timecheck를 true로 설정
+    // if (!timecheck) {
+    //   setTimeCheck(true);
+    // }
+    // 최초로 타이핑이 시작되고 timecheck가 false일 때만 timecheck를 true로 설정
+    if (!timecheck && inputValue.length > 0) {
+      setTimeCheck(true);
+    }
+  };
   // 변경된 부분
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -95,13 +153,14 @@ export const Typing = () => {
             console.log("끝");
             // 여기서 끝나는 로직 추가
           }
-        }
-        // 틀렸을때 틀리부분을 카운트올리고 초기화 시키기
-        else {
+        } else {
+          // 틀렸을 때 틀린 부분을 카운트 올리고 초기화
           setTypingValue("");
           setTypingCount(typingCount + 1);
           SetWrongCount(wrongCount + mismatchIndexes.length);
         }
+        // 타이핑이 완료되면 타이머 초기화
+        // setStartTime(null);
       }
     }
   };
@@ -110,13 +169,15 @@ export const Typing = () => {
   const [nextTypingText, setNextTypingText] = useState("");
   useEffect(() => {
     if (typingText.length > 0) {
-      // 이번째 타이핑 끝 나고 점수판 보여주고 다시 시작할 수 있게 구현ㄴ
+      // 마지막 타이핑 이후에는 NEXT 영역 비우고 알림 모달을 띄움
       if (typingCount >= 10) {
         setNextTypingText("");
         SetAlertModalVisibility(true);
+        setTimeCheck(false);
       } else if (typingCount === 9) {
         setNextTypingText("");
       } else {
+        // 다음 타이핑 문장 설정
         setNextTypingText(typingText[typingCount + 1].contents);
       }
     }
@@ -159,9 +220,7 @@ export const Typing = () => {
         </Text>
       </TextView>
 
-      <InputArea
-      // onSubmit={onSubmit}
-      >
+      <InputArea>
         <TextInput
           type="text"
           ref={valueRef}
