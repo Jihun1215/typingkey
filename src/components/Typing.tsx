@@ -55,13 +55,13 @@ export const Typing = () => {
       // 1초마다 현재 시간 갱신
       timer = setInterval(() => {
         const elapsedTime = Date.now() - (startTime || 0);
-        console.log(elapsedTime);
-        console.log(elapsedTime.toString().charAt(0), 10);
-
+        // console.log(elapsedTime);
+        // console.log(elapsedTime.toString().charAt(0), 10);
 
         setTime(parseInt(elapsedTime.toString().slice(0, 2), 10));
       }, 1000);
     } else {
+      // console.log("신고 초기화")
       // 시간 초기화 및 타이머 해제
       setTime(0);
       setStartTime(null);
@@ -77,15 +77,6 @@ export const Typing = () => {
       }
     };
   }, [timecheck, startTime, setTime]);
-
-  // timecheck === ture 일때 실시간 시간 변경되게 구현
-  // useEffect(() => {
-  //   // 이 조건일 에서만 시간이 계속해서 변경되게구현
-  //   if (timecheck) {
-  //   } else {
-  //     // 시간 초기화
-  //   }
-  // }, [timecheck]);
 
   // useEffect를 사용하여 따라친 문장을 가져오는 함수
   useEffect(() => {
@@ -114,14 +105,9 @@ export const Typing = () => {
       }
     }
     setIncorrectIndices(incorrectIndices);
-
     setTypingValue(inputValue);
     setTimeCheck(true);
 
-    // 최초로 타이핑이 시작되면 timecheck를 true로 설정
-    // if (!timecheck) {
-    //   setTimeCheck(true);
-    // }
     // 최초로 타이핑이 시작되고 timecheck가 false일 때만 timecheck를 true로 설정
     if (!timecheck && inputValue.length > 0) {
       setTimeCheck(true);
@@ -135,10 +121,8 @@ export const Typing = () => {
         const mismatchIndexes: number[] = [];
 
         const isMatch = typingValue.split("").every((char, index) => {
-          // console.log(char);
           if (char !== currentTypingText.contents[index]) {
             mismatchIndexes.push(index);
-            // console.log(index);
             return false;
           }
           return true;
@@ -157,7 +141,7 @@ export const Typing = () => {
           // 틀렸을 때 틀린 부분을 카운트 올리고 초기화
           setTypingValue("");
           setTypingCount(typingCount + 1);
-          SetWrongCount(wrongCount + mismatchIndexes.length);
+          SetWrongCount(wrongCount + incorrectIndices.length);
         }
         // 타이핑이 완료되면 타이머 초기화
         // setStartTime(null);

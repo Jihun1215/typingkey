@@ -7,7 +7,6 @@ import {
   TypingTimeState,
 } from "state/atoms";
 
-
 export const TypingInfo = () => {
   // 타이핑 된 문장 갯수를 카우팅 하는 State
   const typingCount = useRecoilValue(TypingCountState);
@@ -16,15 +15,14 @@ export const TypingInfo = () => {
 
   // 최초 타이핑 후 지속된 시간 State
   const time = useRecoilValue(TypingTimeState);
-
- 
+  
 
   return (
     <Container>
       <OneArea>1</OneArea>
       <TwoArea>{time}</TwoArea>
       <CountArea>
-        <WrongArea>틀린 갯수 {wrongCount}</WrongArea>
+        <WrongArea>틀린 갯수: {wrongCount}</WrongArea>
         <TypingArea>남은 문장 {typingCount} / 10</TypingArea>
       </CountArea>
     </Container>

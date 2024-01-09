@@ -1,9 +1,18 @@
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
 
-import { useRecoilState } from "recoil";
-import { AlertModalState } from "state/atoms";
+import {
+  useRecoilState,
+  // useRecoilValue
+} from "recoil";
+import {
+  AlertModalState,
+  TypingTimeState,
+  TypingCountState,
+  TypingWrongCountState,
+} from "state/atoms";
+import { useEffect, useState } from "react";
 
 export const Alert = () => {
   const backdropVariants = {
@@ -17,21 +26,39 @@ export const Alert = () => {
   };
 
   const [alertmodal, setAlertmodla] = useRecoilState(AlertModalState);
-  //   const alertText = useRecoilValue(AlertTextState);
-  //   useEffect(() => {
-  //     if (alertmodal) {
-  //       setAlertmodla(alertmodal);
-  //       const timeoutId = setTimeout(() => {
-  //         setAlertmodla(false);
-  //       }, 1500);
-  //       return () => clearTimeout(timeoutId);
-  //     }
-  //   }, [alertmodal, setAlertmodla]);
+
+  // 최초 타이핑 후 지속된 시간 State
+  const [time, setTime] = useRecoilState(TypingTimeState);
+
+  const [saveTime, setSaveTime] = useState<number | null>(null);
+  useEffect(() => {
+    return setSaveTime(time);
+  }, []);
+
+  // 타이핑 된 문장 갯수를 카우팅 하는 State
+  const [, setTypingCount] = useRecoilState(TypingCountState);
+  // 타이핑 틀린 갯수 카운팅 하는 State
+  const [wrongCount, SetWrongCount] = useRecoilState(TypingWrongCountState);
+
+  const onClickCloseModal = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    const element = e.target as HTMLElement;
+    const TagName = element.tagName;
+    // e.stopPropagation()
+    if (TagName === "DIV") {
+      setAlertmodla(false);
+      setTime(0);
+      setTypingCount(0);
+      SetWrongCount(0);
+    }
+  };
 
   return (
     <AnimatePresence>
       {alertmodal && (
         <Container
+          onClick={onClickCloseModal}
           variants={backdropVariants}
           initial="hidden"
           animate="visible"
@@ -42,10 +69,10 @@ export const Alert = () => {
             initial="hidden"
             animate="visible"
             exit="hidden"
-            onClick={(e) => e.stopPropagation()}
+            // onClick={(e) => e.stopPropagation()}
           >
-            타이핑 결과 모시깽 넣기
-            시간, WPM, 정확도, 날짜 시간 
+            타이핑 결과 모시깽 ,{saveTime}s, WPM, 틀린갯수 :{wrongCount}, 날짜
+            시간
           </ModalCard>
         </Container>
       )}
@@ -67,7 +94,7 @@ const Container = styled(motion.div)`
   backdrop-filter: blur(1px);
 `;
 
-const ModalCard = styled(motion.div)`
+const ModalCard = styled(motion.section)`
   position: absolute;
   background-color: #fff;
   top: 20%;

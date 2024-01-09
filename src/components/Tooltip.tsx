@@ -5,11 +5,11 @@ import { tooltipAnimation, tooltipMoveAnimation } from "styles/Animation";
 type TooltipProps = {
   message: string;
   children: ReactNode;
-  placement: string;
+  // placement: string;
 };
 
-export const Tooltip = ({ message, children, placement }: TooltipProps) => {
-  console.log(placement);
+export const Tooltip = ({ message, children }: TooltipProps) => {
+  // console.log(placement);
   return (
     <Container>
       {children}
@@ -22,7 +22,7 @@ export const Tooltip = ({ message, children, placement }: TooltipProps) => {
 
 const Container = styled.aside`
   position: relative;
-  bottom: 8px;
+  bottom: 0px;
   cursor: pointer;
   ${({ theme }) => theme.FlexRow};
   justify-content: center;
@@ -42,29 +42,32 @@ const Content = styled.div`
   position: absolute;
   z-index: 200;
   bottom: 55px;
-  min-width: 100px;
-  height: 35px;
+  min-width: 80px;
+  height: 25px;
   border-radius: 6px;
-  background-color: ${({ theme }) => theme.colors.blue};
+  background-color: ${({ theme }) => theme.bgColor2};
   padding: 8px;
   text-align: center;
   > p {
     position: absolute;
+    ${({ theme }) => theme.WH100};
+    ${({ theme }) => theme.BoxCenter};
     font-weight: 500;
-    color: ${({ theme }) => theme.colors.white};
+    color: ${({ theme }) => theme.color};
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    font-size: 14px;
   }
   &::after {
     content: "";
     position: absolute;
-    bottom: 0;
-    left: 40%;
+    bottom: 2px;
+    left: 38%;
     width: 0;
     height: 0;
     border: 0.625rem solid transparent;
-    border-top-color: ${({ theme }) => theme.colors.blue};
+    border-top-color: ${({ theme }) => theme.bgColor2};
     border-bottom: 0;
     margin-bottom: -7px;
   }
