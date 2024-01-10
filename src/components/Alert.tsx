@@ -54,6 +54,13 @@ export const Alert = () => {
     }
   };
 
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = ("0" + (1 + date.getMonth())).slice(-2);
+  const day = ("0" + date.getDate()).slice(-2);
+
+  const thisdate = year + "-" + month + "-" + day;
+
   return (
     <AnimatePresence>
       {alertmodal && (
@@ -71,8 +78,14 @@ export const Alert = () => {
             exit="hidden"
             // onClick={(e) => e.stopPropagation()}
           >
-            타이핑 결과 모시깽 ,{saveTime}s, WPM, 틀린갯수 :{wrongCount}, 날짜
-            시간
+            <CardTitle> TypingKey </CardTitle>
+            <CardInfo>
+              <InfoItem>타이핑 걸린 시간 {saveTime}s</InfoItem>
+              <InfoItem>WPM</InfoItem>
+              <InfoItem>스피드</InfoItem>
+              <InfoItem>틀린갯수 / 정확도 :{wrongCount},</InfoItem>
+            </CardInfo>
+            <CardDate>{thisdate}</CardDate>
           </ModalCard>
         </Container>
       )}
@@ -101,8 +114,36 @@ const ModalCard = styled(motion.section)`
   border-radius: 8px;
   width: 320px;
   height: 450px;
-  ${({ theme }) => theme.BoxCenter};
+  ${({ theme }) => theme.FlexCol};
+  ${({ theme }) => theme.FlexCenter};
   font-size: 20px;
   font-weight: 600;
   color: ${({ theme }) => theme.colors.black};
+  border: 1px solid red;
+`;
+
+const CardTitle = styled.h3`
+  width: 100%;
+  height: 20%;
+  ${({ theme }) => theme.BoxCenter};
+`;
+
+const CardInfo = styled.div`
+  width: 100%;
+  height: 70%;
+  ${({ theme }) => theme.FlexCol};
+  ${({ theme }) => theme.FlexCenter};
+  border: 1px solid red;
+`;
+
+const InfoItem = styled.div`
+  width: 90%;
+  height: 20%;
+  border: 1px solid black;
+`;
+
+const CardDate = styled.div`
+  width: 100%;
+  height: 10%;
+  font-size: 16px;
 `;

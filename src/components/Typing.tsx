@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 
 import { useRecoilState } from "recoil";
@@ -11,7 +11,6 @@ import {
 } from "state/atoms";
 
 import { useRandomTypingText } from "hooks/useRandomTypingText";
-
 import { defaultTypingData } from "utils/TypingMockData";
 
 import { Alert } from "./Alert";
@@ -20,7 +19,6 @@ interface TextItem {
   contents: string;
   author: string;
 }
-
 export const Typing = () => {
   const [alertModalVisibility, SetAlertModalVisibility] =
     useRecoilState(AlertModalState);
@@ -39,9 +37,15 @@ export const Typing = () => {
   >(undefined);
 
   // 최초 타이핑 시작 시간
-  const [, setTime] = useRecoilState(TypingTimeState);
+  const [time, setTime] = useRecoilState(TypingTimeState);
   const [timecheck, setTimeCheck] = useState<boolean>(false);
   const [startTime, setStartTime] = useState<number | null>(null);
+
+  // 추가된 부분: CPM(Characters Per Minute) 상태와 가장 높은 CPM 상태
+  const [cpm, setCpm] = useState<number | null>(null);
+  const [maxCpm, setMaxCpm] = useState<number | null>(null);
+
+  console.log(cpm);
 
   useEffect(() => {
     let timer: number | null = null;
@@ -55,16 +59,14 @@ export const Typing = () => {
       // 1초마다 현재 시간 갱신
       timer = setInterval(() => {
         const elapsedTime = Date.now() - (startTime || 0);
-        // console.log(elapsedTime);
-        // console.log(elapsedTime.toString().charAt(0), 10);
-
-        setTime(parseInt(elapsedTime.toString().slice(0, 2), 10));
+        const trimmedElapsedTime = Math.floor(elapsedTime / 1000);
+        setTime(trimmedElapsedTime);
       }, 1000);
     } else {
-      // console.log("신고 초기화")
-      // 시간 초기화 및 타이머 해제
       setTime(0);
       setStartTime(null);
+      // 스피드 초기화
+      setCpm(null); // 추가된 부분: CPM 초기화
       if (timer) {
         clearInterval(timer);
       }
@@ -94,8 +96,24 @@ export const Typing = () => {
 
   const [incorrectIndices, setIncorrectIndices] = useState<number[]>([]);
 
+  // input 값이 입력이될때의 작동하는 함수
   const onChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
+
+    const elapsedTime = Date.now() - (startTime || 0);
+    const adjustedElapsedTime = elapsedTime / 60000;
+
+    const charactersTyped = inputValue.length;
+    const currentCpm = Math.round((charactersTyped / adjustedElapsedTime) * 60);
+    console.log(currentCpm);
+    // console.log(charactersTyped / adjustedElapsedTime);
+    // console.log(((charactersTyped / time) * 60) | 0);
+    setCpm(currentCpm);
+
+    if (maxCpm === null || currentCpm > maxCpm) {
+      setMaxCpm(currentCpm);
+    }
+    // console.log(speed);
 
     // 틀린 부분을 찾아서 인덱스를 저장
     const incorrectIndices: number[] = [];
@@ -104,6 +122,7 @@ export const Typing = () => {
         incorrectIndices.push(i);
       }
     }
+
     setIncorrectIndices(incorrectIndices);
     setTypingValue(inputValue);
     setTimeCheck(true);
@@ -131,7 +150,6 @@ export const Typing = () => {
         if (isMatch) {
           setTypingValue("");
           setTypingCount(typingCount + 1);
-          console.log("일치한 뒤 타이핑 값:", typingValue);
 
           if (typingCount === 9) {
             console.log("끝");
@@ -237,7 +255,6 @@ const TextView = styled.div`
   width: 100%;
   height: 80px;
   ${({ theme }) => theme.BoxCenter};
-  border: 1px solid red;
 `;
 
 const Text = styled.div`
@@ -245,7 +262,7 @@ const Text = styled.div`
   width: 90%;
   height: 70px;
   background-color: ${({ theme }) => theme.bgColor};
-  color: #fff;
+  color: ${({ theme }) => theme.color};
   font-size: 20px;
   ${({ theme }) => theme.FlexCol};
   align-items: center;
@@ -264,9 +281,9 @@ const TypingWord = styled.div`
 const TypingAuthor = styled.span`
   width: 100%;
   height: 20%;
-  /* bottom: 5px; */
+  margin-bottom: 5px;
   font-size: 14px;
-  color: ${({ theme }) => theme.colors.gray};
+  color: ${({ theme }) => theme.colors.gray}; //
 `;
 
 const Circle = styled.span`
@@ -291,7 +308,7 @@ const InputArea = styled.div`
 const TextInput = styled.input`
   width: 90%;
   height: 40px;
-  border-bottom: 2px solid #63a080;
+  border-bottom: 2px solid ${({ theme }) => theme.colors.gray};
   font-size: 20px;
   color: #333;
   transition: 0.3s;
@@ -300,7 +317,9 @@ const TextInput = styled.input`
     color: ${({ theme }) => theme.colors.gray};
   }
   &:focus {
-    border-bottom: 2px solid #0288d1;
+    /* border-bottom: 2px solid #0288d1; */
+    border-bottom: 2px solid #69db7c;
+    /* #69db7c */
   }
 `;
 

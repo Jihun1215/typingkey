@@ -57,8 +57,8 @@ export const Header = () => {
           </Tooltip>
         </MemuItem>
 
-        <MemuItem>1</MemuItem>
-        <MemuItem>1</MemuItem>
+        {/* <MemuItem>1</MemuItem> */}
+        {/* <MemuItem>1</MemuItem> */}
         {/* <Toggle>
         
         </Toggle> */}
@@ -73,7 +73,7 @@ const Container = styled.header`
   width: 80vw;
   ${({ theme }) => theme.BoxCenter};
   /* height: 80px; */
-  height: 60px;
+  height: 100px;
   background-color: ${({ theme }) => theme.bgColor2};
   border-radius: 6px;
 `;
@@ -82,7 +82,6 @@ const TitleArea = styled.div`
   width: 40%;
   height: 100%;
   ${({ theme }) => theme.BoxCenter};
-  border: 1px solid red;
 `;
 
 const Title = styled.h3`
@@ -93,14 +92,13 @@ const Title = styled.h3`
 const MenuArea = styled.div`
   width: 60%;
   height: 100%;
-  border: 1px solid red;
+
   ${({ theme }) => theme.FlexRow};
 `;
 
 const MemuItem = styled.div`
   width: 20%;
   height: 100%;
-  border: 1px solid red;
   ${({ theme }) => theme.BoxCenter};
   svg {
     font-size: 24px;
