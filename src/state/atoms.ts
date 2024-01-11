@@ -12,7 +12,7 @@ export const TextValueState = atom<string>({
 
 export const TypingCountState = atom<number>({
   key: "TypingCount",
-  default: 8,
+  default: 0,
 });
 
 export const TypingWrongCountState = atom<number>({

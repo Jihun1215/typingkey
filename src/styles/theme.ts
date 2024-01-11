@@ -6,7 +6,11 @@ const colors: DefaultTheme["colors"] = {
   black2: "#13161B",
   red: "#f03e3e",
   blue: "#337ab7",
-  gray: "#9A9A9A",
+  gray1: "#F6F6F6",
+  gray2: "#DBDBDB",
+  gray3: "#9A9A9A",
+  gray4: "#878787",
+  gray5: "#4D4D4D",
   deepblue: "#6366F1",
   lavender: "#8A7EBE",
 };

@@ -41,12 +41,6 @@ export const Typing = () => {
   const [timecheck, setTimeCheck] = useState<boolean>(false);
   const [startTime, setStartTime] = useState<number | null>(null);
 
-  // 추가된 부분: CPM(Characters Per Minute) 상태와 가장 높은 CPM 상태
-  const [cpm, setCpm] = useState<number | null>(null);
-  const [maxCpm, setMaxCpm] = useState<number | null>(null);
-
-  console.log(cpm);
-
   useEffect(() => {
     let timer: number | null = null;
 
@@ -66,7 +60,6 @@ export const Typing = () => {
       setTime(0);
       setStartTime(null);
       // 스피드 초기화
-      setCpm(null); // 추가된 부분: CPM 초기화
       if (timer) {
         clearInterval(timer);
       }
@@ -99,22 +92,6 @@ export const Typing = () => {
   // input 값이 입력이될때의 작동하는 함수
   const onChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
-
-    const elapsedTime = Date.now() - (startTime || 0);
-    const adjustedElapsedTime = elapsedTime / 60000;
-
-    const charactersTyped = inputValue.length;
-    const currentCpm = Math.round((charactersTyped / adjustedElapsedTime) * 60);
-    console.log(currentCpm);
-    // console.log(charactersTyped / adjustedElapsedTime);
-    // console.log(((charactersTyped / time) * 60) | 0);
-    setCpm(currentCpm);
-
-    if (maxCpm === null || currentCpm > maxCpm) {
-      setMaxCpm(currentCpm);
-    }
-    // console.log(speed);
-
     // 틀린 부분을 찾아서 인덱스를 저장
     const incorrectIndices: number[] = [];
     for (let i = 0; i < Math.max(prompt.length, inputValue.length); i++) {
@@ -248,7 +225,6 @@ const Container = styled.div`
   border-radius: 4px;
   ${({ theme }) => theme.FlexCol};
   ${({ theme }) => theme.FlexCenter};
-  background: #fff;
 `;
 
 const TextView = styled.div`
@@ -261,7 +237,6 @@ const Text = styled.div`
   position: relative;
   width: 90%;
   height: 70px;
-  background-color: ${({ theme }) => theme.bgColor};
   color: ${({ theme }) => theme.color};
   font-size: 20px;
   ${({ theme }) => theme.FlexCol};
@@ -283,7 +258,7 @@ const TypingAuthor = styled.span`
   height: 20%;
   margin-bottom: 5px;
   font-size: 14px;
-  color: ${({ theme }) => theme.colors.gray}; //
+  color: ${({ theme }) => theme.colors.gray3};
 `;
 
 const Circle = styled.span`
@@ -307,14 +282,15 @@ const InputArea = styled.div`
 
 const TextInput = styled.input`
   width: 90%;
-  height: 40px;
-  border-bottom: 2px solid ${({ theme }) => theme.colors.gray};
+  height: 45px;
+  border-bottom: 2px solid ${({ theme }) => theme.colors.gray1};
   font-size: 20px;
-  color: #333;
+  color: ${({ theme }) => theme.colors.white};
   transition: 0.3s;
   padding-left: 10px;
+  background-color: transparent;
   &::placeholder {
-    color: ${({ theme }) => theme.colors.gray};
+    color: ${({ theme }) => theme.colors.gray4};
   }
   &:focus {
     /* border-bottom: 2px solid #0288d1; */
@@ -330,8 +306,9 @@ const NextTypingTextArea = styled.div`
   ${({ theme }) => theme.FlexRow};
   align-items: center;
   gap: 0 5px;
-  color: ${({ theme }) => theme.colors.gray};
+  color: ${({ theme }) => theme.colors.gray3};
   p {
-    color: ${({ theme }) => theme.colors.black};
+    color: ${({ theme }) => theme.colors.gray2};
+    font-weight: 600;
   }
 `;

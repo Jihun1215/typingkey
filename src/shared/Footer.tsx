@@ -12,7 +12,7 @@ export const Footer = () => {
 
 const Container = styled.footer`
   position: absolute;
-  bottom: 25px;
+  bottom: 0;
   width: 80vw;
   height: 50px;
   ${({ theme }) => theme.BoxCenter};
