@@ -6,6 +6,7 @@ import {
   TypingWrongCountState,
   TypingTimeState,
   TypingProgressState,
+  // TypingAccuracyState,
 } from "state/atoms";
 
 export const TypingInfo = () => {
@@ -18,6 +19,9 @@ export const TypingInfo = () => {
   const time = useRecoilValue(TypingTimeState);
 
   const progress = useRecoilValue(TypingProgressState);
+
+  // const accuracy = useRecoilValue(TypingAccuracyState);
+  // console.log(accuracy);
 
   return (
     <Container>

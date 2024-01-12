@@ -2,15 +2,13 @@
 import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
 
-import {
-  useRecoilState,
-  // useRecoilValue
-} from "recoil";
+import { useRecoilState } from "recoil";
 import {
   AlertModalState,
   TypingTimeState,
   TypingCountState,
   TypingWrongCountState,
+  TypingAccuracyState,
 } from "state/atoms";
 import { useEffect, useState } from "react";
 
@@ -29,6 +27,14 @@ export const Alert = () => {
 
   // 최초 타이핑 후 지속된 시간 State
   const [time, setTime] = useRecoilState(TypingTimeState);
+
+  const [accuracy, setAccuracy] = useRecoilState(TypingAccuracyState);
+  
+  // 배열 요소의 합 계산
+  const sum = accuracy.reduce((acc, currentValue) => acc + currentValue, 0);
+
+  // 배열의 평균 계산
+  const average = sum / accuracy.length;
 
   const [saveTime, setSaveTime] = useState<number | null>(null);
   useEffect(() => {
@@ -51,6 +57,7 @@ export const Alert = () => {
       setTime(0);
       setTypingCount(0);
       SetWrongCount(0);
+      setAccuracy([]);
     }
   };
 
@@ -81,7 +88,7 @@ export const Alert = () => {
             <CardTitle> TypingKey </CardTitle>
             <CardInfo>
               <InfoItem>타이핑 걸린 시간 {saveTime}s</InfoItem>
-              <InfoItem>WPM</InfoItem>
+              <InfoItem>Acc: {average}</InfoItem>
               <InfoItem>스피드</InfoItem>
               <InfoItem>틀린갯수 / 정확도 :{wrongCount},</InfoItem>
             </CardInfo>

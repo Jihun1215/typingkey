@@ -9,6 +9,7 @@ import {
   AlertModalState,
   TypingTimeState,
   TypingProgressState,
+  TypingAccuracyState,
 } from "state/atoms";
 
 import { useRandomTypingText } from "hooks/useRandomTypingText";
@@ -21,8 +22,7 @@ interface TextItem {
   author: string;
 }
 export const Typing = () => {
-  const [alertModalVisibility, SetAlertModalVisibility] =
-    useRecoilState(AlertModalState);
+  const [modalVisibility, SetModalVisibility] = useRecoilState(AlertModalState);
 
   const typingText = useRandomTypingText(defaultTypingData);
 
@@ -38,7 +38,8 @@ export const Typing = () => {
   >(undefined);
 
   // 최초 타이핑 시작 시간
-  const [time, setTime] = useRecoilState(TypingTimeState);
+  const [, setTime] = useRecoilState(TypingTimeState);
+  // console.log(time);
   const [timecheck, setTimeCheck] = useState<boolean>(false);
   const [startTime, setStartTime] = useState<number | null>(null);
 
@@ -91,8 +92,9 @@ export const Typing = () => {
   const [incorrectIndices, setIncorrectIndices] = useState<number[]>([]);
 
   // 정확도 관리하는 State
-  // const [accuracy, SetAccuracy] = useState(0);
+  const [accuracy, setAccuracy] = useState(0);
 
+  const [accuracyArr, setAccuracyArr] = useRecoilState(TypingAccuracyState);
   const [, SetProgress] = useRecoilState(TypingProgressState);
 
   // input 값이 입력이될때의 작동하는 함수
@@ -114,16 +116,14 @@ export const Typing = () => {
       }
     }
 
-    // Calculate accuracy percentage
     const accuracy =
       currentTextLength === undefined
         ? 0
         : Number(
             ((correctChars / (correctChars + incorrectChars)) * 100).toFixed(0)
           );
-    // parseFloat(inputLength / currentTextLength) * 100).toFixed(1));
-    console.log("정확도", accuracy);
-    // setAccuracy(newAccuracy);
+
+    setAccuracy(accuracy);
 
     // 진행도
     const progress =
@@ -149,11 +149,12 @@ export const Typing = () => {
       setTimeCheck(true);
     }
   };
-  // 변경된 부분
+
+  // 엔터 클릭 시
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      // 이력한 타자 Length와 따라칠 타주 Length가 같을 경우에
+      // 타자 Length와 따라칠 타자 Length가 같을 경우에
       if (typingValue.length === currentTypingText?.contents.length) {
         const mismatchIndexes: number[] = [];
 
@@ -180,6 +181,18 @@ export const Typing = () => {
           setTypingCount(typingCount + 1);
           SetWrongCount(wrongCount + incorrectIndices.length);
         }
+
+        // const copyAccuracyArr = [...accuracyArr];
+
+        if (typingCount === 0) {
+          setAccuracyArr([accuracy]);
+        } else {
+          const copyArr = [...accuracyArr];
+          // console.log(copyArr);
+          copyArr.push(accuracy); // 정확도를 배열에 추가
+          // console.log(copyArr);
+          setAccuracyArr(copyArr);
+        }
       }
     }
   };
@@ -191,7 +204,7 @@ export const Typing = () => {
       // 마지막 타이핑 이후에는 NEXT 영역 비우고 알림 모달을 띄움
       if (typingCount >= 10) {
         setNextTypingText("");
-        SetAlertModalVisibility(true);
+        SetModalVisibility(true);
         setTimeCheck(false);
       } else if (typingCount === 9) {
         setNextTypingText("");
@@ -253,7 +266,7 @@ export const Typing = () => {
           <p>{nextTypingText}</p>
         </NextTypingTextArea>
       </InputArea>
-      {alertModalVisibility && <Alert />}
+      {modalVisibility && <Alert />}
     </Container>
   );
 };
