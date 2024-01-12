@@ -34,3 +34,8 @@ export const TypingTimeState = atom<number>({
   key: "TypingTime",
   default: 0,
 });
+
+export const TypingProgressState = atom<number>({
+  key: "TypingProgress",
+  default: 0,
+});

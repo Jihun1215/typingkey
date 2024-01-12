@@ -8,6 +8,7 @@ import {
   TypingWrongCountState,
   AlertModalState,
   TypingTimeState,
+  TypingProgressState,
 } from "state/atoms";
 
 import { useRandomTypingText } from "hooks/useRandomTypingText";
@@ -89,12 +90,51 @@ export const Typing = () => {
 
   const [incorrectIndices, setIncorrectIndices] = useState<number[]>([]);
 
+  // 정확도 관리하는 State
+  // const [accuracy, SetAccuracy] = useState(0);
+
+  const [, SetProgress] = useRecoilState(TypingProgressState);
+
   // input 값이 입력이될때의 작동하는 함수
   const onChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
-    // 틀린 부분을 찾아서 인덱스를 저장
+    // const curretTextLength = currentTypingArr?.length;
+    const inputLength = inputValue.length;
+
+    const currentTextLength = currentTypingArr?.length;
+
+    let correctChars = 0;
+    let incorrectChars = 0;
+
+    for (let i = 0; i < inputValue.length; i++) {
+      if (inputValue[i] === currentTypingText?.contents[i]) {
+        correctChars++;
+      } else {
+        incorrectChars++;
+      }
+    }
+
+    // Calculate accuracy percentage
+    const accuracy =
+      currentTextLength === undefined
+        ? 0
+        : Number(
+            ((correctChars / (correctChars + incorrectChars)) * 100).toFixed(0)
+          );
+    // parseFloat(inputLength / currentTextLength) * 100).toFixed(1));
+    console.log("정확도", accuracy);
+    // setAccuracy(newAccuracy);
+
+    // 진행도
+    const progress =
+      currentTextLength === undefined
+        ? 0
+        : parseFloat(((inputLength / currentTextLength) * 100).toFixed(0));
+    SetProgress(progress);
+
+    // 틀린 부분의 해당하는 인덱스를 찾는 함수
     const incorrectIndices: number[] = [];
-    for (let i = 0; i < Math.max(prompt.length, inputValue.length); i++) {
+    for (let i = 0; i < Math.max(prompt.length, inputLength); i++) {
       if (currentTypingText?.contents[i] !== inputValue[i]) {
         incorrectIndices.push(i);
       }
@@ -113,6 +153,7 @@ export const Typing = () => {
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
+      // 이력한 타자 Length와 따라칠 타주 Length가 같을 경우에
       if (typingValue.length === currentTypingText?.contents.length) {
         const mismatchIndexes: number[] = [];
 
@@ -123,7 +164,7 @@ export const Typing = () => {
           }
           return true;
         });
-
+        // 오타가 없을 경우
         if (isMatch) {
           setTypingValue("");
           setTypingCount(typingCount + 1);
@@ -132,14 +173,13 @@ export const Typing = () => {
             console.log("끝");
             // 여기서 끝나는 로직 추가
           }
-        } else {
-          // 틀렸을 때 틀린 부분을 카운트 올리고 초기화
+        }
+        // 오타가 있을 경우
+        else {
           setTypingValue("");
           setTypingCount(typingCount + 1);
           SetWrongCount(wrongCount + incorrectIndices.length);
         }
-        // 타이핑이 완료되면 타이머 초기화
-        // setStartTime(null);
       }
     }
   };
@@ -219,9 +259,8 @@ export const Typing = () => {
 };
 
 const Container = styled.div`
-  width: 80%;
+  width: 100%;
   height: 160px;
-  margin-bottom: 25px;
   border-radius: 4px;
   ${({ theme }) => theme.FlexCol};
   ${({ theme }) => theme.FlexCenter};
@@ -285,7 +324,7 @@ const TextInput = styled.input`
   height: 45px;
   border-bottom: 2px solid ${({ theme }) => theme.colors.gray1};
   font-size: 20px;
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.color};
   transition: 0.3s;
   padding-left: 10px;
   background-color: transparent;
@@ -308,7 +347,7 @@ const NextTypingTextArea = styled.div`
   gap: 0 5px;
   color: ${({ theme }) => theme.colors.gray3};
   p {
-    color: ${({ theme }) => theme.colors.gray2};
+    color: ${({ theme }) => theme.colors.gray4};
     font-weight: 600;
   }
 `;

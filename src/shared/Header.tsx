@@ -70,12 +70,15 @@ export const Header = () => {
 const Container = styled.header`
   position: absolute;
   top: 55px;
-  width: 80vw;
+  width: 880px;
   ${({ theme }) => theme.BoxCenter};
   /* height: 80px; */
   height: 100px;
   background-color: ${({ theme }) => theme.bgColor2};
   border-radius: 6px;
+  @media (max-width: 900px) {
+    width: 90%;
+  }
 `;
 
 const TitleArea = styled.div`

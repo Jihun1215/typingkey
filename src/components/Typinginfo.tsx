@@ -5,6 +5,7 @@ import {
   TypingCountState,
   TypingWrongCountState,
   TypingTimeState,
+  TypingProgressState,
 } from "state/atoms";
 
 export const TypingInfo = () => {
@@ -16,9 +17,11 @@ export const TypingInfo = () => {
   // 최초 타이핑 후 지속된 시간 State
   const time = useRecoilValue(TypingTimeState);
 
+  const progress = useRecoilValue(TypingProgressState);
+
   return (
     <Container>
-      <OneArea>1</OneArea>
+      <OneArea>진행도: {progress}</OneArea>
       <TwoArea>타이핑 시간: {time}</TwoArea>
       <CountArea>
         <WrongArea>틀린 갯수: {wrongCount}</WrongArea>
@@ -29,35 +32,33 @@ export const TypingInfo = () => {
 };
 
 const Container = styled.div`
-  width: 80%;
-  height: 200px;
-  margin: 25px auto;
+  width: 100%;
+  height: 50px;
   ${({ theme }) => theme.FlexRow};
   ${({ theme }) => theme.FlexCenter};
+  /* margin: 25px auto; */
   /* background: #fff; */
   border-radius: 4px;
   /* gap: 0 10%; */
   color: ${({ theme }) => theme.color};
+  background-color: ${({ theme }) => theme.bgColor2};
 `;
 
 const OneArea = styled.div`
   width: 33.3%;
   height: 100%;
   /* border: 1px solid red; */
-  background-color: ${({ theme }) => theme.bgColor};
 `;
 
 const TwoArea = styled.div`
   width: 33.3%;
   height: 100%;
-  background-color: ${({ theme }) => theme.bgColor};
   ${({ theme }) => theme.BoxCenter};
 `;
 
 const CountArea = styled.div`
   width: 33.3%;
   height: 100%;
-  background-color: ${({ theme }) => theme.bgColor};
   ${({ theme }) => theme.FlexCol};
   ${({ theme }) => theme.FlexCenter};
   gap: 10px 0;

@@ -13,9 +13,12 @@ export const Footer = () => {
 const Container = styled.footer`
   position: absolute;
   bottom: 0;
-  width: 80vw;
+  width: 880px;
   height: 50px;
   ${({ theme }) => theme.BoxCenter};
   background-color: ${({ theme }) => theme.bgColor2};
   border-radius: 6px;
+  @media (max-width: 900px) {
+    width: 90%;
+  }
 `;
