@@ -50,7 +50,13 @@ export const TypingTimeArrState = atom<number[]>({
   default: [],
 });
 
-export const TypingCpmState = atom<number[]>({
+export const TypingCpmState = atom<number>({
   key: "TypingCpm",
+  default: 0,
+});
+
+
+export const TypingCpmArrState = atom<number[]>({
+  key: "TypingCpmArr",
   default: [],
 });

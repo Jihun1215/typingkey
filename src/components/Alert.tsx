@@ -2,13 +2,14 @@
 import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
 
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import {
   AlertModalState,
   TypingTimeArrState,
   TypingCountState,
   TypingWrongCountState,
   TypingAccuracyState,
+  TypingCpmArrState,
 } from "state/atoms";
 // import { useEffect, useState } from "react";
 
@@ -30,9 +31,19 @@ export const Alert = () => {
 
   const [accuracy, setAccuracy] = useRecoilState(TypingAccuracyState);
 
+  const cpmArr = useRecoilValue(TypingCpmArrState);
+
+  const cpmsum = cpmArr.reduce((cpm, currentValue) => cpm + currentValue, 0);
+  // console.log(cpmsum);
   // 배열 요소의 합 계산
-  const timesum = timeArr.reduce((acc, currentValue) => acc + currentValue, 0);
-  // console.log(timesum);
+  const timesum = timeArr.reduce(
+    (time, currentValue) => time + currentValue,
+    0
+  );
+
+  const cpmAverage = cpmsum / accuracy.length;
+
+  console.log(cpmAverage);
 
   // 배열 요소의 합 계산
   const sum = accuracy.reduce((acc, currentValue) => acc + currentValue, 0);
@@ -88,7 +99,7 @@ export const Alert = () => {
             <CardInfo>
               <InfoItem>타이핑 걸린 시간: {timesum}s</InfoItem>
               <InfoItem>Acc: {average}</InfoItem>
-              <InfoItem>스피드</InfoItem>
+              <InfoItem>CPM: {cpmAverage}</InfoItem>
               <InfoItem>틀린갯수 / 정확도 :{wrongCount},</InfoItem>
             </CardInfo>
             <CardDate>{thisdate}</CardDate>

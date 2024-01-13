@@ -8,6 +8,7 @@ import {
   TypingTimeState,
   // TypingAccuracyState,
   // TypingTimeArrState,
+  ,
 } from "state/atoms";
 
 export const TypingInfo = () => {
@@ -22,13 +23,21 @@ export const TypingInfo = () => {
 
   const progress = useRecoilValue(TypingProgressState);
 
+
+  // CPM을 저장하는 State
+  // const cpm = useRecoilValue(TypingCpmState);
+  // console.log(cpm);
+
   // const accuracy = useRecoilValue(TypingAccuracyState);
   // console.log(accuracy);
 
   return (
     <Container>
       {/* 현재 진행하고 있는 문장에 대한 값들 */}
-      <Item>CPM: XXX</Item>
+      <Item>
+        CPM:
+        {/* {cpm === 0 ? <p>XX</p> : <p>{cpm}</p>} */}
+      </Item>
       <Item>
         총 타이핑 시간:
         {time === 0 ? <p>XX</p> : <p>{time}s</p>}

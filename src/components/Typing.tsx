@@ -12,6 +12,8 @@ import {
   // TypingCpmState,
   TypingTimeState,
   TypingTimeArrState,
+  TypingCpmArrState,
+  // TypingCpmState,
 } from "state/atoms";
 
 import { useRandomTypingText } from "hooks/useRandomTypingText";
@@ -42,7 +44,7 @@ export const Typing = () => {
   // 최초 타이핑 시작 시간
   const [time, setTime] = useRecoilState(TypingTimeState);
   const [timeArr, setTimeArr] = useRecoilState(TypingTimeArrState);
-  
+
   const [timecheck, setTimeCheck] = useState<boolean>(false);
 
   const [startTime, setStartTime] = useState<number | null>(null);
@@ -108,9 +110,17 @@ export const Typing = () => {
   }, [typingCount, typingText]);
 
   // CPM을 저장하는 State
-  // const [cpm, setCpm] = useState<number | null>(null);
-  //
-  // const [cpmArr, setCpmArr] = useRecoilState(TypingCpmState);
+  const [cpm, setCpm] = useState(0);
+
+  // console.log(cpm);
+  const [cpmArr, setCpmArr] = useRecoilState(TypingCpmArrState);
+
+  // const calculateCpm = () => {
+  //   if (startTime) {
+  //     const cpmValue = (correctChars / time) * 60; // 분당 CPM 계산
+  //     setCpm(cpmValue);
+  //   }
+  // };
 
   // input 값이 입력이될때의 작동하는 함수
   const onChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -120,7 +130,9 @@ export const Typing = () => {
 
     const currentTextLength = currentTypingArr?.length;
 
+    // 정확한 문장
     let correctChars = 0;
+    // 틀린 문장
     let incorrectChars = 0;
 
     for (let i = 0; i < inputValue.length; i++) {
@@ -130,6 +142,14 @@ export const Typing = () => {
         incorrectChars++;
       }
     }
+
+    const cpmValue =
+      currentTextLength === undefined
+        ? 0
+        : Number(((correctChars / time) * 60).toFixed(0));
+
+    // const cpmValue = (correctChars / time) * 60; // 분당 CPM 계산
+    setCpm(cpmValue);
 
     const accuracy =
       currentTextLength === undefined
@@ -203,19 +223,26 @@ export const Typing = () => {
         if (typingCount === 0) {
           setAccuracyArr([accuracy]);
           setTimeArr([time]);
+          setCpmArr([cpm]);
           setTimeCheck(false);
         } else {
           // 문장 당 정확도
           const copyAccArr = [...accuracyArr];
           copyAccArr.push(accuracy);
           setAccuracyArr(copyAccArr);
-          console.log(time);
+          // console.log(time);
           // 문장 당 타이핑
           const copyTimeArr = [...timeArr];
           copyTimeArr.push(time);
           setTimeArr(copyTimeArr);
+
+          const copyCpmArr = [...cpmArr];
+          copyCpmArr.push(cpm);
+          setCpmArr(copyCpmArr);
+
           setTimeCheck(false);
         }
+        // console.log(cpm);
       }
     }
   };

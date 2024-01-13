@@ -6,6 +6,7 @@ import {
   //   TypingTimeState,
   TypingTimeArrState,
   TypingAccuracyState,
+  TypingCpmArrState,
 } from "state/atoms";
 
 // 타이핑 한 문장당 데이터를 가져와 기존 데이터와 비교하여 총 값을 나오게 하기
@@ -16,6 +17,11 @@ export const BeforeInfo = () => {
   const timeArr = useRecoilValue(TypingTimeArrState);
 
   const accuracy = useRecoilValue(TypingAccuracyState);
+
+  const cpmArr = useRecoilValue(TypingCpmArrState);
+  console.log(cpmArr);
+
+  // MAX 값 뽑아서 세팅하기
 
   //   const BeforeAcc = accuracy[typingCount];
   // console.log(accuracy);
@@ -32,7 +38,10 @@ export const BeforeInfo = () => {
           <p> {accuracy[typingCount - 1]}%</p>
         )}
       </Item>
-      <Item>CPM: XX</Item>
+      <Item>
+        CPM:
+        {cpmArr?.length === 0 ? <p>XX</p> : <p> {cpmArr[typingCount - 1]}</p>}
+      </Item>
       <Item>
         time:
         {accuracy?.length === 0 ? (
