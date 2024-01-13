@@ -7,9 +7,11 @@ import {
   TypingCountState,
   TypingWrongCountState,
   AlertModalState,
-  TypingTimeState,
   TypingProgressState,
   TypingAccuracyState,
+  // TypingCpmState,
+  TypingTimeState,
+  TypingTimeArrState,
 } from "state/atoms";
 
 import { useRandomTypingText } from "hooks/useRandomTypingText";
@@ -22,10 +24,10 @@ interface TextItem {
   author: string;
 }
 export const Typing = () => {
-  const [modalVisibility, SetModalVisibility] = useRecoilState(AlertModalState);
-
+  // mockData안에 있는 문장 중 랜덤한 10개 문장을 가져오는 코드
   const typingText = useRandomTypingText(defaultTypingData);
 
+  // input Ref
   const valueRef = useRef<HTMLInputElement>(null);
   // 타이핑 된 문장 갯수를 카우팅 하는 State
   const [typingCount, setTypingCount] = useRecoilState(TypingCountState);
@@ -38,10 +40,27 @@ export const Typing = () => {
   >(undefined);
 
   // 최초 타이핑 시작 시간
-  const [, setTime] = useRecoilState(TypingTimeState);
-  // console.log(time);
+  const [time, setTime] = useRecoilState(TypingTimeState);
+  const [timeArr, setTimeArr] = useRecoilState(TypingTimeArrState);
+  
   const [timecheck, setTimeCheck] = useState<boolean>(false);
+
   const [startTime, setStartTime] = useState<number | null>(null);
+
+  // 결과창 모달 관리하는 State
+  const [modalVisibility, SetModalVisibility] = useRecoilState(AlertModalState);
+
+  // 타이핑된 값
+  const [typingValue, setTypingValue] = useRecoilState(TextValueState);
+  // 틀린부분 인덱스를 보관하는 State
+  const [incorrectIndices, setIncorrectIndices] = useState<number[]>([]);
+
+  // 현재 문장의 정확도 관리하는 State
+  const [accuracy, setAccuracy] = useState(0);
+  // 전체 문장의 정확도를 저장하는 State
+  const [accuracyArr, setAccuracyArr] = useRecoilState(TypingAccuracyState);
+  // 현재 문장의 진행도를 저장하는 State
+  const [, SetProgress] = useRecoilState(TypingProgressState);
 
   useEffect(() => {
     let timer: number | null = null;
@@ -58,7 +77,9 @@ export const Typing = () => {
         const trimmedElapsedTime = Math.floor(elapsedTime / 1000);
         setTime(trimmedElapsedTime);
       }, 1000);
-    } else {
+    }
+    // timecheck False일때
+    else {
       setTime(0);
       setStartTime(null);
       // 스피드 초기화
@@ -86,16 +107,10 @@ export const Typing = () => {
     }
   }, [typingCount, typingText]);
 
-  // 타이핑된 값
-  const [typingValue, setTypingValue] = useRecoilState(TextValueState);
-
-  const [incorrectIndices, setIncorrectIndices] = useState<number[]>([]);
-
-  // 정확도 관리하는 State
-  const [accuracy, setAccuracy] = useState(0);
-
-  const [accuracyArr, setAccuracyArr] = useRecoilState(TypingAccuracyState);
-  const [, SetProgress] = useRecoilState(TypingProgressState);
+  // CPM을 저장하는 State
+  // const [cpm, setCpm] = useState<number | null>(null);
+  //
+  // const [cpmArr, setCpmArr] = useRecoilState(TypingCpmState);
 
   // input 값이 입력이될때의 작동하는 함수
   const onChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -144,10 +159,12 @@ export const Typing = () => {
     setTypingValue(inputValue);
     setTimeCheck(true);
 
+    // console.log(!timecheck);
     // 최초로 타이핑이 시작되고 timecheck가 false일 때만 timecheck를 true로 설정
     if (!timecheck && inputValue.length > 0) {
       setTimeCheck(true);
     }
+    // console.log(time);
   };
 
   // 엔터 클릭 시
@@ -182,16 +199,22 @@ export const Typing = () => {
           SetWrongCount(wrongCount + incorrectIndices.length);
         }
 
-        // const copyAccuracyArr = [...accuracyArr];
-
+        // 첫문장 타이핑 중이라면
         if (typingCount === 0) {
           setAccuracyArr([accuracy]);
+          setTimeArr([time]);
+          setTimeCheck(false);
         } else {
-          const copyArr = [...accuracyArr];
-          // console.log(copyArr);
-          copyArr.push(accuracy); // 정확도를 배열에 추가
-          // console.log(copyArr);
-          setAccuracyArr(copyArr);
+          // 문장 당 정확도
+          const copyAccArr = [...accuracyArr];
+          copyAccArr.push(accuracy);
+          setAccuracyArr(copyAccArr);
+          console.log(time);
+          // 문장 당 타이핑
+          const copyTimeArr = [...timeArr];
+          copyTimeArr.push(time);
+          setTimeArr(copyTimeArr);
+          setTimeCheck(false);
         }
       }
     }
@@ -199,14 +222,19 @@ export const Typing = () => {
 
   // 다음 타이핑 문장 미리보여주는 변수
   const [nextTypingText, setNextTypingText] = useState("");
+
   useEffect(() => {
     if (typingText.length > 0) {
       // 마지막 타이핑 이후에는 NEXT 영역 비우고 알림 모달을 띄움
       if (typingCount >= 10) {
+        // 다음 미리보기 제거
         setNextTypingText("");
+        // Alert Modal 공개
         SetModalVisibility(true);
+        // 시간 정지
         setTimeCheck(false);
       } else if (typingCount === 9) {
+        // 다음 미리보기 제거
         setNextTypingText("");
       } else {
         // 다음 타이핑 문장 설정
@@ -347,7 +375,6 @@ const TextInput = styled.input`
   &:focus {
     /* border-bottom: 2px solid #0288d1; */
     border-bottom: 2px solid #69db7c;
-    /* #69db7c */
   }
 `;
 

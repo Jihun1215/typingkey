@@ -3,25 +3,23 @@ import styled from "styled-components";
 import { useRecoilValue } from "recoil";
 import {
   TypingCountState,
-//   TypingTimeState,
-//   TypingProgressState,
+  //   TypingTimeState,
+  TypingTimeArrState,
   TypingAccuracyState,
 } from "state/atoms";
 
 // 타이핑 한 문장당 데이터를 가져와 기존 데이터와 비교하여 총 값을 나오게 하기
-export const TotalInfo = () => {
+export const BeforeInfo = () => {
   // 타이핑 된 문장 갯수를 카우팅 하는 State
   const typingCount = useRecoilValue(TypingCountState);
-  // 최초 타이핑 후 지속된 시간 State
-//   const time = useRecoilValue(TypingTimeState);
 
-  //   const progress = useRecoilValue(TypingProgressState);
+  const timeArr = useRecoilValue(TypingTimeArrState);
 
   const accuracy = useRecoilValue(TypingAccuracyState);
 
   //   const BeforeAcc = accuracy[typingCount];
-    // console.log(accuracy);
-    // console.log(typingCount);
+  // console.log(accuracy);
+  // console.log(typingCount);
   //   console.log(accuracy[typingCount]);
   //
   return (
@@ -35,7 +33,14 @@ export const TotalInfo = () => {
         )}
       </Item>
       <Item>CPM: XX</Item>
-      <Item>time: XX</Item>
+      <Item>
+        time:
+        {accuracy?.length === 0 ? (
+          <p>XX</p>
+        ) : (
+          <p> {timeArr[typingCount - 1]}s</p>
+        )}
+      </Item>
       <Item>MAX: XX</Item>
     </Container>
   );

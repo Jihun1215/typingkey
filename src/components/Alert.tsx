@@ -5,12 +5,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useRecoilState } from "recoil";
 import {
   AlertModalState,
-  TypingTimeState,
+  TypingTimeArrState,
   TypingCountState,
   TypingWrongCountState,
   TypingAccuracyState,
 } from "state/atoms";
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 
 export const Alert = () => {
   const backdropVariants = {
@@ -26,20 +26,19 @@ export const Alert = () => {
   const [alertmodal, setAlertmodla] = useRecoilState(AlertModalState);
 
   // 최초 타이핑 후 지속된 시간 State
-  const [time, setTime] = useRecoilState(TypingTimeState);
+  const [timeArr, setTime] = useRecoilState(TypingTimeArrState);
 
   const [accuracy, setAccuracy] = useRecoilState(TypingAccuracyState);
-  
+
+  // 배열 요소의 합 계산
+  const timesum = timeArr.reduce((acc, currentValue) => acc + currentValue, 0);
+  // console.log(timesum);
+
   // 배열 요소의 합 계산
   const sum = accuracy.reduce((acc, currentValue) => acc + currentValue, 0);
 
   // 배열의 평균 계산
   const average = sum / accuracy.length;
-
-  const [saveTime, setSaveTime] = useState<number | null>(null);
-  useEffect(() => {
-    return setSaveTime(time);
-  }, []);
 
   // 타이핑 된 문장 갯수를 카우팅 하는 State
   const [, setTypingCount] = useRecoilState(TypingCountState);
@@ -54,7 +53,7 @@ export const Alert = () => {
     // e.stopPropagation()
     if (TagName === "DIV") {
       setAlertmodla(false);
-      setTime(0);
+      setTime([]);
       setTypingCount(0);
       SetWrongCount(0);
       setAccuracy([]);
@@ -87,7 +86,7 @@ export const Alert = () => {
           >
             <CardTitle> TypingKey </CardTitle>
             <CardInfo>
-              <InfoItem>타이핑 걸린 시간 {saveTime}s</InfoItem>
+              <InfoItem>타이핑 걸린 시간: {timesum}s</InfoItem>
               <InfoItem>Acc: {average}</InfoItem>
               <InfoItem>스피드</InfoItem>
               <InfoItem>틀린갯수 / 정확도 :{wrongCount},</InfoItem>

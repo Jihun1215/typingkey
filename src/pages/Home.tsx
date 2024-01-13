@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
-import { TypingInfo, TotalInfo, Typing } from "components/";
+import { TypingInfo, BeforeInfo, Typing } from "components/";
 
 export const Home = () => {
   return (
     <Container>
       <TypingInfo />
-      <TotalInfo />
+      <BeforeInfo />
       <Typing />
     </Container>
   );
@@ -18,7 +18,6 @@ const Container = styled.div`
   ${({ theme }) => theme.FlexCol};
   ${({ theme }) => theme.FlexCenter};
   border-radius: 12px;
-  border: 1px solid red;
   @media (max-width: 900px) {
     width: 90%;
   }
