@@ -8,7 +8,7 @@ import {
   TypingTimeArrState,
   TypingCountState,
   TypingWrongCountState,
-  TypingAccuracyState,
+  TypingAccuracyArrState,
   TypingCpmArrState,
 } from "state/atoms";
 // import { useEffect, useState } from "react";
@@ -29,7 +29,7 @@ export const Alert = () => {
   // 최초 타이핑 후 지속된 시간 State
   const [timeArr, setTime] = useRecoilState(TypingTimeArrState);
 
-  const [accuracy, setAccuracy] = useRecoilState(TypingAccuracyState);
+  const [accuracy, setAccuracy] = useRecoilState(TypingAccuracyArrState);
 
   const cpmArr = useRecoilValue(TypingCpmArrState);
 
@@ -43,7 +43,7 @@ export const Alert = () => {
 
   const cpmAverage = cpmsum / accuracy.length;
 
-  console.log(cpmAverage);
+  // console.log(cpmAverage);
 
   // 배열 요소의 합 계산
   const sum = accuracy.reduce((acc, currentValue) => acc + currentValue, 0);
@@ -98,8 +98,8 @@ export const Alert = () => {
             <CardTitle> TypingKey </CardTitle>
             <CardInfo>
               <InfoItem>타이핑 걸린 시간: {timesum}s</InfoItem>
-              <InfoItem>Acc: {average}</InfoItem>
-              <InfoItem>CPM: {cpmAverage}</InfoItem>
+              <InfoItem>평균 Acc: {average}</InfoItem>
+              <InfoItem>평균 CPM: {cpmAverage}</InfoItem>
               <InfoItem>틀린갯수 / 정확도 :{wrongCount},</InfoItem>
             </CardInfo>
             <CardDate>{thisdate}</CardDate>

@@ -8,11 +8,12 @@ import {
   TypingWrongCountState,
   AlertModalState,
   TypingProgressState,
-  TypingAccuracyState,
-  // TypingCpmState,
+  TypingAccuracyArrState,
   TypingTimeState,
   TypingTimeArrState,
+  TypingCpmState,
   TypingCpmArrState,
+  TypingAccuracyState,
   // TypingCpmState,
 } from "state/atoms";
 
@@ -43,10 +44,10 @@ export const Typing = () => {
 
   // 최초 타이핑 시작 시간
   const [time, setTime] = useRecoilState(TypingTimeState);
+  // 타이핑 시간을 저장하는 Arr State
   const [timeArr, setTimeArr] = useRecoilState(TypingTimeArrState);
 
   const [timecheck, setTimeCheck] = useState<boolean>(false);
-
   const [startTime, setStartTime] = useState<number | null>(null);
 
   // 결과창 모달 관리하는 State
@@ -60,7 +61,7 @@ export const Typing = () => {
   // 현재 문장의 정확도 관리하는 State
   const [accuracy, setAccuracy] = useState(0);
   // 전체 문장의 정확도를 저장하는 State
-  const [accuracyArr, setAccuracyArr] = useRecoilState(TypingAccuracyState);
+  const [accuracyArr, setAccuracyArr] = useRecoilState(TypingAccuracyArrState);
   // 현재 문장의 진행도를 저장하는 State
   const [, SetProgress] = useRecoilState(TypingProgressState);
 
@@ -111,6 +112,13 @@ export const Typing = () => {
 
   // CPM을 저장하는 State
   const [cpm, setCpm] = useState(0);
+  const [, setCurrentCpm] = useRecoilState(TypingCpmState);
+
+  // console.log(cpm);
+
+  // useEffect(() => {
+  //   setCurrentCpm(cpm);
+  // }, [cpm]);
 
   // console.log(cpm);
   const [cpmArr, setCpmArr] = useRecoilState(TypingCpmArrState);
@@ -130,6 +138,8 @@ export const Typing = () => {
 
     const currentTextLength = currentTypingArr?.length;
 
+    let textChars = 0;
+
     // 정확한 문장
     let correctChars = 0;
     // 틀린 문장
@@ -138,17 +148,62 @@ export const Typing = () => {
     for (let i = 0; i < inputValue.length; i++) {
       if (inputValue[i] === currentTypingText?.contents[i]) {
         correctChars++;
+        textChars++;
       } else {
         incorrectChars++;
+        textChars++;
       }
     }
 
+    // 실시간 타수 계산
+    // const endTime = new Date();
+    // const resultTime =
+    //   startTime === null ? 0 : (endTime.getTime() - startTime) / 1000; // 분당시간
+    // const resultSpeed = Number(
+    //   (textChars - incorrectChars) / (resultTime / 60)
+    // ); // 입력한 글자 - 틀린글자 / 분당시간
+    // console.log(resultSpeed);
+
+    // const typingSpeed = Math.max(0, 1000 - (textChars / time) * 100); // 스피드를 1000에서 0으로 표현
+    // console.log(typingSpeed);
+
+    //   if(resultSpeed < 0){
+    //     typingSpeed.innerHTML = 0;
+    // }else{
+    //     typingSpeed.innerHTML = resultSpeed;
+    // }
+
+    // const endTime = new Date();
+    // const resultTime = 0;
+    // console.log(endTime.getTime());
+    // console.log(startTime);
+    // if (startTime !== null) {
+    //   resultTime = (endTime.getTime() - startTime.getTime()) / 1000;
+    // }
+    // const resultSpeed = Number(
+    //   (textChars - incorrectChars) / (resultTime / 60)
+    // );
+
+    // // 타자 스피드 계산
+    // const typingSpeed = Math.max(0, 1000 - (textChars / time) * 100); // 스피드를 1000에서 0으로 표현
+
+    // console.log("타자속도", textChars);
+
     const cpmValue =
-      currentTextLength === undefined
+      currentTextLength === undefined || time === 0 || correctChars === 0
         ? 0
-        : Number(((correctChars / time) * 60).toFixed(0));
+        : Math.round((correctChars / time) * 60);
+
+    // console.log(Number(correctChars / (time / 60)));
+    // console.log("CPM", cpmValue);
+    // console.log();
+    // const cpm = (characterCount / time) * 5; // 공식에 따른 CPM
+    // console.log(cpmValue);
 
     // const cpmValue = (correctChars / time) * 60; // 분당 CPM 계산
+    // if () {
+    // }
+
     setCpm(cpmValue);
 
     const accuracy =
@@ -242,6 +297,8 @@ export const Typing = () => {
 
           setTimeCheck(false);
         }
+        // 리코일 cpm 제거하기
+        setCurrentCpm(0);
         // console.log(cpm);
       }
     }
@@ -401,7 +458,7 @@ const TextInput = styled.input`
   }
   &:focus {
     /* border-bottom: 2px solid #0288d1; */
-    border-bottom: 2px solid #69db7c;
+    border-bottom: 2px solid ${({ theme }) => theme.colors.greey};
   }
 `;
 

@@ -40,8 +40,13 @@ export const TypingProgressState = atom<number>({
   default: 0,
 });
 
-export const TypingAccuracyState = atom<number[]>({
+export const TypingAccuracyState = atom<number>({
   key: "TypingAccuracy",
+  default: 0,
+});
+
+export const TypingAccuracyArrState = atom<number[]>({
+  key: "TypingAccuracyArr",
   default: [],
 });
 
@@ -54,7 +59,6 @@ export const TypingCpmState = atom<number>({
   key: "TypingCpm",
   default: 0,
 });
-
 
 export const TypingCpmArrState = atom<number[]>({
   key: "TypingCpmArr",

@@ -27,7 +27,7 @@ export const Header = () => {
       </TitleArea>
       <MenuArea>
         <MemuItem>
-          <Tooltip message="다크모드">
+          <Tooltip message="다크모드" placement="header">
             {darkmode ? (
               <IoSunnySharp
                 fill="#8A7EBE"
@@ -46,13 +46,13 @@ export const Header = () => {
           </Tooltip>
         </MemuItem>
         <MemuItem>
-          <Tooltip message="문장바꾸기">
+          <Tooltip message="문장바꾸기" placement="header">
             <RiEnglishInput fill="#8A7EBE" />
           </Tooltip>
           {/* 영문 타자 넣기  */}
         </MemuItem>
         <MemuItem>
-          <Tooltip message="다시하기">
+          <Tooltip message="다시하기" placement="header">
             <VscDebugRestart fill="#8A7EBE" onClick={onClickReStart} />
           </Tooltip>
         </MemuItem>
@@ -72,7 +72,8 @@ const Container = styled.header`
   top: 55px;
   width: 880px;
   ${({ theme }) => theme.BoxCenter};
-  /* height: 80px; */
+  /* box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; */
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   height: 100px;
   background-color: ${({ theme }) => theme.bgColor2};
   border-radius: 6px;

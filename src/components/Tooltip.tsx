@@ -5,17 +5,26 @@ import { tooltipAnimation, tooltipMoveAnimation } from "styles/Animation";
 type TooltipProps = {
   message: string;
   children: ReactNode;
-  // placement: string;
+  placement: string;
 };
 
-export const Tooltip = ({ message, children }: TooltipProps) => {
+export const Tooltip = ({ message, children, placement }: TooltipProps) => {
   // console.log(placement);
   return (
     <Container>
       {children}
-      <Content className="tooltip placement">
+      {placement === "header" ? (
+        <Content className="tooltip">
+          <p>{message}</p>
+        </Content>
+      ) : (
+        <Content className="tooltip typinginfo">
+          <p>{message}</p>
+        </Content>
+      )}
+      {/* <Content className="tooltip">
         <p>{message}</p>
-      </Content>
+      </Content> */}
     </Container>
   );
 };
@@ -30,7 +39,7 @@ const Container = styled.aside`
   &:hover > .tooltip,
   &:active > .tooltip {
     display: block;
-    /* animation: ${tooltipAnimation} 0.4s ease-in-out; */
+    /* animation: ${tooltipAnimation} 0.2s ease-in-out; */
   }
   &:hover > svg,
   &:active > svg {
@@ -44,17 +53,21 @@ const Content = styled.div`
   z-index: 200;
   bottom: 35px;
   min-width: 90px;
+  max-width: 120px;
   height: 25px;
   border-radius: 6px;
-  background-color: ${({ theme }) => theme.bgColor};
+  background-color: ${({ theme }) => theme.colors.gray5};
   padding: 8px;
   text-align: center;
-  > p {
+  &.typinginfo {
+    bottom: 70px;
+  }
+  p {
     position: absolute;
     ${({ theme }) => theme.WH100};
     ${({ theme }) => theme.BoxCenter};
     font-weight: 500;
-    color: ${({ theme }) => theme.color};
+    color: ${({ theme }) => theme.colors.white};
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
