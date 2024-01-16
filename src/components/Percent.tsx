@@ -4,10 +4,11 @@ import { motion, AnimatePresence } from "framer-motion";
 
 interface ProgressBarProps {
   value: number;
-  type: "count" | "progress" | "time" | "average" | "time" | "cpm";
+  type: "count" | "progress" | "time" | "average" | "time" | "speed";
 }
 
 export const Percent = ({ value, type }: ProgressBarProps) => {
+  // console.log(value, type);
   const [progress, setProgress] = useState(0);
 
   const updateProgress = useCallback(() => {
@@ -17,10 +18,10 @@ export const Percent = ({ value, type }: ProgressBarProps) => {
       setProgress(value);
     } else if (type === "time") {
       setProgress(Math.min(value * 10, 100));
-    } else if (type === "cpm") {
+    } else if (type === "speed") {
       setProgress(Math.min(value, 100));
     }
-  }, [value]);
+  }, [type, value]);
 
   useEffect(() => {
     updateProgress();

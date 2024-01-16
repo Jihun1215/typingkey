@@ -8,50 +8,48 @@ import {
   TypingWrongCountState,
   AlertModalState,
   TypingProgressState,
+  TypingAccuracyState,
   TypingAccuracyArrState,
   TypingTimeState,
   TypingTimeArrState,
   TypingCpmState,
   TypingCpmArrState,
-  TypingAccuracyState,
   // TypingCpmState,
+  TypingSpeedState,
 } from "state/atoms";
 
-import { useRandomTypingText } from "hooks/useRandomTypingText";
 import { defaultTypingData } from "utils/TypingMockData";
+import {
+  useTypingScore,
+  useCurrentTypingText,
+  useRandomTypingText,
+  useNextTypingText,
+} from "hooks";
 
 import { Alert } from "./Alert";
 
-interface TextItem {
-  contents: string;
-  author: string;
-}
 export const Typing = () => {
-  // mockData안에 있는 문장 중 랜덤한 10개 문장을 가져오는 코드
-  const typingText = useRandomTypingText(defaultTypingData);
-
   // input Ref
   const valueRef = useRef<HTMLInputElement>(null);
+  // 결과창 모달 관리하는 State
+  const [modalVisibility] = useRecoilState(AlertModalState);
+
   // 타이핑 된 문장 갯수를 카우팅 하는 State
   const [typingCount, setTypingCount] = useRecoilState(TypingCountState);
+
+  const typingText = useRandomTypingText(defaultTypingData);
+  const nextTypingText = useNextTypingText(typingText, typingCount);
+  const currentTypingText = useCurrentTypingText(typingText, typingCount);
+
   // 타이핑 틀린 갯수 카운팅 하는 State
   const [wrongCount, SetWrongCount] = useRecoilState(TypingWrongCountState);
-
-  // 따라 칠 문장을 보여주기 위한 코드
-  const [currentTypingText, setCurrentTypingText] = useState<
-    TextItem | undefined
-  >(undefined);
 
   // 최초 타이핑 시작 시간
   const [time, setTime] = useRecoilState(TypingTimeState);
   // 타이핑 시간을 저장하는 Arr State
   const [timeArr, setTimeArr] = useRecoilState(TypingTimeArrState);
-
   const [timecheck, setTimeCheck] = useState<boolean>(false);
   const [startTime, setStartTime] = useState<number | null>(null);
-
-  // 결과창 모달 관리하는 State
-  const [modalVisibility, SetModalVisibility] = useRecoilState(AlertModalState);
 
   // 타이핑된 값
   const [typingValue, setTypingValue] = useRecoilState(TextValueState);
@@ -72,6 +70,7 @@ export const Typing = () => {
       // 시작 시간 기록
       if (startTime === null) {
         setStartTime(Date.now());
+        // setTypingValue("");
       }
 
       // 1초마다 현재 시간 갱신
@@ -99,36 +98,15 @@ export const Typing = () => {
     };
   }, [timecheck, startTime, setTime]);
 
-  // useEffect를 사용하여 따라친 문장을 가져오는 함수
-  useEffect(() => {
-    if (typingText.length > 0) {
-      if (typingCount === 10) {
-        setCurrentTypingText(undefined);
-      } else {
-        setCurrentTypingText(typingText[typingCount]);
-      }
-    }
-  }, [typingCount, typingText]);
-
   // CPM을 저장하는 State
   const [cpm, setCpm] = useState(0);
   const [, setCurrentCpm] = useRecoilState(TypingCpmState);
 
-  // console.log(cpm);
-
-  // useEffect(() => {
-  //   setCurrentCpm(cpm);
-  // }, [cpm]);
-
-  // console.log(cpm);
   const [cpmArr, setCpmArr] = useRecoilState(TypingCpmArrState);
-
-  // const calculateCpm = () => {
-  //   if (startTime) {
-  //     const cpmValue = (correctChars / time) * 60; // 분당 CPM 계산
-  //     setCpm(cpmValue);
-  //   }
-  // };
+  const [speed, setSpeed] = useRecoilState(TypingSpeedState);
+  // console.log(speed);
+  const { point, separateHangul } = useTypingScore();
+  // console.log(point);
 
   // input 값이 입력이될때의 작동하는 함수
   const onChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -153,57 +131,31 @@ export const Typing = () => {
         incorrectChars++;
         textChars++;
       }
+
+      separateHangul(inputValue[i]);
     }
 
-    // 실시간 타수 계산
-    // const endTime = new Date();
-    // const resultTime =
-    //   startTime === null ? 0 : (endTime.getTime() - startTime) / 1000; // 분당시간
-    // const resultSpeed = Number(
-    //   (textChars - incorrectChars) / (resultTime / 60)
-    // ); // 입력한 글자 - 틀린글자 / 분당시간
+    let resultSpeed;
+
+    if (time && time !== 0) {
+      // 입력이 있을 때
+      resultSpeed = Math.round((textChars / time) * 60);
+      setSpeed(resultSpeed + 135);
+    } else {
+      resultSpeed = 0;
+    }
+
+    // 아무 입력이 없을 때에도 textChars를 감소시킴
+    textChars = Math.max(textChars - 1, 0);
+    setSpeed(resultSpeed + 135);
     // console.log(resultSpeed);
-
-    // const typingSpeed = Math.max(0, 1000 - (textChars / time) * 100); // 스피드를 1000에서 0으로 표현
-    // console.log(typingSpeed);
-
-    //   if(resultSpeed < 0){
-    //     typingSpeed.innerHTML = 0;
-    // }else{
-    //     typingSpeed.innerHTML = resultSpeed;
-    // }
-
-    // const endTime = new Date();
-    // const resultTime = 0;
-    // console.log(endTime.getTime());
-    // console.log(startTime);
-    // if (startTime !== null) {
-    //   resultTime = (endTime.getTime() - startTime.getTime()) / 1000;
-    // }
-    // const resultSpeed = Number(
-    //   (textChars - incorrectChars) / (resultTime / 60)
-    // );
-
-    // // 타자 스피드 계산
-    // const typingSpeed = Math.max(0, 1000 - (textChars / time) * 100); // 스피드를 1000에서 0으로 표현
-
-    // console.log("타자속도", textChars);
 
     const cpmValue =
       currentTextLength === undefined || time === 0 || correctChars === 0
         ? 0
-        : Math.round((correctChars / time) * 60);
+        : Math.round((correctChars / time!) * 60);
 
-    // console.log(Number(correctChars / (time / 60)));
-    // console.log("CPM", cpmValue);
-    // console.log();
-    // const cpm = (characterCount / time) * 5; // 공식에 따른 CPM
     // console.log(cpmValue);
-
-    // const cpmValue = (correctChars / time) * 60; // 분당 CPM 계산
-    // if () {
-    // }
-
     setCpm(cpmValue);
 
     const accuracy =
@@ -239,7 +191,6 @@ export const Typing = () => {
     if (!timecheck && inputValue.length > 0) {
       setTimeCheck(true);
     }
-    // console.log(time);
   };
 
   // 엔터 클릭 시
@@ -285,8 +236,8 @@ export const Typing = () => {
           const copyAccArr = [...accuracyArr];
           copyAccArr.push(accuracy);
           setAccuracyArr(copyAccArr);
-          // console.log(time);
-          // 문장 당 타이핑
+
+          // 문장 당 타이핑 시간
           const copyTimeArr = [...timeArr];
           copyTimeArr.push(time);
           setTimeArr(copyTimeArr);
@@ -299,33 +250,12 @@ export const Typing = () => {
         }
         // 리코일 cpm 제거하기
         setCurrentCpm(0);
+        setSpeed(0);
         // console.log(cpm);
+        setTypingValue("");
       }
     }
   };
-
-  // 다음 타이핑 문장 미리보여주는 변수
-  const [nextTypingText, setNextTypingText] = useState("");
-
-  useEffect(() => {
-    if (typingText.length > 0) {
-      // 마지막 타이핑 이후에는 NEXT 영역 비우고 알림 모달을 띄움
-      if (typingCount >= 10) {
-        // 다음 미리보기 제거
-        setNextTypingText("");
-        // Alert Modal 공개
-        SetModalVisibility(true);
-        // 시간 정지
-        setTimeCheck(false);
-      } else if (typingCount === 9) {
-        // 다음 미리보기 제거
-        setNextTypingText("");
-      } else {
-        // 다음 타이핑 문장 설정
-        setNextTypingText(typingText[typingCount + 1].contents);
-      }
-    }
-  }, [typingCount, typingText]);
 
   const currentTypingArr = currentTypingText?.contents.split("");
 

@@ -4,8 +4,11 @@ import { useRecoilValue } from "recoil";
 import {
   TypingCountState,
   TypingTimeState,
+  // TypingAccuracyState,
   TypingAccuracyArrState,
-  TypingCpmState,
+  // TypingCpmState,
+  TypingSpeedState,
+  TypingProgressState,
 } from "state/atoms";
 
 import { Percent } from "./Percent";
@@ -15,10 +18,10 @@ export const TypingInfo = () => {
   const typingCount = useRecoilValue(TypingCountState);
   const time = useRecoilValue(TypingTimeState);
   const accuracyArr = useRecoilValue(TypingAccuracyArrState);
+  const speed = useRecoilValue(TypingSpeedState);
+  const progress = useRecoilValue(TypingProgressState);
 
-  const currentCpm = useRecoilValue(TypingCpmState);
-  // console.log(currentCpm);
-
+  console.log(progress);
   const sum = accuracyArr.reduce((acc, currentValue) => acc + currentValue, 0);
 
   const average = accuracyArr.length
@@ -29,11 +32,10 @@ export const TypingInfo = () => {
   return (
     <Container>
       {/* 현재 진행하고 있는 문장에 대한 값들 */}
-      <Tooltip message="분당 타자수" placement="typinginfo">
+      <Tooltip message="타자속도" placement="typinginfo">
         <Item style={{ borderRight: "none" }}>
-          CPM:
-          {/* <Percent value={currentCpm} type="cpm" /> */}
-          {/* {cpm === 0 ? <p>XX</p> : <p>{cpm}</p>} */}
+          Speed:
+          <Percent value={speed} type="speed" />
         </Item>
       </Tooltip>
 
@@ -58,7 +60,7 @@ export const TypingInfo = () => {
       <Tooltip message="진행도" placement="typinginfo">
         <Item>
           Progress
-          <Percent value={0} type="progress" />
+          <Percent value={progress} type="progress" />
         </Item>
       </Tooltip>
 

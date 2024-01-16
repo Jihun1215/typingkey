@@ -38,8 +38,8 @@ const Container = styled.div`
   width: 40%;
   height: 30px;
   background-color: ${({ theme }) => theme.colors.gray3};
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 14px;
+  border-bottom-right-radius: 14px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
 `;
