@@ -1,11 +1,33 @@
 import styled from "styled-components";
 
+import { Tooltip } from "components";
+import { FaGithub, FaEnvelope } from "react-icons/fa";
+
 export const Footer = () => {
   return (
     <Container>
-      <span>대충 깃허브, 메일, 블로그, 등등 Svg 로고들로 넣기</span>
-      <p>@Jirune</p>
-      <span>all rights reserved</span>
+      <Item>
+        <Tooltip message="깃허브" placement="typinginfo">
+          <SvgArea
+            href="https://github.com/Jihun1215/typingkey"
+            target="_black"
+          >
+            <FaGithub />
+          </SvgArea>
+        </Tooltip>
+
+        <Tooltip message="메일보내기" placement="typinginfo">
+          <SvgArea href="mailto:jhmc5268@naver.com" target="_black">
+            <FaEnvelope />
+          </SvgArea>
+        </Tooltip>
+      </Item>
+
+      <Item>Developer: Jirune</Item>
+
+      <Item>
+        <p>Ver_1.0.0</p>
+      </Item>
     </Container>
   );
 };
@@ -13,12 +35,40 @@ export const Footer = () => {
 const Container = styled.footer`
   position: absolute;
   bottom: 0;
-  width: 880px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 380px;
   height: 50px;
   ${({ theme }) => theme.BoxCenter};
   background-color: ${({ theme }) => theme.bgColor2};
   border-radius: 6px;
   @media (max-width: 900px) {
     width: 90%;
+  }
+`;
+
+const Item = styled.div`
+  width: 100%;
+  height: 100%;
+  ${({ theme }) => theme.FlexRow};
+  ${({ theme }) => theme.FlexCenter};
+  gap: 0 15px;
+  font-weight: 600;
+  p {
+    font-size: 18px;
+    font-weight: 500;
+  }
+`;
+
+const SvgArea = styled.a`
+  width: 24px;
+  height: 24px;
+  color: white;
+
+  svg {
+    ${({ theme }) => theme.WH100};
+  }
+  &:hover {
+    color: #8a7ebe;
   }
 `;

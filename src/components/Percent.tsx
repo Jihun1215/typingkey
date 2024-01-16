@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 interface ProgressBarProps {
   value: number;
-  type: "count" | "progress" | "time" | "average" | "time" | "speed";
+  type: "count" | "progress" | "time" | "accuaracy" | "time" | "speed";
 }
 
 export const Percent = ({ value, type }: ProgressBarProps) => {
@@ -15,17 +15,21 @@ export const Percent = ({ value, type }: ProgressBarProps) => {
     if (type === "count") {
       setProgress(value * 10);
     } else if (type === "progress") {
-      setProgress(value);
+      setProgress(Math.min(value, 100));
     } else if (type === "time") {
       setProgress(Math.min(value * 10, 100));
     } else if (type === "speed") {
       setProgress(Math.min(value, 100));
+    } else {
+      setProgress(value);
     }
   }, [type, value]);
 
   useEffect(() => {
     updateProgress();
   }, [updateProgress]);
+
+  const percentageSign = ["accuracy", "progress"].includes(type) ? "%" : null;
 
   return (
     <ProgressBar>
@@ -37,7 +41,10 @@ export const Percent = ({ value, type }: ProgressBarProps) => {
           exit={{ width: "0%", opacity: 0 }}
           transition={{ duration: 0.3, ease: "linear" }}
         />
-        <Point>{value}</Point>
+        <Point>
+          {value}
+          {percentageSign}
+        </Point>
       </AnimatePresence>
     </ProgressBar>
   );
@@ -46,11 +53,10 @@ export const Percent = ({ value, type }: ProgressBarProps) => {
 const ProgressBar = styled(motion.div)`
   position: relative;
   z-index: 10;
-  width: 120px;
-  height: 20px;
+  width: 140px;
+  height: 30px;
   border-radius: 6px;
   background-color: ${({ theme }) => theme.colors.gray5};
-  /* border: 2px solid ${({ theme }) => theme.colors.black}; */
 `;
 
 const ProgressBarFill = styled(motion.div)`
@@ -70,6 +76,6 @@ const Point = styled.span`
   color: ${({ theme }) => theme.color};
   left: 50%;
   transform: translateX(-50%);
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 700;
 `;

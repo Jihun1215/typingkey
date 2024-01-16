@@ -14,7 +14,7 @@ export const Home = () => {
 
 const Container = styled.div`
   width: 880px;
-  height: 250px;
+  height: 300px;
   ${({ theme }) => theme.FlexCol};
   ${({ theme }) => theme.FlexCenter};
   border-radius: 12px;

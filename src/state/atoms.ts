@@ -25,11 +25,6 @@ export const AlertModalState = atom<boolean>({
   default: false,
 });
 
-export const TypingTickState = atom<number>({
-  key: "TypingTick",
-  default: 0,
-});
-
 export const TypingTimeState = atom<number>({
   key: "TypingTime",
   default: 0,

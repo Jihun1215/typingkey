@@ -5,7 +5,7 @@ import {
   TypingCountState,
   TypingTimeState,
   // TypingAccuracyState,
-  TypingAccuracyArrState,
+  // TypingAccuracyArrState,
   // TypingCpmState,
   TypingSpeedState,
   TypingProgressState,
@@ -17,18 +17,11 @@ import { Tooltip } from "./Tooltip";
 export const TypingInfo = () => {
   const typingCount = useRecoilValue(TypingCountState);
   const time = useRecoilValue(TypingTimeState);
-  const accuracyArr = useRecoilValue(TypingAccuracyArrState);
   const speed = useRecoilValue(TypingSpeedState);
   const progress = useRecoilValue(TypingProgressState);
+  // const accuaracy = useRecoilValue(TypingAccuracyState);
+  // console.log(accuaracy);
 
-  console.log(progress);
-  const sum = accuracyArr.reduce((acc, currentValue) => acc + currentValue, 0);
-
-  const average = accuracyArr.length
-    ? Number(sum / accuracyArr.length).toFixed(0)
-    : 0;
-
-  // console.log(average);
   return (
     <Container>
       {/* 현재 진행하고 있는 문장에 대한 값들 */}
@@ -53,7 +46,7 @@ export const TypingInfo = () => {
       <Tooltip message="정확도" placement="typinginfo">
         <Item>
           ACC
-          <Percent value={Number(average)} type="average" />
+          {/* <Percent value={accuaracy} type="accuaracy" /> */}
         </Item>
       </Tooltip>
 
@@ -77,7 +70,7 @@ export const TypingInfo = () => {
 
 const Container = styled.div`
   width: 100%;
-  height: 60px;
+  height: 100px;
   ${({ theme }) => theme.FlexRow};
   ${({ theme }) => theme.FlexCenter};
   border-radius: 4px;

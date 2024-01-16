@@ -75,8 +75,11 @@ export const Alert = () => {
   const year = date.getFullYear();
   const month = ("0" + (1 + date.getMonth())).slice(-2);
   const day = ("0" + date.getDate()).slice(-2);
+  const hours = ("0" + date.getHours()).slice(-2);
+  const minutes = ("0" + date.getMinutes()).slice(-2);
 
   const thisdate = year + "-" + month + "-" + day;
+  const curretTime = hours + ":" + minutes;
 
   return (
     <AnimatePresence>
@@ -102,7 +105,10 @@ export const Alert = () => {
               <InfoItem>평균 CPM: {cpmAverage}</InfoItem>
               <InfoItem>틀린갯수 / 정확도 :{wrongCount},</InfoItem>
             </CardInfo>
-            <CardDate>{thisdate}</CardDate>
+            <CardDate>
+              {thisdate}
+              {curretTime}
+            </CardDate>
           </ModalCard>
         </Container>
       )}
@@ -126,7 +132,7 @@ const Container = styled(motion.div)`
 
 const ModalCard = styled(motion.section)`
   position: absolute;
-  background-color: #fff;
+  background-color: ${({ theme }) => theme.bgColor};
   top: 20%;
   border-radius: 8px;
   width: 320px;
@@ -135,8 +141,7 @@ const ModalCard = styled(motion.section)`
   ${({ theme }) => theme.FlexCenter};
   font-size: 20px;
   font-weight: 600;
-  color: ${({ theme }) => theme.colors.black};
-  border: 1px solid red;
+  color: ${({ theme }) => theme.color};
 `;
 
 const CardTitle = styled.h3`

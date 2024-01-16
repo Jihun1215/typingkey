@@ -58,6 +58,7 @@ export const Typing = () => {
 
   // 현재 문장의 정확도 관리하는 State
   const [accuracy, setAccuracy] = useState(0);
+  // const [accuracy, setAccuracy] = useState(0);
   // 전체 문장의 정확도를 저장하는 State
   const [accuracyArr, setAccuracyArr] = useRecoilState(TypingAccuracyArrState);
   // 현재 문장의 진행도를 저장하는 State
@@ -103,7 +104,7 @@ export const Typing = () => {
   const [, setCurrentCpm] = useRecoilState(TypingCpmState);
 
   const [cpmArr, setCpmArr] = useRecoilState(TypingCpmArrState);
-  const [speed, setSpeed] = useRecoilState(TypingSpeedState);
+  const [, setSpeed] = useRecoilState(TypingSpeedState);
   // console.log(speed);
   const { point, separateHangul } = useTypingScore();
   // console.log(point);
@@ -253,6 +254,7 @@ export const Typing = () => {
         setSpeed(0);
         // console.log(cpm);
         setTypingValue("");
+        SetProgress(0);
       }
     }
   };
