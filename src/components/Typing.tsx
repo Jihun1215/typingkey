@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import {
+  ModeToggleState,
   TextValueState,
   TypingCountState,
   TypingWrongCountState,
@@ -29,6 +30,7 @@ import {
 import { Alert } from "./Alert";
 
 export const Typing = () => {
+  const mode = useRecoilValue(ModeToggleState);
   // input Ref
   const valueRef = useRef<HTMLInputElement>(null);
   // 결과창 모달 관리하는 State
@@ -304,6 +306,7 @@ export const Typing = () => {
           onChange={onChangeValue}
           onKeyDown={onKeyDown}
           placeholder="위 문장을 타이핑 하세요."
+          mode={mode.toString()}
         />
         <NextTypingTextArea>
           NEXT
@@ -376,10 +379,11 @@ const InputArea = styled.div`
   gap: 5px 0;
 `;
 
-const TextInput = styled.input`
+const TextInput = styled.input<{ mode: string }>`
   width: 90%;
   height: 45px;
-  border-bottom: 2px solid ${({ theme }) => theme.colors.gray1};
+  border-bottom: 2px solid
+    ${(props) => (props.mode === "true" ? "#F6F6F6" : "#9A9A9A")};
   font-size: 20px;
   color: ${({ theme }) => theme.color};
   transition: 0.3s;

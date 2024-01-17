@@ -45,7 +45,7 @@ export const TypingInfo = () => {
 
       <Tooltip message="정확도" placement="typinginfo">
         <Item>
-          ACC
+          여기에 뭐를 넣어야 할까..
           {/* <Percent value={accuaracy} type="accuaracy" /> */}
         </Item>
       </Tooltip>

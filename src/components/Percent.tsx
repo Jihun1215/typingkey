@@ -1,5 +1,9 @@
 import { useEffect, useState, useCallback } from "react";
 import styled from "styled-components";
+
+import { useRecoilValue } from "recoil";
+import { ModeToggleState } from "state/atoms";
+
 import { motion, AnimatePresence } from "framer-motion";
 
 interface ProgressBarProps {
@@ -8,7 +12,8 @@ interface ProgressBarProps {
 }
 
 export const Percent = ({ value, type }: ProgressBarProps) => {
-  // console.log(value, type);
+  const mode = useRecoilValue(ModeToggleState);
+
   const [progress, setProgress] = useState(0);
 
   const updateProgress = useCallback(() => {
@@ -32,7 +37,7 @@ export const Percent = ({ value, type }: ProgressBarProps) => {
   const percentageSign = ["accuracy", "progress"].includes(type) ? "%" : null;
 
   return (
-    <ProgressBar>
+    <ProgressBar mode={mode.toString()}>
       <AnimatePresence>
         <ProgressBarFill
           key={progress}
@@ -50,13 +55,14 @@ export const Percent = ({ value, type }: ProgressBarProps) => {
   );
 };
 
-const ProgressBar = styled(motion.div)`
+const ProgressBar = styled(motion.div)<{ mode: string }>`
   position: relative;
   z-index: 10;
   width: 140px;
   height: 30px;
   border-radius: 6px;
-  background-color: ${({ theme }) => theme.colors.gray5};
+  background-color: ${(props) =>
+    props.mode === "true" ? "#4D4D4D" : "#9A9A9A"};
 `;
 
 const ProgressBarFill = styled(motion.div)`
@@ -65,7 +71,7 @@ const ProgressBarFill = styled(motion.div)`
   height: 100%;
   width: 0;
   border-radius: 6px;
-  background-color: ${({ theme }) => theme.colors.greey};
+  background-color: ${({ theme }) => theme.colors.lightblue};
 `;
 
 const Point = styled.span`

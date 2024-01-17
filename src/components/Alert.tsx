@@ -132,7 +132,7 @@ const Container = styled(motion.div)`
 
 const ModalCard = styled(motion.section)`
   position: absolute;
-  background-color: ${({ theme }) => theme.bgColor};
+  background-color: ${({ theme }) => theme.colors.white};
   top: 20%;
   border-radius: 8px;
   width: 320px;
@@ -141,13 +141,17 @@ const ModalCard = styled(motion.section)`
   ${({ theme }) => theme.FlexCenter};
   font-size: 20px;
   font-weight: 600;
-  color: ${({ theme }) => theme.color};
+  color: ${({ theme }) => theme.colors.black};
 `;
 
 const CardTitle = styled.h3`
   width: 100%;
   height: 20%;
-  ${({ theme }) => theme.BoxCenter};
+  display: flex;
+  align-items: center;
+  padding-left: 30px;
+  font-size: 24px;
+  font-weight: 600;
 `;
 
 const CardInfo = styled.div`

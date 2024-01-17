@@ -5,9 +5,11 @@ import {
   TypingCountState,
   TypingAccuracyArrState,
   TypingCpmArrState,
+  ModeToggleState,
 } from "state/atoms";
 
 export const BeforeInfo = () => {
+  const mode = useRecoilValue(ModeToggleState);
   const typingCount = useRecoilValue(TypingCountState);
   const accuracy = useRecoilValue(TypingAccuracyArrState);
 
@@ -16,7 +18,7 @@ export const BeforeInfo = () => {
   const maxCpm = Math.max(...cpmArr);
 
   return (
-    <Container>
+    <Container mode={mode.toString()}>
       <Item>
         Acc:
         {accuracy.length === 0 ? (
@@ -34,10 +36,12 @@ export const BeforeInfo = () => {
   );
 };
 
-const Container = styled.div`
+const Container = styled.div<{ mode: string }>`
   width: 40%;
   height: 30px;
-  background-color: ${({ theme }) => theme.colors.gray3};
+  background-color: ${(props) =>
+    props.mode === "true" ? "#4D4D4D" : "#adb5bd"};
+  /* background-color: ${({ theme }) => theme.colors.gray3}; */
   border-bottom-left-radius: 14px;
   border-bottom-right-radius: 14px;
   display: grid;

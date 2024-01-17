@@ -31,7 +31,7 @@ export const Tooltip = ({ message, children, placement }: TooltipProps) => {
     </Container>
   );
 };
-
+// 920000
 const Container = styled.aside`
   position: relative;
   bottom: 0px;

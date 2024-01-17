@@ -12,6 +12,7 @@ const colors: DefaultTheme["colors"] = {
   gray4: "#878787",
   gray5: "#4D4D4D",
   greey: "#69db7c",
+  lightblue: "#74c0fc",
   deepblue: "#6366F1",
   lavender: "#8A7EBE",
 };
@@ -54,7 +55,7 @@ const theme = {
 export const Theme: DefaultTheme = {
   ...theme,
   bgColor: "#f1f3f5",
-  bgColor2: "#dee2e6",
+  bgColor2: "#ced4da",
   color: "#191A23",
   color2: "#E5E5E5",
 };
