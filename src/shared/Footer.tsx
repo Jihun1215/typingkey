@@ -7,7 +7,7 @@ export const Footer = () => {
   return (
     <Container>
       <Item>
-        <Tooltip message="깃허브" placement="typinginfo">
+        <Tooltip message="깃허브" placement="footer">
           <SvgArea
             href="https://github.com/Jihun1215/typingkey"
             target="_black"
@@ -16,7 +16,7 @@ export const Footer = () => {
           </SvgArea>
         </Tooltip>
 
-        <Tooltip message="메일보내기" placement="typinginfo">
+        <Tooltip message="메일보내기" placement="footer">
           <SvgArea href="mailto:jhmc5268@naver.com" target="_black">
             <FaEnvelope />
           </SvgArea>

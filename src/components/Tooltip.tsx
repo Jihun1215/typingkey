@@ -9,12 +9,17 @@ type TooltipProps = {
 };
 
 export const Tooltip = ({ message, children, placement }: TooltipProps) => {
-  // console.log(placement);
+
   return (
     <Container>
       {children}
+
       {placement === "header" ? (
         <Content className="tooltip">
+          <p>{message}</p>
+        </Content>
+      ) : placement === "footer" ? (
+        <Content className="tooltip footer">
           <p>{message}</p>
         </Content>
       ) : (
@@ -22,9 +27,7 @@ export const Tooltip = ({ message, children, placement }: TooltipProps) => {
           <p>{message}</p>
         </Content>
       )}
-      {/* <Content className="tooltip">
-        <p>{message}</p>
-      </Content> */}
+
     </Container>
   );
 };
@@ -61,6 +64,10 @@ const Content = styled.div`
   text-align: center;
   &.typinginfo {
     bottom: 70px;
+  }
+
+  &.footer {
+    bottom: 50px;
   }
   p {
     position: absolute;
