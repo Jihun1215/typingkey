@@ -1,0 +1,42 @@
+name:  S3-CICD
+
+on:
+  push:
+    branches: 
+      - main 
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+        
+    steps:
+      - name: Checkout source code 
+        uses: actions/checkout@v2
+        
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+            path: ~/.yarn
+            key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+            restore-keys: |
+                ${{ runner.os }}-node-
+
+      - name: Install Dependencies
+        run: yarn
+
+      - name: Build 
+        run: yarn build
+        env:
+            CI: "" 
+      
+      - name: Deploy to S3
+        uses: awact/s3-action@master
+        with:
+          args: --acl public-read --follow-symlinks --delete
+        env:
+          SOURCE_DIR: './dist'
+          AWS_REGION: 'ap-northeast-2'
+          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
