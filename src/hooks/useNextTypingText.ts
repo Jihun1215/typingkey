@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { AlertModalState } from "state/atoms";
 
-import { TextItem } from "components/types/type";
+import { TextItem } from "types/type";
 
 export const useNextTypingText = (
   typingText: TextItem[],

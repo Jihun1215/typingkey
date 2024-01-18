@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 
-import { TextItem } from "components/types/type";
-
+import { TextItem } from "types/type";
 
 export const useCurrentTypingText = (
   typingText: TextItem[],
@@ -23,4 +22,3 @@ export const useCurrentTypingText = (
 
   return currentTypingText;
 };
-

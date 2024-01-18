@@ -9,7 +9,7 @@ import {
   TypingWrongCountState,
   AlertModalState,
   TypingProgressState,
-  TypingAccuracyState,
+  // TypingAccuracyState,
   TypingAccuracyArrState,
   TypingTimeState,
   TypingTimeArrState,
@@ -382,7 +382,7 @@ const InputArea = styled.div`
 const TextInput = styled.input<{ mode: string }>`
   width: 90%;
   height: 45px;
-  border-bottom: 2px solid
+  border-bottom: 3px solid
     ${(props) => (props.mode === "true" ? "#F6F6F6" : "#9A9A9A")};
   font-size: 20px;
   color: ${({ theme }) => theme.color};
@@ -393,14 +393,13 @@ const TextInput = styled.input<{ mode: string }>`
     color: ${({ theme }) => theme.colors.gray4};
   }
   &:focus {
-    /* border-bottom: 2px solid #0288d1; */
-    border-bottom: 2px solid ${({ theme }) => theme.colors.greey};
+    border-bottom: 3px solid ${({ theme }) => theme.colors.greey};
   }
 `;
 
 const NextTypingTextArea = styled.div`
   width: 90%;
-  height: 20px;
+  height: 30px;
   padding-left: 10px;
   ${({ theme }) => theme.FlexRow};
   align-items: center;
