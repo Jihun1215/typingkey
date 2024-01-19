@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   ModeToggleState,
+  TypingKRState,
   TextValueState,
   TypingCountState,
   TypingWrongCountState,
@@ -19,7 +20,7 @@ import {
   TypingSpeedState,
 } from "state/atoms";
 
-import { defaultTypingData } from "utils/TypingMockData";
+import { defaultKRTypingData, defaultEnTypingData } from "utils/TypingMockData";
 import {
   useTypingScore,
   useCurrentTypingText,
@@ -31,6 +32,23 @@ import { Alert } from "./Alert";
 
 export const Typing = () => {
   const mode = useRecoilValue(ModeToggleState);
+  const TypingKrCheck = useRecoilValue(TypingKRState);
+
+  // let typingText;
+
+  const typingText = TypingKrCheck
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    ? useRandomTypingText(defaultKRTypingData)
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    : useRandomTypingText(defaultEnTypingData);
+
+
+  // useEffect(() => {
+  //   if (!TypingKrCheck) {
+  //     const typingText = useRandomTypingText(defaultEnTypingData);
+  //   }
+  // }, []);
+
   // input Ref
   const valueRef = useRef<HTMLInputElement>(null);
   // 결과창 모달 관리하는 State
@@ -39,7 +57,6 @@ export const Typing = () => {
   // 타이핑 된 문장 갯수를 카우팅 하는 State
   const [typingCount, setTypingCount] = useRecoilState(TypingCountState);
 
-  const typingText = useRandomTypingText(defaultTypingData);
   const nextTypingText = useNextTypingText(typingText, typingCount);
   const currentTypingText = useCurrentTypingText(typingText, typingCount);
 
