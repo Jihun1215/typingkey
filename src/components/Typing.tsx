@@ -35,13 +35,9 @@ export const Typing = () => {
   const TypingKrCheck = useRecoilValue(TypingKRState);
 
   // let typingText;
-
-  const typingText = TypingKrCheck
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    ? useRandomTypingText(defaultKRTypingData)
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    : useRandomTypingText(defaultEnTypingData);
-
+  const typingText = useRandomTypingText(
+    TypingKrCheck ? defaultKRTypingData : defaultEnTypingData
+  );
 
   // useEffect(() => {
   //   if (!TypingKrCheck) {
