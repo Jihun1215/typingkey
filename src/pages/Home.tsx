@@ -1,13 +1,19 @@
 import styled from "styled-components";
 
-import { TypingInfo, BeforeInfo, Typing } from "components/";
+import { useRecoilValue } from "recoil";
+import { AlertModalState } from "state/atoms";
+
+import { TypingInfo, BeforeInfo, Typing, Alert } from "components/";
 
 export const Home = () => {
+  const modalVisibility = useRecoilValue(AlertModalState);
+
   return (
     <Container>
       <TypingInfo />
       <BeforeInfo />
       <Typing />
+      {modalVisibility && <Alert />}
     </Container>
   );
 };

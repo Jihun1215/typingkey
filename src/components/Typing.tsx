@@ -8,7 +8,6 @@ import {
   TextValueState,
   TypingCountState,
   TypingWrongCountState,
-  AlertModalState,
   TypingProgressState,
   // TypingAccuracyState,
   TypingAccuracyArrState,
@@ -22,33 +21,21 @@ import {
 
 import { defaultKRTypingData, defaultEnTypingData } from "utils/TypingMockData";
 import {
-  useTypingScore,
   useCurrentTypingText,
   useRandomTypingText,
   useNextTypingText,
 } from "hooks";
 
-import { Alert } from "./Alert";
-
 export const Typing = () => {
   const mode = useRecoilValue(ModeToggleState);
   const TypingKrCheck = useRecoilValue(TypingKRState);
 
-  // let typingText;
   const typingText = useRandomTypingText(
     TypingKrCheck ? defaultKRTypingData : defaultEnTypingData
   );
 
-  // useEffect(() => {
-  //   if (!TypingKrCheck) {
-  //     const typingText = useRandomTypingText(defaultEnTypingData);
-  //   }
-  // }, []);
-
   // input Ref
   const valueRef = useRef<HTMLInputElement>(null);
-  // 결과창 모달 관리하는 State
-  const [modalVisibility] = useRecoilState(AlertModalState);
 
   // 타이핑 된 문장 갯수를 카우팅 하는 State
   const [typingCount, setTypingCount] = useRecoilState(TypingCountState);
@@ -68,13 +55,12 @@ export const Typing = () => {
 
   // 타이핑된 값
   const [typingValue, setTypingValue] = useRecoilState(TextValueState);
+  // console.log(typingValue);
   // 틀린부분 인덱스를 보관하는 State
   const [incorrectIndices, setIncorrectIndices] = useState<number[]>([]);
 
   // 현재 문장의 정확도 관리하는 State
   const [accuracy, setAccuracy] = useState(0);
-  // const [accuracy, setAccuracy] = useState(0);
-  // 전체 문장의 정확도를 저장하는 State
   const [accuracyArr, setAccuracyArr] = useRecoilState(TypingAccuracyArrState);
   // 현재 문장의 진행도를 저장하는 State
   const [, SetProgress] = useRecoilState(TypingProgressState);
@@ -119,26 +105,33 @@ export const Typing = () => {
   const [, setCurrentCpm] = useRecoilState(TypingCpmState);
 
   const [cpmArr, setCpmArr] = useRecoilState(TypingCpmArrState);
-  const [, setSpeed] = useRecoilState(TypingSpeedState);
+  const [speed, setSpeed] = useRecoilState(TypingSpeedState);
+
   // console.log(speed);
-  const { point, separateHangul } = useTypingScore();
-  // console.log(point);
+  // const { point, separateHangul } = useTypingScore();
+
+  // 작성한 타자
+  let textChars = 0;
+  // 정확한 타자
+  let correctChars = 0;
+  // 틀린 타자
+  let incorrectChars = 0;
+  //  타자스피드
+  let resultSpeed = 0;
+
+  // count를 위한 state 추가
+  const [speedcount, setSpeedCount] = useState(0);
 
   // input 값이 입력이될때의 작동하는 함수
   const onChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
-    // const curretTextLength = currentTypingArr?.length;
+
     const inputLength = inputValue.length;
+    // onChangeSpeed();
 
     const currentTextLength = currentTypingArr?.length;
 
-    let textChars = 0;
-
-    // 정확한 문장
-    let correctChars = 0;
-    // 틀린 문장
-    let incorrectChars = 0;
-
+    // 타자 수가 증가 할때마다 정확한 타자와 부정확한 타자를 체크하여 증가하는 반복문
     for (let i = 0; i < inputValue.length; i++) {
       if (inputValue[i] === currentTypingText?.contents[i]) {
         correctChars++;
@@ -147,32 +140,23 @@ export const Typing = () => {
         incorrectChars++;
         textChars++;
       }
-
-      separateHangul(inputValue[i]);
     }
-
-    let resultSpeed;
-
-    if (time && time !== 0) {
-      // 입력이 있을 때
-      resultSpeed = Math.round((textChars / time) * 60);
-      setSpeed(resultSpeed + 135);
-    } else {
-      resultSpeed = 0;
-    }
-
-    // 아무 입력이 없을 때에도 textChars를 감소시킴
-    textChars = Math.max(textChars - 1, 0);
+    resultSpeed = Math.round((textChars / time) * 60);
     setSpeed(resultSpeed + 135);
-    // console.log(resultSpeed);
+    // 아무 입력이 없을 때에도 textChars를 감소시킴
+    // textChars = Math.max(textChars - 1, 0);
+    // setSpeed(resultSpeed + 135);
 
     const cpmValue =
       currentTextLength === undefined || time === 0 || correctChars === 0
         ? 0
         : Math.round((correctChars / time!) * 60);
 
-    // console.log(cpmValue);
     setCpm(cpmValue);
+
+    if (inputValue.length === 0) {
+      setSpeed(0);
+    }
 
     const accuracy =
       currentTextLength === undefined
@@ -201,13 +185,64 @@ export const Typing = () => {
     setIncorrectIndices(incorrectIndices);
     setTypingValue(inputValue);
     setTimeCheck(true);
+    // startTypingInterval(inputValue);
 
-    // console.log(!timecheck);
     // 최초로 타이핑이 시작되고 timecheck가 false일 때만 timecheck를 true로 설정
     if (!timecheck && inputValue.length > 0) {
       setTimeCheck(true);
+      // startTypingInterval();
+      // startTypingInterval(inputValue);
     }
   };
+
+  // useEffect(() => {
+  //   // 최초 실행될 때 한 번만 실행
+  //   const previousValue = typingValue; // 기존 값 저장
+  //   const timerId = setTimeout(() => {
+  //     // 0.3초 후에 값이 변경되었는지 확인
+  //     if (typingValue !== previousValue) {
+  //       console.log("0.3초 동안 값이 변경되었습니다.");
+  //     } else {
+  //       console.log("0.3초 동안 값이 변경되지 않았습니다.");
+  //     }
+  //     // setSpeedCount((prev) => prev + 5);
+  //   }, 500);
+
+  //   // 컴포넌트가 언마운트되거나 onChangeValue가 호출되면 타이머 정리
+  //   return () => {
+  //     clearTimeout(timerId);
+  //   };
+  // }, [typingValue]);
+
+  // console.log(speedcount);
+  // const [intervalId, setIntervalId] = useState<number | null>(null);
+
+  // 0.1초마다 작동하는 함수
+  // const startTypingInterval = (text: string) => {
+  // console.log(text);
+  // 파라미터로 받는 text.length가 계속 그대로라면 카운터로 점수줄여기
+  // 0.2초가 지나도 그대로 라면 count + 5씩 증가
+  // const prevLength = typingValue.length;
+  // console.log(typingValue);
+
+  // const count = 0;
+  // console.log(text.length);
+  // console.log(currentTypingArr?.length);
+  // const interval = setInterval(() => {
+  // const currentLength = typingValue.length;
+  // console.log(typingValue);
+  // }, 2000);
+
+  // setIntervalId(interval);
+  // };
+
+  // 타이핑 시 스피드 줄어는 함수 정지시키는 함수
+  // const stopTypingInterval = () => {
+  //   if (intervalId !== null) {
+  //     clearInterval(intervalId);
+  //     setIntervalId(null);
+  //   }
+  // };
 
   // 엔터 클릭 시
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -215,6 +250,8 @@ export const Typing = () => {
       e.preventDefault();
       // 타자 Length와 따라칠 타자 Length가 같을 경우에
       if (typingValue.length === currentTypingText?.contents.length) {
+        // 엔터 키를 누르면 타이핑 멈춤
+        // stopTypingInterval();
         const mismatchIndexes: number[] = [];
 
         const isMatch = typingValue.split("").every((char, index) => {
@@ -267,7 +304,6 @@ export const Typing = () => {
         // 리코일 cpm 제거하기
         setCurrentCpm(0);
         setSpeed(0);
-        // console.log(cpm);
         setTypingValue("");
         SetProgress(0);
       }
@@ -283,7 +319,7 @@ export const Typing = () => {
           <TypingWord>
             {currentTypingArr?.map((char, index) => {
               return (
-                <p
+                <div
                   key={index}
                   style={{
                     position: "relative",
@@ -303,7 +339,7 @@ export const Typing = () => {
                   ) : (
                     char
                   )}
-                </p>
+                </div>
               );
             })}
           </TypingWord>
@@ -326,7 +362,6 @@ export const Typing = () => {
           <p>{nextTypingText}</p>
         </NextTypingTextArea>
       </InputArea>
-      {modalVisibility && <Alert />}
     </Container>
   );
 };
@@ -334,9 +369,12 @@ export const Typing = () => {
 const Container = styled.div`
   width: 100%;
   height: 160px;
+  margin-top: 20px;
   border-radius: 4px;
   ${({ theme }) => theme.FlexCol};
   ${({ theme }) => theme.FlexCenter};
+  background-color: ${({ theme }) => theme.bgColor2};
+  /* box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; */
 `;
 
 const TextView = styled.div`

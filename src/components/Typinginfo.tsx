@@ -1,6 +1,7 @@
+import { useEffect } from "react";
 import styled from "styled-components";
 
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useRecoilState } from "recoil";
 import {
   TypingCountState,
   TypingTimeState,
@@ -9,19 +10,74 @@ import {
   // TypingCpmState,
   TypingSpeedState,
   TypingProgressState,
+  TextValueState,
 } from "state/atoms";
 
 import { Percent } from "./Percent";
 import { Tooltip } from "./Tooltip";
 
+import { FaKeyboard } from "react-icons/fa";
+
 export const TypingInfo = () => {
   const typingCount = useRecoilValue(TypingCountState);
   const time = useRecoilValue(TypingTimeState);
-  const speed = useRecoilValue(TypingSpeedState);
+  const [speed, setSpeed] = useRecoilState(TypingSpeedState);
   const progress = useRecoilValue(TypingProgressState);
+  const typingValue = useRecoilValue(TextValueState);
   // const accuaracy = useRecoilValue(TypingAccuracyState);
   // console.log(accuaracy);
 
+  // useEffect(() => {
+  //   if (typingValue) {
+  //     const previousValue = typingValue;
+  //     let startTimestamp: number;
+
+  //     const updateSpeed = (timestamp: number) => {
+  //       if (!startTimestamp) {
+  //         startTimestamp = timestamp;
+  //       }
+
+  //       const progress = timestamp - startTimestamp;
+  //       const newSpeed = Math.max(speed - 50 * (progress / 1000), 0);
+
+  //       setSpeed(newSpeed);
+
+  //       if (progress < 500) {
+  //         // 애니메이션 진행 중일 경우 계속 업데이트
+  //         requestAnimationFrame(updateSpeed);
+  //       }
+  //     };
+
+  //     // requestAnimationFrame으로 애니메이션 시작
+  //     requestAnimationFrame(updateSpeed);
+
+  //     return () => {
+  //       // 컴포넌트가 언마운트되면 애니메이션 중단
+  //       startTimestamp = 0;
+  //     };
+  //   }
+  // }, [typingValue, speed, setSpeed]);
+
+  useEffect(() => {
+    if (typingValue) {
+      const previousValue = typingValue; // 기존 값 저장
+      const timerId = setTimeout(() => {
+        // 0.5초 후에 값이 변경되었는지 확인
+        if (typingValue !== previousValue) {
+          console.log("0.5초 동안 값이 변경되었습니다.");
+        } else {
+          console.log("0.5초 동안 값이 변경되지 않았습니다.");
+          setSpeed((prevSpeed) => Math.max(prevSpeed - 50, 0));
+        }
+        // setSpeedCount((prev) => prev + 5);
+      }, 500);
+
+      // 컴포넌트가 언마운트되거나 타이머가 정리될 때 실행
+      return () => {
+        clearTimeout(timerId);
+      };
+    }
+  }, [typingValue, setSpeed, speed]);
   return (
     <Container>
       {/* 현재 진행하고 있는 문장에 대한 값들 */}
@@ -45,7 +101,7 @@ export const TypingInfo = () => {
 
       <Tooltip message="정확도" placement="typinginfo">
         <Item>
-          여기에 뭐를 넣어야 할까..
+          <FaKeyboard />
           {/* <Percent value={accuaracy} type="accuaracy" /> */}
         </Item>
       </Tooltip>
@@ -82,6 +138,7 @@ const Container = styled.div`
 `;
 
 const Item = styled.div`
+  position: relative;
   ${({ theme }) => theme.WH100};
   ${({ theme }) => theme.FlexCol};
   ${({ theme }) => theme.FlexCenter};
@@ -92,5 +149,11 @@ const Item = styled.div`
     color: ${({ theme }) => theme.colors.greey};
     ${({ theme }) => theme.BoxCenter};
     border-radius: 4px;
+  }
+  svg {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    bottom: 0;
   }
 `;

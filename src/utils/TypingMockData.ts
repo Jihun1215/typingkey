@@ -1762,11 +1762,14 @@ export const defaultKRTypingData = [
     author: "조지훈〈산방(山房)〉",
   },
   {
+    contents: "넌 머지않아 예쁜 꽃이 될테니까",
+    author: "수능모의평가 필적확인문구-17년3월",
+  },
+  {
     contents: "환한 빛으로 반짝이는 삶의 굽이에서",
     author: "수능모의평가 필적확인문구-20년9월",
   },
 ];
-
 
 export const defaultEnTypingData = [
   {
@@ -2009,4 +2012,4 @@ export const defaultEnTypingData = [
     contents: "People who live in glass houses should not throw stones.",
     author: "Proverb",
   },
-]
+];
