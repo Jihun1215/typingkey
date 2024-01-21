@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import styled from "styled-components";
 
 import { useRecoilValue, useRecoilState } from "recoil";
@@ -24,39 +24,6 @@ export const TypingInfo = () => {
   const [speed, setSpeed] = useRecoilState(TypingSpeedState);
   const progress = useRecoilValue(TypingProgressState);
   const typingValue = useRecoilValue(TextValueState);
-  // const accuaracy = useRecoilValue(TypingAccuracyState);
-  // console.log(accuaracy);
-
-  // useEffect(() => {
-  //   if (typingValue) {
-  //     const previousValue = typingValue;
-  //     let startTimestamp: number;
-
-  //     const updateSpeed = (timestamp: number) => {
-  //       if (!startTimestamp) {
-  //         startTimestamp = timestamp;
-  //       }
-
-  //       const progress = timestamp - startTimestamp;
-  //       const newSpeed = Math.max(speed - 50 * (progress / 1000), 0);
-
-  //       setSpeed(newSpeed);
-
-  //       if (progress < 500) {
-  //         // 애니메이션 진행 중일 경우 계속 업데이트
-  //         requestAnimationFrame(updateSpeed);
-  //       }
-  //     };
-
-  //     // requestAnimationFrame으로 애니메이션 시작
-  //     requestAnimationFrame(updateSpeed);
-
-  //     return () => {
-  //       // 컴포넌트가 언마운트되면 애니메이션 중단
-  //       startTimestamp = 0;
-  //     };
-  //   }
-  // }, [typingValue, speed, setSpeed]);
 
   useEffect(() => {
     if (typingValue) {
@@ -69,8 +36,7 @@ export const TypingInfo = () => {
           console.log("0.5초 동안 값이 변경되지 않았습니다.");
           setSpeed((prevSpeed) => Math.max(prevSpeed - 50, 0));
         }
-        // setSpeedCount((prev) => prev + 5);
-      }, 500);
+      }, 750);
 
       // 컴포넌트가 언마운트되거나 타이머가 정리될 때 실행
       return () => {
@@ -78,6 +44,7 @@ export const TypingInfo = () => {
       };
     }
   }, [typingValue, setSpeed, speed]);
+
   return (
     <Container>
       {/* 현재 진행하고 있는 문장에 대한 값들 */}

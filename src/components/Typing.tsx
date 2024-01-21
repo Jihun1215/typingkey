@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import styled from "styled-components";
 
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -105,24 +105,15 @@ export const Typing = () => {
   const [, setCurrentCpm] = useRecoilState(TypingCpmState);
 
   const [cpmArr, setCpmArr] = useRecoilState(TypingCpmArrState);
-  const [speed, setSpeed] = useRecoilState(TypingSpeedState);
+  const [, setResultSpeed] = useRecoilState(TypingSpeedState);
 
-  // console.log(speed);
-  // const { point, separateHangul } = useTypingScore();
+  const currentTypingArr = currentTypingText?.contents.split("");
 
-  // 작성한 타자
   let textChars = 0;
-  // 정확한 타자
   let correctChars = 0;
-  // 틀린 타자
   let incorrectChars = 0;
-  //  타자스피드
-  let resultSpeed = 0;
+  // let resultSpeed = 0;
 
-  // count를 위한 state 추가
-  const [speedcount, setSpeedCount] = useState(0);
-
-  // input 값이 입력이될때의 작동하는 함수
   const onChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
 
@@ -141,11 +132,9 @@ export const Typing = () => {
         textChars++;
       }
     }
-    resultSpeed = Math.round((textChars / time) * 60);
-    setSpeed(resultSpeed + 135);
-    // 아무 입력이 없을 때에도 textChars를 감소시킴
-    // textChars = Math.max(textChars - 1, 0);
-    // setSpeed(resultSpeed + 135);
+
+    const saveSpeed = time !== 0 ? Math.round((textChars / time) * 60) : 0;
+    setResultSpeed(saveSpeed + 135);
 
     const cpmValue =
       currentTextLength === undefined || time === 0 || correctChars === 0
@@ -155,7 +144,7 @@ export const Typing = () => {
     setCpm(cpmValue);
 
     if (inputValue.length === 0) {
-      setSpeed(0);
+      setResultSpeed(0);
     }
 
     const accuracy =
@@ -185,64 +174,12 @@ export const Typing = () => {
     setIncorrectIndices(incorrectIndices);
     setTypingValue(inputValue);
     setTimeCheck(true);
-    // startTypingInterval(inputValue);
 
     // 최초로 타이핑이 시작되고 timecheck가 false일 때만 timecheck를 true로 설정
     if (!timecheck && inputValue.length > 0) {
       setTimeCheck(true);
-      // startTypingInterval();
-      // startTypingInterval(inputValue);
     }
   };
-
-  // useEffect(() => {
-  //   // 최초 실행될 때 한 번만 실행
-  //   const previousValue = typingValue; // 기존 값 저장
-  //   const timerId = setTimeout(() => {
-  //     // 0.3초 후에 값이 변경되었는지 확인
-  //     if (typingValue !== previousValue) {
-  //       console.log("0.3초 동안 값이 변경되었습니다.");
-  //     } else {
-  //       console.log("0.3초 동안 값이 변경되지 않았습니다.");
-  //     }
-  //     // setSpeedCount((prev) => prev + 5);
-  //   }, 500);
-
-  //   // 컴포넌트가 언마운트되거나 onChangeValue가 호출되면 타이머 정리
-  //   return () => {
-  //     clearTimeout(timerId);
-  //   };
-  // }, [typingValue]);
-
-  // console.log(speedcount);
-  // const [intervalId, setIntervalId] = useState<number | null>(null);
-
-  // 0.1초마다 작동하는 함수
-  // const startTypingInterval = (text: string) => {
-  // console.log(text);
-  // 파라미터로 받는 text.length가 계속 그대로라면 카운터로 점수줄여기
-  // 0.2초가 지나도 그대로 라면 count + 5씩 증가
-  // const prevLength = typingValue.length;
-  // console.log(typingValue);
-
-  // const count = 0;
-  // console.log(text.length);
-  // console.log(currentTypingArr?.length);
-  // const interval = setInterval(() => {
-  // const currentLength = typingValue.length;
-  // console.log(typingValue);
-  // }, 2000);
-
-  // setIntervalId(interval);
-  // };
-
-  // 타이핑 시 스피드 줄어는 함수 정지시키는 함수
-  // const stopTypingInterval = () => {
-  //   if (intervalId !== null) {
-  //     clearInterval(intervalId);
-  //     setIntervalId(null);
-  //   }
-  // };
 
   // 엔터 클릭 시
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -303,14 +240,12 @@ export const Typing = () => {
         }
         // 리코일 cpm 제거하기
         setCurrentCpm(0);
-        setSpeed(0);
+        setResultSpeed(0);
         setTypingValue("");
         SetProgress(0);
       }
     }
   };
-
-  const currentTypingArr = currentTypingText?.contents.split("");
 
   return (
     <Container>
