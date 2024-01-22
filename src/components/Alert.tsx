@@ -34,7 +34,6 @@ export const Alert = () => {
   const cpmArr = useRecoilValue(TypingCpmArrState);
 
   const cpmsum = cpmArr.reduce((cpm, currentValue) => cpm + currentValue, 0);
-  // console.log(cpmsum);
   // 배열 요소의 합 계산
   const timesum = timeArr.reduce(
     (time, currentValue) => time + currentValue,
@@ -43,7 +42,6 @@ export const Alert = () => {
 
   const cpmAverage = cpmsum / accuracy.length;
 
-  // console.log(cpmAverage);
 
   // 배열 요소의 합 계산
   const sum = accuracy.reduce((acc, currentValue) => acc + currentValue, 0);
@@ -81,6 +79,9 @@ export const Alert = () => {
   const thisdate = year + "-" + month + "-" + day;
   const curretTime = hours + ":" + minutes;
 
+  // 타이핑이 끝났을 떄 보여줘야 할 정보 정리
+  // 날짜 및 시간, 타이핑 시간 , 전체 정확도, 평균 CPM
+
   return (
     <AnimatePresence>
       {alertmodal && (
@@ -106,8 +107,9 @@ export const Alert = () => {
               <InfoItem>틀린갯수 / 정확도 :{wrongCount},</InfoItem>
             </CardInfo>
             <CardDate>
-              {thisdate}
-              {curretTime}
+              <p>
+                {thisdate} / {curretTime}
+              </p>
             </CardDate>
           </ModalCard>
         </Container>
@@ -132,11 +134,11 @@ const Container = styled(motion.div)`
 
 const ModalCard = styled(motion.section)`
   position: absolute;
-  background-color: ${({ theme }) => theme.colors.white};
-  top: 20%;
-  border-radius: 8px;
   width: 320px;
   height: 450px;
+  background-color: ${({ theme }) => theme.colors.white};
+  top: 20%;
+  border-radius: 16px;
   ${({ theme }) => theme.FlexCol};
   ${({ theme }) => theme.FlexCenter};
   font-size: 20px;
@@ -146,7 +148,7 @@ const ModalCard = styled(motion.section)`
 
 const CardTitle = styled.h3`
   width: 100%;
-  height: 20%;
+  height: 50px;
   display: flex;
   align-items: center;
   padding-left: 30px;
@@ -156,20 +158,28 @@ const CardTitle = styled.h3`
 
 const CardInfo = styled.div`
   width: 100%;
-  height: 70%;
-  ${({ theme }) => theme.FlexCol};
+  height: 370px;
   ${({ theme }) => theme.FlexCenter};
   border: 1px solid red;
 `;
 
 const InfoItem = styled.div`
-  width: 90%;
-  height: 20%;
-  border: 1px solid black;
+  width: 100%;
+  height: 70px;
+  ${({ theme }) => theme.FlexRow};
+  align-items: center;
+  padding-left: 20px;
+  border: 1px solid #dcdcdc;
 `;
 
 const CardDate = styled.div`
   width: 100%;
-  height: 10%;
-  font-size: 16px;
+  height: 30px;
+  ${({ theme }) => theme.FlexRow};
+  align-items: center;
+  justify-content: right;
+  padding-right: 20px;
+  p {
+    font-size: 16px;
+  }
 `;

@@ -44,7 +44,7 @@ export const Percent = ({ value, type }: ProgressBarProps) => {
           initial={{ width: `${progress}%` }}
           animate={{ width: `${progress}%` }}
           exit={{ width: "0%", opacity: 0 }}
-          transition={{ duration: 0.3, ease: "linear" }}
+          transition={{ duration: 0.5, ease: "linear" }}
         />
         <Point>
           {value}
@@ -84,4 +84,5 @@ const Point = styled.span`
   transform: translateX(-50%);
   font-size: 18px;
   font-weight: 700;
+  transition: 0.3s ease-in-out;
 `;

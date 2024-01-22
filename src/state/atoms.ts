@@ -5,6 +5,11 @@ export const ModeToggleState = atom<boolean>({
   default: true,
 });
 
+export const TypingKRState = atom<boolean>({
+  key: "TypingKr",
+  default: true,
+});
+
 export const TextValueState = atom<string>({
   key: "TextValue",
   default: "",

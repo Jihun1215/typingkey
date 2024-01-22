@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 import { useRecoilState } from "recoil";
-import { ModeToggleState } from "state/atoms";
+import { ModeToggleState, TypingKRState } from "state/atoms";
 
 import { Tooltip } from "components/Tooltip";
 
@@ -12,8 +12,14 @@ import { RiEnglishInput } from "react-icons/ri";
 export const Header = () => {
   const [darkmode, SetDarkmode] = useRecoilState(ModeToggleState);
 
+  const [TypingKrCheck, setTypingKrCheck] = useRecoilState(TypingKRState);
+
   const onClickChangeDarkMode = () => {
     SetDarkmode(!darkmode);
+  };
+
+  const onClickChangeTypingLanguage = () => {
+    setTypingKrCheck(!TypingKrCheck);
   };
 
   const onClickReStart = () => {
@@ -27,41 +33,55 @@ export const Header = () => {
       </TitleArea>
       <MenuArea>
         <MemuItem>
-          <Tooltip message="다크모드" placement="header">
-            {darkmode ? (
+          {darkmode ? (
+            <Tooltip message="light" placement="header">
               <IoSunnySharp
                 fill="#8A7EBE"
                 onClick={() => {
                   onClickChangeDarkMode();
                 }}
               />
-            ) : (
+            </Tooltip>
+          ) : (
+            <Tooltip message="Dark" placement="header">
               <IoMoon
                 fill="#8A7EBE"
                 onClick={() => {
                   onClickChangeDarkMode();
                 }}
               />
-            )}
-          </Tooltip>
+            </Tooltip>
+          )}
         </MemuItem>
+
         <MemuItem>
-          <Tooltip message="문장바꾸기" placement="header">
-            <RiEnglishInput fill="#8A7EBE" />
-          </Tooltip>
+          {TypingKrCheck ? (
+            <Tooltip message="EN Typing" placement="header">
+              <RiEnglishInput
+                fill="#8A7EBE"
+                onClick={() => {
+                  onClickChangeTypingLanguage();
+                }}
+              />
+            </Tooltip>
+          ) : (
+            <Tooltip message="KR Typing" placement="header">
+              <RiEnglishInput
+                fill="#8A7EBE"
+                onClick={() => {
+                  onClickChangeTypingLanguage();
+                }}
+              />
+            </Tooltip>
+          )}
+
           {/* 영문 타자 넣기  */}
         </MemuItem>
         <MemuItem>
-          <Tooltip message="다시하기" placement="header">
+          <Tooltip message="Restart" placement="header">
             <VscDebugRestart fill="#8A7EBE" onClick={onClickReStart} />
           </Tooltip>
         </MemuItem>
-
-        {/* <MemuItem>1</MemuItem> */}
-        {/* <MemuItem>1</MemuItem> */}
-        {/* <Toggle>
-        
-        </Toggle> */}
       </MenuArea>
     </Container>
   );

@@ -9,7 +9,6 @@ type TooltipProps = {
 };
 
 export const Tooltip = ({ message, children, placement }: TooltipProps) => {
-
   return (
     <Container>
       {children}
@@ -27,7 +26,6 @@ export const Tooltip = ({ message, children, placement }: TooltipProps) => {
           <p>{message}</p>
         </Content>
       )}
-
     </Container>
   );
 };

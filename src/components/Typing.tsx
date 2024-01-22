@@ -4,12 +4,12 @@ import styled from "styled-components";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   ModeToggleState,
+  TypingKRState,
   TextValueState,
   TypingCountState,
   TypingWrongCountState,
-  AlertModalState,
   TypingProgressState,
-  TypingAccuracyState,
+  // TypingAccuracyState,
   TypingAccuracyArrState,
   TypingTimeState,
   TypingTimeArrState,
@@ -19,27 +19,27 @@ import {
   TypingSpeedState,
 } from "state/atoms";
 
-import { defaultTypingData } from "utils/TypingMockData";
+import { defaultKRTypingData, defaultEnTypingData } from "utils/TypingMockData";
 import {
-  useTypingScore,
   useCurrentTypingText,
   useRandomTypingText,
   useNextTypingText,
 } from "hooks";
 
-import { Alert } from "./Alert";
-
 export const Typing = () => {
   const mode = useRecoilValue(ModeToggleState);
+  const TypingKrCheck = useRecoilValue(TypingKRState);
+
+  const typingText = useRandomTypingText(
+    TypingKrCheck ? defaultKRTypingData : defaultEnTypingData
+  );
+
   // input Ref
   const valueRef = useRef<HTMLInputElement>(null);
-  // 결과창 모달 관리하는 State
-  const [modalVisibility] = useRecoilState(AlertModalState);
 
   // 타이핑 된 문장 갯수를 카우팅 하는 State
   const [typingCount, setTypingCount] = useRecoilState(TypingCountState);
 
-  const typingText = useRandomTypingText(defaultTypingData);
   const nextTypingText = useNextTypingText(typingText, typingCount);
   const currentTypingText = useCurrentTypingText(typingText, typingCount);
 
@@ -60,8 +60,6 @@ export const Typing = () => {
 
   // 현재 문장의 정확도 관리하는 State
   const [accuracy, setAccuracy] = useState(0);
-  // const [accuracy, setAccuracy] = useState(0);
-  // 전체 문장의 정확도를 저장하는 State
   const [accuracyArr, setAccuracyArr] = useRecoilState(TypingAccuracyArrState);
   // 현재 문장의 진행도를 저장하는 State
   const [, SetProgress] = useRecoilState(TypingProgressState);
@@ -106,26 +104,24 @@ export const Typing = () => {
   const [, setCurrentCpm] = useRecoilState(TypingCpmState);
 
   const [cpmArr, setCpmArr] = useRecoilState(TypingCpmArrState);
-  const [, setSpeed] = useRecoilState(TypingSpeedState);
-  // console.log(speed);
-  const { point, separateHangul } = useTypingScore();
-  // console.log(point);
+  const [, setResultSpeed] = useRecoilState(TypingSpeedState);
 
-  // input 값이 입력이될때의 작동하는 함수
+  const currentTypingArr = currentTypingText?.contents.split("");
+
+  let textChars = 0;
+  let correctChars = 0;
+  let incorrectChars = 0;
+  // let resultSpeed = 0;
+
   const onChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
-    // const curretTextLength = currentTypingArr?.length;
+
     const inputLength = inputValue.length;
+    // onChangeSpeed();
 
     const currentTextLength = currentTypingArr?.length;
 
-    let textChars = 0;
-
-    // 정확한 문장
-    let correctChars = 0;
-    // 틀린 문장
-    let incorrectChars = 0;
-
+    // 타자 수가 증가 할때마다 정확한 타자와 부정확한 타자를 체크하여 증가하는 반복문
     for (let i = 0; i < inputValue.length; i++) {
       if (inputValue[i] === currentTypingText?.contents[i]) {
         correctChars++;
@@ -134,32 +130,21 @@ export const Typing = () => {
         incorrectChars++;
         textChars++;
       }
-
-      separateHangul(inputValue[i]);
     }
 
-    let resultSpeed;
-
-    if (time && time !== 0) {
-      // 입력이 있을 때
-      resultSpeed = Math.round((textChars / time) * 60);
-      setSpeed(resultSpeed + 135);
-    } else {
-      resultSpeed = 0;
-    }
-
-    // 아무 입력이 없을 때에도 textChars를 감소시킴
-    textChars = Math.max(textChars - 1, 0);
-    setSpeed(resultSpeed + 135);
-    // console.log(resultSpeed);
+    const saveSpeed = time !== 0 ? Math.round((textChars / time) * 60) : 0;
+    setResultSpeed(saveSpeed + 135);
 
     const cpmValue =
       currentTextLength === undefined || time === 0 || correctChars === 0
         ? 0
         : Math.round((correctChars / time!) * 60);
 
-    // console.log(cpmValue);
     setCpm(cpmValue);
+
+    if (inputValue.length === 0) {
+      setResultSpeed(0);
+    }
 
     const accuracy =
       currentTextLength === undefined
@@ -189,7 +174,6 @@ export const Typing = () => {
     setTypingValue(inputValue);
     setTimeCheck(true);
 
-    // console.log(!timecheck);
     // 최초로 타이핑이 시작되고 timecheck가 false일 때만 timecheck를 true로 설정
     if (!timecheck && inputValue.length > 0) {
       setTimeCheck(true);
@@ -202,6 +186,8 @@ export const Typing = () => {
       e.preventDefault();
       // 타자 Length와 따라칠 타자 Length가 같을 경우에
       if (typingValue.length === currentTypingText?.contents.length) {
+        // 엔터 키를 누르면 타이핑 멈춤
+        // stopTypingInterval();
         const mismatchIndexes: number[] = [];
 
         const isMatch = typingValue.split("").every((char, index) => {
@@ -253,15 +239,12 @@ export const Typing = () => {
         }
         // 리코일 cpm 제거하기
         setCurrentCpm(0);
-        setSpeed(0);
-        // console.log(cpm);
+        setResultSpeed(0);
         setTypingValue("");
         SetProgress(0);
       }
     }
   };
-
-  const currentTypingArr = currentTypingText?.contents.split("");
 
   return (
     <Container>
@@ -270,7 +253,7 @@ export const Typing = () => {
           <TypingWord>
             {currentTypingArr?.map((char, index) => {
               return (
-                <p
+                <div
                   key={index}
                   style={{
                     position: "relative",
@@ -290,7 +273,7 @@ export const Typing = () => {
                   ) : (
                     char
                   )}
-                </p>
+                </div>
               );
             })}
           </TypingWord>
@@ -313,7 +296,6 @@ export const Typing = () => {
           <p>{nextTypingText}</p>
         </NextTypingTextArea>
       </InputArea>
-      {modalVisibility && <Alert />}
     </Container>
   );
 };
@@ -321,9 +303,12 @@ export const Typing = () => {
 const Container = styled.div`
   width: 100%;
   height: 160px;
+  margin-top: 20px;
   border-radius: 4px;
   ${({ theme }) => theme.FlexCol};
   ${({ theme }) => theme.FlexCenter};
+  background-color: ${({ theme }) => theme.bgColor2};
+  /* box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; */
 `;
 
 const TextView = styled.div`
@@ -382,7 +367,7 @@ const InputArea = styled.div`
 const TextInput = styled.input<{ mode: string }>`
   width: 90%;
   height: 45px;
-  border-bottom: 2px solid
+  border-bottom: 3px solid
     ${(props) => (props.mode === "true" ? "#F6F6F6" : "#9A9A9A")};
   font-size: 20px;
   color: ${({ theme }) => theme.color};
@@ -393,14 +378,13 @@ const TextInput = styled.input<{ mode: string }>`
     color: ${({ theme }) => theme.colors.gray4};
   }
   &:focus {
-    /* border-bottom: 2px solid #0288d1; */
-    border-bottom: 2px solid ${({ theme }) => theme.colors.greey};
+    border-bottom: 3px solid ${({ theme }) => theme.colors.greey};
   }
 `;
 
 const NextTypingTextArea = styled.div`
   width: 90%;
-  height: 20px;
+  height: 30px;
   padding-left: 10px;
   ${({ theme }) => theme.FlexRow};
   align-items: center;

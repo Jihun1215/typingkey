@@ -2,7 +2,7 @@
  * 타이핑할 샘플데이터
  * DataBase 연결 전까지 사용할 것
  */
-export const defaultTypingData = [
+export const defaultKRTypingData = [
   {
     contents: "깨지고 부서져라",
     author: "우왁굳",
@@ -1762,7 +1762,254 @@ export const defaultTypingData = [
     author: "조지훈〈산방(山房)〉",
   },
   {
+    contents: "넌 머지않아 예쁜 꽃이 될테니까",
+    author: "수능모의평가 필적확인문구-17년3월",
+  },
+  {
     contents: "환한 빛으로 반짝이는 삶의 굽이에서",
     author: "수능모의평가 필적확인문구-20년9월",
+  },
+];
+
+export const defaultEnTypingData = [
+  {
+    contents: "All that glitters is not gold.",
+    author: "William Shakespeare",
+  },
+  {
+    contents: "Actions speak louder than words.",
+    author: "Abraham Lincoln",
+  },
+  {
+    contents: "Don't count your chickens before they hatch.",
+    author: "Aesop",
+  },
+  {
+    contents: "Every cloud has a silver lining.",
+    author: "John Milton",
+  },
+  {
+    contents: "A picture is worth a thousand words.",
+    author: "Napoleon Bonaparte",
+  },
+  {
+    contents: "When in Rome, do as the Romans do.",
+    author: "St. Ambrose",
+  },
+  {
+    contents: "A stitch in time saves nine.",
+    author: "Thomas Fuller",
+  },
+  {
+    contents: "Don't put all your eggs in one basket.",
+    author: "Miguel de Cervantes",
+  },
+  {
+    contents: "You can't have your cake and eat it too.",
+    author: "John Heywood",
+  },
+  {
+    contents: "Where there's smoke, there's fire.",
+    author: "Plautus",
+  },
+  {
+    contents: "Beggars can't be choosers.",
+    author: "John Heywood",
+  },
+  {
+    contents: "The early bird catches the worm.",
+    author: "John Ray",
+  },
+  {
+    contents: "Two wrongs don't make a right.",
+    author: "Andrew Jackson",
+  },
+  {
+    contents: "Rome wasn't built in a day.",
+    author: "John Heywood",
+  },
+  {
+    contents: "Every dog has its day.",
+    author: "Jonathan Swift",
+  },
+  {
+    contents: "Actions speak louder than words.",
+    author: "Abraham Lincoln",
+  },
+  {
+    contents: "Don't bite the hand that feeds you.",
+    author: "George Eliot",
+  },
+  {
+    contents: "All good things must come to an end.",
+    author: "Geoffrey Chaucer",
+  },
+  {
+    contents: "Don't judge a book by its cover.",
+    author: "George Eliot",
+  },
+  {
+    contents: "When the going gets tough, the tough get going.",
+    author: "Joseph P. Kennedy",
+  },
+  {
+    contents: "A penny for your thoughts.",
+    author: "John Heywood",
+  },
+  {
+    contents: "The grass is always greener on the other side.",
+    author: "Proverb",
+  },
+  {
+    contents: "When in doubt, do without.",
+    author: "Benjamin Franklin",
+  },
+  {
+    contents: "Better late than never.",
+    author: "Proverb",
+  },
+  {
+    contents: "Too many cooks spoil the broth.",
+    author: "John Heywood",
+  },
+  {
+    contents: "A watched pot never boils.",
+    author: "Proverb",
+  },
+  {
+    contents: "Don't put all your eggs in one basket.",
+    author: "Miguel de Cervantes",
+  },
+  {
+    contents: "People who live in glass houses should not throw stones.",
+    author: "Proverb",
+  },
+  {
+    contents: "You can't make an omelet without breaking eggs.",
+    author: "Proverb",
+  },
+  {
+    contents: "When the cat's away, the mice will play.",
+    author: "Proverb",
+  },
+  {
+    contents: "The early bird catches the worm.",
+    author: "John Ray",
+  },
+  {
+    contents: "Don't count your chickens before they hatch.",
+    author: "Aesop",
+  },
+  {
+    contents: "You can't have your cake and eat it too.",
+    author: "John Heywood",
+  },
+  {
+    contents: "A fool and his money are soon parted.",
+    author: "Thomas Tusser",
+  },
+  {
+    contents: "Don't throw the baby out with the bathwater.",
+    author: "Proverb",
+  },
+  {
+    contents: "Every cloud has a silver lining.",
+    author: "John Milton",
+  },
+  {
+    contents: "A picture is worth a thousand words.",
+    author: "Napoleon Bonaparte",
+  },
+  {
+    contents: "When in Rome, do as the Romans do.",
+    author: "St. Ambrose",
+  },
+  {
+    contents: "A stitch in time saves nine.",
+    author: "Thomas Fuller",
+  },
+  {
+    contents: "Don't put all your eggs in one basket.",
+    author: "Miguel de Cervantes",
+  },
+  {
+    contents: "You can't have your cake and eat it too.",
+    author: "John Heywood",
+  },
+  {
+    contents: "Where there's smoke, there's fire.",
+    author: "Plautus",
+  },
+  {
+    contents: "Beggars can't be choosers.",
+    author: "John Heywood",
+  },
+  {
+    contents: "The early bird catches the worm.",
+    author: "John Ray",
+  },
+  {
+    contents: "Two wrongs don't make a right.",
+    author: "Andrew Jackson",
+  },
+  {
+    contents: "Rome wasn't built in a day.",
+    author: "John Heywood",
+  },
+  {
+    contents: "Every dog has its day.",
+    author: "Jonathan Swift",
+  },
+  {
+    contents: "Actions speak louder than words.",
+    author: "Abraham Lincoln",
+  },
+  {
+    contents: "Don't bite the hand that feeds you.",
+    author: "George Eliot",
+  },
+  {
+    contents: "All good things must come to an end.",
+    author: "Geoffrey Chaucer",
+  },
+  {
+    contents: "Don't judge a book by its cover.",
+    author: "George Eliot",
+  },
+  {
+    contents: "When the going gets tough, the tough get going.",
+    author: "Joseph P. Kennedy",
+  },
+  {
+    contents: "A penny for your thoughts.",
+    author: "John Heywood",
+  },
+  {
+    contents: "The grass is always greener on the other side.",
+    author: "Proverb",
+  },
+  {
+    contents: "When in doubt, do without.",
+    author: "Benjamin Franklin",
+  },
+  {
+    contents: "Better late than never.",
+    author: "Proverb",
+  },
+  {
+    contents: "Too many cooks spoil the broth.",
+    author: "John Heywood",
+  },
+  {
+    contents: "A watched pot never boils.",
+    author: "Proverb",
+  },
+  {
+    contents: "Don't put all your eggs in one basket.",
+    author: "Miguel de Cervantes",
+  },
+  {
+    contents: "People who live in glass houses should not throw stones.",
+    author: "Proverb",
   },
 ];
