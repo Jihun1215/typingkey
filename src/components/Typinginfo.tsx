@@ -1,13 +1,10 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
 
 import { useRecoilValue, useRecoilState } from "recoil";
 import {
   TypingCountState,
   TypingTimeState,
-  // TypingAccuracyState,
-  // TypingAccuracyArrState,
-  // TypingCpmState,
   TypingSpeedState,
   TypingProgressState,
   TextValueState,
@@ -29,16 +26,14 @@ export const TypingInfo = () => {
     if (typingValue) {
       const previousValue = typingValue; // 기존 값 저장
       const timerId = setTimeout(() => {
-        // 0.5초 후에 값이 변경되었는지 확인
         if (typingValue !== previousValue) {
-          console.log("0.5초 동안 값이 변경되었습니다.");
+          // console.log("0.5초 동안 값이 변경되었습니다.");
         } else {
-          console.log("0.5초 동안 값이 변경되지 않았습니다.");
+          // console.log("0.5초 동안 값이 변경되지 않았습니다.");
           setSpeed((prevSpeed) => Math.max(prevSpeed - 50, 0));
         }
       }, 750);
 
-      // 컴포넌트가 언마운트되거나 타이머가 정리될 때 실행
       return () => {
         clearTimeout(timerId);
       };
@@ -47,7 +42,6 @@ export const TypingInfo = () => {
 
   return (
     <Container>
-      {/* 현재 진행하고 있는 문장에 대한 값들 */}
       <Tooltip message="타자속도" placement="typinginfo">
         <Item style={{ borderRight: "none" }}>
           Speed:

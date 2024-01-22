@@ -34,7 +34,6 @@ export const useTypingScore = () => {
   // 초성, 중성, 종성에 따른 점수 설정
   const calculateScore = () => {
     let point = 0;
-    // console.log(hangulParts);
     // 띄어쓰기일 경우
     if (hangulParts.initial === " ") {
       point = 1;

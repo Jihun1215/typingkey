@@ -34,7 +34,6 @@ export const Alert = () => {
   const cpmArr = useRecoilValue(TypingCpmArrState);
 
   const cpmsum = cpmArr.reduce((cpm, currentValue) => cpm + currentValue, 0);
-  // console.log(cpmsum);
   // 배열 요소의 합 계산
   const timesum = timeArr.reduce(
     (time, currentValue) => time + currentValue,
@@ -43,7 +42,6 @@ export const Alert = () => {
 
   const cpmAverage = cpmsum / accuracy.length;
 
-  // console.log(cpmAverage);
 
   // 배열 요소의 합 계산
   const sum = accuracy.reduce((acc, currentValue) => acc + currentValue, 0);

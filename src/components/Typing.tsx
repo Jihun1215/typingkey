@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -55,7 +55,6 @@ export const Typing = () => {
 
   // 타이핑된 값
   const [typingValue, setTypingValue] = useRecoilState(TextValueState);
-  // console.log(typingValue);
   // 틀린부분 인덱스를 보관하는 State
   const [incorrectIndices, setIncorrectIndices] = useState<number[]>([]);
 
