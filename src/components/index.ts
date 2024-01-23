@@ -1,4 +1,4 @@
-export * from "./Alert";
+export * from "./InfoModal";
 export * from "./BeforeInfo";
 export * from "./Typing";
 export * from "./Typinginfo";

@@ -12,7 +12,7 @@ import {
   TypingCpmArrState,
 } from "state/atoms";
 
-export const Alert = () => {
+export const InfoModal = () => {
   const backdropVariants = {
     visible: { opacity: 1 },
     hidden: { opacity: 0 },
@@ -95,10 +95,22 @@ export const Alert = () => {
           >
             <CardTitle> TypingKey </CardTitle>
             <CardInfo>
-              <InfoItem>타이핑 걸린 시간: {timesum}s</InfoItem>
-              <InfoItem>평균 Acc: {average}</InfoItem>
-              <InfoItem>평균 CPM: {cpmAverage}</InfoItem>
-              <InfoItem>틀린갯수 / 정확도 :{wrongCount},</InfoItem>
+              <InfoItem>
+                <h1> 총 타이핑 시간</h1>
+                <p>{timesum}s</p>
+              </InfoItem>
+              <InfoItem>
+                <h1> 평균 Acc</h1>
+                <p>{average}</p>
+              </InfoItem>
+              <InfoItem>
+                <h1> 평균 CPM</h1>
+                <p>{cpmAverage}</p>
+              </InfoItem>
+              <InfoItem>
+                <h1> 틀린갯수 / 정확도</h1>
+                <p>{wrongCount}</p>
+              </InfoItem>
             </CardInfo>
             <CardDate>
               <p>{thisdate}</p>
@@ -127,7 +139,7 @@ const Container = styled(motion.div)`
 const ModalCard = styled(motion.section)`
   position: absolute;
   width: 320px;
-  height: 450px;
+  height: 400px;
   background-color: ${({ theme }) => theme.colors.white};
   top: 20%;
   border-radius: 16px;
@@ -150,18 +162,30 @@ const CardTitle = styled.h3`
 
 const CardInfo = styled.div`
   width: 100%;
-  height: 370px;
-  ${({ theme }) => theme.FlexCenter};
-  border: 1px solid red;
+  height: 300px;
+  ${({ theme }) => theme.FlexCol};
+  gap: 5px 0;
+  background: linear-gradient(0deg, #ebfbee 33%, #d3f9d8 66%, #ebfbee 100%);
 `;
 
 const InfoItem = styled.div`
   width: 100%;
   height: 70px;
-  ${({ theme }) => theme.FlexRow};
+  ${({ theme }) => theme.FlexCol};
   align-items: center;
-  padding-left: 20px;
+  padding-top: 10px;
   border: 1px solid #dcdcdc;
+  ${({ theme }) => theme.Flex}
+  h1 {
+    width: 100%;
+    height: 30px;
+    padding-left: 10px;
+  }
+  p {
+    width: 100%;
+    height: 40px;
+    padding-left: 20px;
+  }
 `;
 
 const CardDate = styled.div`

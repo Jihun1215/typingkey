@@ -75,7 +75,6 @@ export const Header = () => {
             </Tooltip>
           )}
 
-          {/* 영문 타자 넣기  */}
         </MemuItem>
         <MemuItem>
           <Tooltip message="Restart" placement="header">
@@ -92,7 +91,6 @@ const Container = styled.header`
   top: 55px;
   width: 880px;
   ${({ theme }) => theme.BoxCenter};
-  /* box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; */
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   height: 100px;
   background-color: ${({ theme }) => theme.bgColor2};

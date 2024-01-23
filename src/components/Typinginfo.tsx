@@ -24,12 +24,11 @@ export const TypingInfo = () => {
 
   useEffect(() => {
     if (typingValue) {
-      const previousValue = typingValue; // 기존 값 저장
+      const previousValue = typingValue;
       const timerId = setTimeout(() => {
         if (typingValue !== previousValue) {
           // console.log("0.5초 동안 값이 변경되었습니다.");
         } else {
-          // console.log("0.5초 동안 값이 변경되지 않았습니다.");
           setSpeed((prevSpeed) => Math.max(prevSpeed - 50, 0));
         }
       }, 750);
@@ -78,7 +77,6 @@ export const TypingInfo = () => {
         <Item>
           Count
           <Percent value={typingCount} type="count" />
-          {/* <p>{typingCount}/ 10</p> */}
         </Item>
       </Tooltip>
     </Container>
