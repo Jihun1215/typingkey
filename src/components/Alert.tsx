@@ -11,7 +11,6 @@ import {
   TypingAccuracyArrState,
   TypingCpmArrState,
 } from "state/atoms";
-// import { useEffect, useState } from "react";
 
 export const Alert = () => {
   const backdropVariants = {
@@ -41,7 +40,6 @@ export const Alert = () => {
   );
 
   const cpmAverage = cpmsum / accuracy.length;
-
 
   // 배열 요소의 합 계산
   const sum = accuracy.reduce((acc, currentValue) => acc + currentValue, 0);
@@ -76,11 +74,7 @@ export const Alert = () => {
   const hours = ("0" + date.getHours()).slice(-2);
   const minutes = ("0" + date.getMinutes()).slice(-2);
 
-  const thisdate = year + "-" + month + "-" + day;
-  const curretTime = hours + ":" + minutes;
-
-  // 타이핑이 끝났을 떄 보여줘야 할 정보 정리
-  // 날짜 및 시간, 타이핑 시간 , 전체 정확도, 평균 CPM
+  const thisdate = year + "-" + month + "-" + day + " " + hours + ":" + minutes;
 
   return (
     <AnimatePresence>
@@ -107,9 +101,7 @@ export const Alert = () => {
               <InfoItem>틀린갯수 / 정확도 :{wrongCount},</InfoItem>
             </CardInfo>
             <CardDate>
-              <p>
-                {thisdate} / {curretTime}
-              </p>
+              <p>{thisdate}</p>
             </CardDate>
           </ModalCard>
         </Container>

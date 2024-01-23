@@ -109,7 +109,7 @@ const TitleArea = styled.div`
 `;
 
 const Title = styled.h3`
-  font-size: 30px;
+  ${({ theme }) => theme.KCCFontTitle};
   color: ${({ theme }) => theme.color};
 `;
 

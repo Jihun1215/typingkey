@@ -17,6 +17,12 @@ const colors: DefaultTheme["colors"] = {
   lavender: "#8A7EBE",
 };
 
+const KCCFontTitle = css`
+  font-size: 30px;
+  font-weight: 700;
+  font-family: "KCC-Ganpan";
+`;
+
 const WH100 = css`
   width: 100%;
   height: 100%;
@@ -50,6 +56,7 @@ const theme = {
   FlexRow,
   FlexCenter,
   BoxCenter,
+  KCCFontTitle,
 };
 
 export const Theme: DefaultTheme = {

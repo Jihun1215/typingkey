@@ -1,4 +1,5 @@
 import { createGlobalStyle } from "styled-components";
+import KCC_Ganpan from "assets/fonts/KCC-Ganpan.woff";
 
 export const GlobalStyle = createGlobalStyle`
 *{
@@ -7,6 +8,11 @@ export const GlobalStyle = createGlobalStyle`
   box-sizing: border-box;
 }
 
+@font-face {
+    font-family: 'KCC-Ganpan';
+    font-style: normal;
+    src: url(${KCC_Ganpan}) format("woff");
+  }
 
 body {
   margin: 0;
