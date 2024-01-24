@@ -115,6 +115,10 @@ export const InfoModal = () => {
             <CardDate>
               <p>{thisdate}</p>
             </CardDate>
+
+            <ButtonArea>
+              <Button>종료하기</Button>
+            </ButtonArea>
           </ModalCard>
         </Container>
       )}
@@ -139,12 +143,13 @@ const Container = styled(motion.div)`
 const ModalCard = styled(motion.section)`
   position: absolute;
   width: 320px;
-  height: 400px;
+  height: 450px;
   background-color: ${({ theme }) => theme.colors.white};
   top: 20%;
   border-radius: 16px;
   ${({ theme }) => theme.FlexCol};
-  ${({ theme }) => theme.FlexCenter};
+  align-items: center;
+  /* ${({ theme }) => theme.FlexCenter}; */
   font-size: 20px;
   font-weight: 600;
   color: ${({ theme }) => theme.colors.black};
@@ -158,6 +163,7 @@ const CardTitle = styled.h3`
   padding-left: 30px;
   font-size: 24px;
   font-weight: 600;
+  border: 1px solid red;
 `;
 
 const CardInfo = styled.div`
@@ -166,6 +172,7 @@ const CardInfo = styled.div`
   ${({ theme }) => theme.FlexCol};
   gap: 5px 0;
   background: linear-gradient(0deg, #ebfbee 33%, #d3f9d8 66%, #ebfbee 100%);
+  border: 1px solid red;
 `;
 
 const InfoItem = styled.div`
@@ -198,4 +205,17 @@ const CardDate = styled.div`
   p {
     font-size: 16px;
   }
+`;
+
+const ButtonArea = styled.div`
+  width: 100%;
+  height: 70px;
+  ${({ theme }) => theme.BoxCenter};
+`;
+
+const Button = styled.button`
+  width: 260px;
+  height: 40px;
+  border-radius: 8px;
+  background-color: ${({ theme }) => theme.colors.lavender};
 `;
