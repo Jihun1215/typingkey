@@ -66,6 +66,7 @@ const Content = styled.div`
 
   &.footer {
     bottom: 50px;
+    font-size: 14px;
   }
   p {
     position: absolute;

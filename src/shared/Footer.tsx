@@ -26,7 +26,7 @@ export const Footer = () => {
       <Item>Developer: Jirune</Item>
 
       <Item>
-        <p>Ver_1.0.1</p>
+        <p>Ver_1.0.2</p>
       </Item>
     </Container>
   );
@@ -37,7 +37,7 @@ const Container = styled.footer`
   bottom: 0;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  width: 380px;
+  width: 400px;
   height: 50px;
   ${({ theme }) => theme.BoxCenter};
   background-color: ${({ theme }) => theme.bgColor2};
@@ -53,10 +53,10 @@ const Item = styled.div`
   ${({ theme }) => theme.FlexRow};
   ${({ theme }) => theme.FlexCenter};
   gap: 0 15px;
-  font-weight: 600;
+  font-weight: 400;
   p {
     font-size: 18px;
-    font-weight: 500;
+    font-weight: 400;
   }
 `;
 

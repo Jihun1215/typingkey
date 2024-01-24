@@ -72,6 +72,7 @@ const ProgressBarFill = styled(motion.div)`
   width: 0;
   border-radius: 6px;
   background-color: ${({ theme }) => theme.colors.lightblue};
+  transition: 0.1s ease;
 `;
 
 const Point = styled.span`
@@ -83,6 +84,6 @@ const Point = styled.span`
   left: 50%;
   transform: translateX(-50%);
   font-size: 18px;
-  font-weight: 700;
-  transition: 0.3s ease-in-out;
+  font-weight: 500;
+  transition: 0.1s ease-in-out;
 `;

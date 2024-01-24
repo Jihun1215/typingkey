@@ -1,4 +1,6 @@
 import { createGlobalStyle } from "styled-components";
+import KCC_Ganpan from "assets/fonts/KCC-Ganpan.woff";
+import Pretendard_Medium from "assets/fonts/Pretendard-Medium.woff";
 
 export const GlobalStyle = createGlobalStyle`
 *{
@@ -7,6 +9,18 @@ export const GlobalStyle = createGlobalStyle`
   box-sizing: border-box;
 }
 
+@font-face {
+    font-family: 'KCC-Ganpan';
+    font-style: normal;
+    src: url(${KCC_Ganpan}) format("woff");
+  }
+
+  @font-face {
+    font-family: 'Pretendard-Regular';
+    font-weight: 400;
+    font-style: normal;
+    src: url(${Pretendard_Medium}) format("woff");
+}
 
 body {
   margin: 0;
@@ -15,6 +29,7 @@ body {
   font-weight: 500;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+  font-family: 'Pretendard-Regular';
   /* background-color: black; */
 }
 

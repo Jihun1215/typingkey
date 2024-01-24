@@ -1,25 +1,53 @@
 import styled from "styled-components";
 
 import { useRecoilState } from "recoil";
-import { ModeToggleState, TypingKRState } from "state/atoms";
+import {
+  ModeToggleState,
+  TypingKRState,
+  TypingCountState,
+  TextValueState,
+  TypingTimeState,
+  TypingSpeedState,
+  TypingProgressState,
+} from "state/atoms";
 
 import { Tooltip } from "components/Tooltip";
 
+import MainLogo from "assets/webLogo.png";
 import { IoSunnySharp, IoMoon } from "react-icons/io5";
 import { VscDebugRestart } from "react-icons/vsc";
-import { RiEnglishInput } from "react-icons/ri";
 
 export const Header = () => {
   const [darkmode, SetDarkmode] = useRecoilState(ModeToggleState);
-
+  // 타이핑된 값
+  const [, setTypingCount] = useRecoilState(TypingCountState);
+  const [, setTypingValue] = useRecoilState(TextValueState);
+  const [, setTime] = useRecoilState(TypingTimeState);
+  const [, setSpeed] = useRecoilState(TypingSpeedState);
+  const [, setProgress] = useRecoilState(TypingProgressState);
+  // const [, setAccuracyArr] = useRecoilState(TypingAccuracyArrState);
   const [TypingKrCheck, setTypingKrCheck] = useRecoilState(TypingKRState);
 
   const onClickChangeDarkMode = () => {
     SetDarkmode(!darkmode);
   };
 
-  const onClickChangeTypingLanguage = () => {
-    setTypingKrCheck(!TypingKrCheck);
+  const onClickChangeTypingLanguageKr = () => {
+    setTypingKrCheck(true);
+    setTypingValue("");
+    setTime(0);
+    setTypingCount(0);
+    setSpeed(0);
+    setProgress(0);
+  };
+
+  const onClickChangeTypingLanguageEn = () => {
+    setTypingKrCheck(false);
+    setTypingValue("");
+    setTime(0);
+    setTypingCount(0);
+    setSpeed(0);
+    setProgress(0);
   };
 
   const onClickReStart = () => {
@@ -29,6 +57,7 @@ export const Header = () => {
   return (
     <Container>
       <TitleArea>
+        <Logo src={MainLogo} alt="logo" />
         <Title>TypingKey</Title>
       </TitleArea>
       <MenuArea>
@@ -55,27 +84,26 @@ export const Header = () => {
         </MemuItem>
 
         <MemuItem>
-          {TypingKrCheck ? (
-            <Tooltip message="EN Typing" placement="header">
-              <RiEnglishInput
-                fill="#8A7EBE"
-                onClick={() => {
-                  onClickChangeTypingLanguage();
-                }}
-              />
-            </Tooltip>
-          ) : (
-            <Tooltip message="KR Typing" placement="header">
-              <RiEnglishInput
-                fill="#8A7EBE"
-                onClick={() => {
-                  onClickChangeTypingLanguage();
-                }}
-              />
-            </Tooltip>
-          )}
-
-          {/* 영문 타자 넣기  */}
+          <LanguageTab>
+            <Tab
+              className="kr"
+              onClick={() => {
+                onClickChangeTypingLanguageKr();
+              }}
+              typingkrcheck={TypingKrCheck.toString()}
+            >
+              Kor
+            </Tab>
+            <Tab
+              className="en"
+              onClick={() => {
+                onClickChangeTypingLanguageEn();
+              }}
+              typingkrcheck={TypingKrCheck.toString()}
+            >
+              En
+            </Tab>
+          </LanguageTab>
         </MemuItem>
         <MemuItem>
           <Tooltip message="Restart" placement="header">
@@ -92,7 +120,6 @@ const Container = styled.header`
   top: 55px;
   width: 880px;
   ${({ theme }) => theme.BoxCenter};
-  /* box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; */
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   height: 100px;
   background-color: ${({ theme }) => theme.bgColor2};
@@ -103,29 +130,61 @@ const Container = styled.header`
 `;
 
 const TitleArea = styled.div`
-  width: 40%;
+  width: 30%;
   height: 100%;
   ${({ theme }) => theme.BoxCenter};
+  gap: 0 20px;
+`;
+
+const Logo = styled.img`
+  width: 64px;
+  height: 50%;
 `;
 
 const Title = styled.h3`
-  font-size: 30px;
+  ${({ theme }) => theme.KCCFontTitle};
   color: ${({ theme }) => theme.color};
 `;
 
 const MenuArea = styled.div`
   width: 60%;
   height: 100%;
-
   ${({ theme }) => theme.FlexRow};
 `;
 
 const MemuItem = styled.div`
-  width: 20%;
+  width: 30%;
   height: 100%;
   ${({ theme }) => theme.BoxCenter};
   svg {
     font-size: 24px;
     cursor: pointer;
+  }
+`;
+
+const LanguageTab = styled.div`
+  width: 100px;
+  height: 25px;
+  ${({ theme }) => theme.BoxCenter};
+  border-radius: 4px;
+`;
+
+const Tab = styled.p<{ typingkrcheck: string }>`
+  width: 50%;
+  height: 100%;
+  ${({ theme }) => theme.BoxCenter};
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 0.1rem 0.2rem 0 0 rgba(0, 0, 0, 0.3);
+  font-size: 18px;
+  &.kr {
+    background-color: ${(props) =>
+      props.typingkrcheck === "true" ? "#00db84" : "#575757"};
+  }
+  /* #8A7EBE */
+  /* #74c0fc */
+  &.en {
+    background-color: ${(props) =>
+      props.typingkrcheck === "false" ? `#00db84` : "#575757"};
   }
 `;

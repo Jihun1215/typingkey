@@ -11,9 +11,8 @@ import {
   TypingAccuracyArrState,
   TypingCpmArrState,
 } from "state/atoms";
-// import { useEffect, useState } from "react";
 
-export const Alert = () => {
+export const InfoModal = () => {
   const backdropVariants = {
     visible: { opacity: 1 },
     hidden: { opacity: 0 },
@@ -41,7 +40,6 @@ export const Alert = () => {
   );
 
   const cpmAverage = cpmsum / accuracy.length;
-
 
   // 배열 요소의 합 계산
   const sum = accuracy.reduce((acc, currentValue) => acc + currentValue, 0);
@@ -76,11 +74,7 @@ export const Alert = () => {
   const hours = ("0" + date.getHours()).slice(-2);
   const minutes = ("0" + date.getMinutes()).slice(-2);
 
-  const thisdate = year + "-" + month + "-" + day;
-  const curretTime = hours + ":" + minutes;
-
-  // 타이핑이 끝났을 떄 보여줘야 할 정보 정리
-  // 날짜 및 시간, 타이핑 시간 , 전체 정확도, 평균 CPM
+  const thisdate = year + "-" + month + "-" + day + " " + hours + ":" + minutes;
 
   return (
     <AnimatePresence>
@@ -101,16 +95,30 @@ export const Alert = () => {
           >
             <CardTitle> TypingKey </CardTitle>
             <CardInfo>
-              <InfoItem>타이핑 걸린 시간: {timesum}s</InfoItem>
-              <InfoItem>평균 Acc: {average}</InfoItem>
-              <InfoItem>평균 CPM: {cpmAverage}</InfoItem>
-              <InfoItem>틀린갯수 / 정확도 :{wrongCount},</InfoItem>
+              <InfoItem>
+                <h1> 총 타이핑 시간</h1>
+                <p>{timesum}s</p>
+              </InfoItem>
+              <InfoItem>
+                <h1> 평균 Acc</h1>
+                <p>{average}</p>
+              </InfoItem>
+              <InfoItem>
+                <h1> 평균 CPM</h1>
+                <p>{cpmAverage}</p>
+              </InfoItem>
+              <InfoItem>
+                <h1> 틀린갯수 / 정확도</h1>
+                <p>{wrongCount}</p>
+              </InfoItem>
             </CardInfo>
             <CardDate>
-              <p>
-                {thisdate} / {curretTime}
-              </p>
+              <p>{thisdate}</p>
             </CardDate>
+
+            <ButtonArea>
+              <Button>종료하기</Button>
+            </ButtonArea>
           </ModalCard>
         </Container>
       )}
@@ -140,7 +148,7 @@ const ModalCard = styled(motion.section)`
   top: 20%;
   border-radius: 16px;
   ${({ theme }) => theme.FlexCol};
-  ${({ theme }) => theme.FlexCenter};
+  align-items: center;
   font-size: 20px;
   font-weight: 600;
   color: ${({ theme }) => theme.colors.black};
@@ -154,22 +162,36 @@ const CardTitle = styled.h3`
   padding-left: 30px;
   font-size: 24px;
   font-weight: 600;
+  border: 1px solid red;
 `;
 
 const CardInfo = styled.div`
   width: 100%;
-  height: 370px;
-  ${({ theme }) => theme.FlexCenter};
+  height: 300px;
+  ${({ theme }) => theme.FlexCol};
+  gap: 5px 0;
+  background: linear-gradient(0deg, #ebfbee 33%, #d3f9d8 66%, #ebfbee 100%);
   border: 1px solid red;
 `;
 
 const InfoItem = styled.div`
   width: 100%;
   height: 70px;
-  ${({ theme }) => theme.FlexRow};
+  ${({ theme }) => theme.FlexCol};
   align-items: center;
-  padding-left: 20px;
+  padding-top: 10px;
   border: 1px solid #dcdcdc;
+  ${({ theme }) => theme.Flex}
+  h1 {
+    width: 100%;
+    height: 30px;
+    padding-left: 10px;
+  }
+  p {
+    width: 100%;
+    height: 40px;
+    padding-left: 20px;
+  }
 `;
 
 const CardDate = styled.div`
@@ -182,4 +204,17 @@ const CardDate = styled.div`
   p {
     font-size: 16px;
   }
+`;
+
+const ButtonArea = styled.div`
+  width: 100%;
+  height: 70px;
+  ${({ theme }) => theme.BoxCenter};
+`;
+
+const Button = styled.button`
+  width: 260px;
+  height: 40px;
+  border-radius: 8px;
+  background-color: ${({ theme }) => theme.colors.lavender};
 `;
