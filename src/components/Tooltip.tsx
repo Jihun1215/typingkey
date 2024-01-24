@@ -59,7 +59,9 @@ const Content = styled.div`
   border-radius: 6px;
   background-color: ${({ theme }) => theme.colors.gray5};
   padding: 8px;
+  border: 2px solid ${({ theme }) => theme.colors.gray4};
   text-align: center;
+
   &.typinginfo {
     bottom: 70px;
   }
