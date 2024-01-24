@@ -1,7 +1,15 @@
 import styled from "styled-components";
 
 import { useRecoilState } from "recoil";
-import { ModeToggleState, TypingKRState } from "state/atoms";
+import {
+  ModeToggleState,
+  TypingKRState,
+  TypingCountState,
+  TextValueState,
+  TypingTimeState,
+  TypingSpeedState,
+  TypingProgressState,
+} from "state/atoms";
 
 import { Tooltip } from "components/Tooltip";
 
@@ -11,7 +19,13 @@ import { VscDebugRestart } from "react-icons/vsc";
 
 export const Header = () => {
   const [darkmode, SetDarkmode] = useRecoilState(ModeToggleState);
-
+  // 타이핑된 값
+  const [, setTypingCount] = useRecoilState(TypingCountState);
+  const [, setTypingValue] = useRecoilState(TextValueState);
+  const [, setTime] = useRecoilState(TypingTimeState);
+  const [, setSpeed] = useRecoilState(TypingSpeedState);
+  const [, setProgress] = useRecoilState(TypingProgressState);
+  // const [, setAccuracyArr] = useRecoilState(TypingAccuracyArrState);
   const [TypingKrCheck, setTypingKrCheck] = useRecoilState(TypingKRState);
 
   const onClickChangeDarkMode = () => {
@@ -20,10 +34,20 @@ export const Header = () => {
 
   const onClickChangeTypingLanguageKr = () => {
     setTypingKrCheck(true);
+    setTypingValue("");
+    setTime(0);
+    setTypingCount(0);
+    setSpeed(0);
+    setProgress(0);
   };
 
   const onClickChangeTypingLanguageEn = () => {
     setTypingKrCheck(false);
+    setTypingValue("");
+    setTime(0);
+    setTypingCount(0);
+    setSpeed(0);
+    setProgress(0);
   };
 
   const onClickReStart = () => {
@@ -66,7 +90,7 @@ export const Header = () => {
               onClick={() => {
                 onClickChangeTypingLanguageKr();
               }}
-              TypingKrCheck={TypingKrCheck}
+              typingkrcheck={TypingKrCheck.toString()}
             >
               Kor
             </Tab>
@@ -75,7 +99,7 @@ export const Header = () => {
               onClick={() => {
                 onClickChangeTypingLanguageEn();
               }}
-              TypingKrCheck={TypingKrCheck}
+              typingkrcheck={TypingKrCheck.toString()}
             >
               En
             </Tab>
@@ -145,7 +169,7 @@ const LanguageTab = styled.div`
   border-radius: 4px;
 `;
 
-const Tab = styled.p<{ TypingKrCheck: boolean }>`
+const Tab = styled.p<{ typingkrcheck: string }>`
   width: 50%;
   height: 100%;
   ${({ theme }) => theme.BoxCenter};
@@ -155,12 +179,12 @@ const Tab = styled.p<{ TypingKrCheck: boolean }>`
   font-size: 18px;
   &.kr {
     background-color: ${(props) =>
-      props.TypingKrCheck === true ? "#00db84" : "#575757"};
+      props.typingkrcheck === "true" ? "#00db84" : "#575757"};
   }
   /* #8A7EBE */
   /* #74c0fc */
   &.en {
     background-color: ${(props) =>
-      props.TypingKrCheck === false ? `#00db84` : "#575757"};
+      props.typingkrcheck === "false" ? `#00db84` : "#575757"};
   }
 `;

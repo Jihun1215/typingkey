@@ -59,12 +59,10 @@ export const TypingInfo = () => {
         </Item>
       </Tooltip>
 
-      <Tooltip message="정확도" placement="typinginfo">
-        <Item>
-          <FaKeyboard />
-          {/* <Percent value={accuaracy} type="accuaracy" /> */}
-        </Item>
-      </Tooltip>
+      <Item>
+        <FaKeyboard />
+        {/* <Percent value={accuaracy} type="accuaracy" /> */}
+      </Item>
 
       <Tooltip message="진행도" placement="typinginfo">
         <Item>
@@ -113,6 +111,6 @@ const Item = styled.div`
     position: absolute;
     width: 40px;
     height: 40px;
-    bottom: 0;
+    bottom: 40px;
   }
 `;

@@ -26,7 +26,7 @@ export const Footer = () => {
       <Item>Developer: Jirune</Item>
 
       <Item>
-        <p>Ver_1.0.1</p>
+        <p>Ver_1.0.2</p>
       </Item>
     </Container>
   );
