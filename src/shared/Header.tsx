@@ -145,7 +145,6 @@ const Tab = styled.p<{ TypingKrCheck: boolean }>`
   cursor: pointer;
   box-shadow: 0.1rem 0.2rem 0 0 rgba(0, 0, 0, 0.3);
   font-size: 18px;
-  font-weight: 600;
   &.kr {
     background-color: ${(props) =>
       props.TypingKrCheck === true ? "#51cf66" : "#575757"};

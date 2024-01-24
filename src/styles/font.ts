@@ -1,5 +1,5 @@
 import KCC_Ganpan from "assets/fonts/KCC-Ganpan.woff";
-import KBO_Dia_Bold from "assets/fonts/KBO-Dia-Gothic_bold.woff";
+import Pretendard_Medium from "assets/fonts/Pretendard-Medium.woff";
 
 const fontStyles = `
   @font-face {
@@ -10,9 +10,9 @@ const fontStyles = `
 
 
   @font-face {
-    font-family: "KBO-Dia-Gothic_bold";
+    font-family: "Pretendard-Regular";
     font-style: normal;
-    src: url(${KBO_Dia_Bold}) format("woff");
+    src: url(${Pretendard_Medium}) format("woff");
   }
 `;
 

@@ -83,6 +83,6 @@ const Point = styled.span`
   left: 50%;
   transform: translateX(-50%);
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 500;
   transition: 0.3s ease-in-out;
 `;
