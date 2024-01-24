@@ -156,27 +156,26 @@ const ModalCard = styled(motion.section)`
 
 const CardTitle = styled.h3`
   width: 100%;
-  height: 50px;
+  height: 100px;
   display: flex;
   align-items: center;
   padding-left: 30px;
   font-size: 24px;
   font-weight: 600;
-  border: 1px solid red;
+  ${({ theme }) => theme.KCCFontTitle};
 `;
 
 const CardInfo = styled.div`
   width: 100%;
   height: 300px;
   ${({ theme }) => theme.FlexCol};
-  gap: 5px 0;
+  /* gap: 5px 0; */
   background: linear-gradient(0deg, #ebfbee 33%, #d3f9d8 66%, #ebfbee 100%);
-  border: 1px solid red;
 `;
 
 const InfoItem = styled.div`
   width: 100%;
-  height: 70px;
+  height: 75px;
   ${({ theme }) => theme.FlexCol};
   align-items: center;
   padding-top: 10px;
