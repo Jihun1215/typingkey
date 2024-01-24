@@ -5,6 +5,7 @@ import { ModeToggleState, TypingKRState } from "state/atoms";
 
 import { Tooltip } from "components/Tooltip";
 
+import MainLogo from "assets/webLogo.png";
 import { IoSunnySharp, IoMoon } from "react-icons/io5";
 import { VscDebugRestart } from "react-icons/vsc";
 
@@ -32,6 +33,7 @@ export const Header = () => {
   return (
     <Container>
       <TitleArea>
+        <Logo src={MainLogo} alt="logo" />
         <Title>TypingKey</Title>
       </TitleArea>
       <MenuArea>
@@ -104,9 +106,15 @@ const Container = styled.header`
 `;
 
 const TitleArea = styled.div`
-  width: 40%;
+  width: 30%;
   height: 100%;
   ${({ theme }) => theme.BoxCenter};
+  gap: 0 20px;
+`;
+
+const Logo = styled.img`
+  width: 64px;
+  height: 50%;
 `;
 
 const Title = styled.h3`
@@ -147,12 +155,12 @@ const Tab = styled.p<{ TypingKrCheck: boolean }>`
   font-size: 18px;
   &.kr {
     background-color: ${(props) =>
-      props.TypingKrCheck === true ? "#51cf66" : "#575757"};
+      props.TypingKrCheck === true ? "#00db84" : "#575757"};
   }
   /* #8A7EBE */
   /* #74c0fc */
   &.en {
     background-color: ${(props) =>
-      props.TypingKrCheck === false ? `#51cf66` : "#575757"};
+      props.TypingKrCheck === false ? `#00db84` : "#575757"};
   }
 `;

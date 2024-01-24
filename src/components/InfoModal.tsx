@@ -149,7 +149,6 @@ const ModalCard = styled(motion.section)`
   border-radius: 16px;
   ${({ theme }) => theme.FlexCol};
   align-items: center;
-  /* ${({ theme }) => theme.FlexCenter}; */
   font-size: 20px;
   font-weight: 600;
   color: ${({ theme }) => theme.colors.black};

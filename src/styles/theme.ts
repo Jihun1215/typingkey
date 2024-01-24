@@ -11,7 +11,7 @@ const colors: DefaultTheme["colors"] = {
   gray3: "#9A9A9A",
   gray4: "#878787",
   gray5: "#4D4D4D",
-  greey: "#69db7c",
+  greey: "#00db84",
   lightblue: "#74c0fc",
   deepblue: "#6366F1",
   lavender: "#8A7EBE",
