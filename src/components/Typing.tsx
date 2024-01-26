@@ -237,7 +237,7 @@ export const Typing = () => {
 
           setTimeCheck(false);
         }
-        // 리코일 cpm 제거하기
+        setIncorrectIndices([]);
         setCurrentCpm(0);
         setResultSpeed(0);
         setTypingValue("");
