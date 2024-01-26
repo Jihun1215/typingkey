@@ -13,8 +13,6 @@ import {
 import { Percent } from "./Percent";
 import { Tooltip } from "./Tooltip";
 
-import { FaKeyboard } from "react-icons/fa";
-
 export const TypingInfo = () => {
   const typingCount = useRecoilValue(TypingCountState);
   const time = useRecoilValue(TypingTimeState);
@@ -59,10 +57,7 @@ export const TypingInfo = () => {
         </Item>
       </Tooltip>
 
-      <Item>
-        <FaKeyboard />
-        {/* <Percent value={accuaracy} type="accuaracy" /> */}
-      </Item>
+      <Item />
 
       <Tooltip message="진행도" placement="typinginfo">
         <Item>
@@ -86,14 +81,15 @@ const Container = styled.div`
   height: 100px;
   ${({ theme }) => theme.FlexRow};
   ${({ theme }) => theme.FlexCenter};
-  border-radius: 4px;
   color: ${({ theme }) => theme.color};
   background-color: ${({ theme }) => theme.bgColor2};
   display: grid;
   grid-template-columns: repeat(5, 1fr);
+  border-radius: 8px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 `;
-
+// ced4da
+// ced4da
 const Item = styled.div`
   position: relative;
   ${({ theme }) => theme.WH100};

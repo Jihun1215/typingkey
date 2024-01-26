@@ -1,4 +1,3 @@
-// import { useEffect } from "react";
 import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -142,8 +141,8 @@ const Container = styled(motion.div)`
 
 const ModalCard = styled(motion.section)`
   position: absolute;
-  width: 320px;
-  height: 450px;
+  width: 350px;
+  height: 500px;
   background-color: ${({ theme }) => theme.colors.white};
   top: 20%;
   border-radius: 16px;
@@ -215,5 +214,5 @@ const Button = styled.button`
   width: 260px;
   height: 40px;
   border-radius: 8px;
-  background-color: ${({ theme }) => theme.colors.lavender};
+  background-color: ${({ theme }) => theme.colors.greey};
 `;

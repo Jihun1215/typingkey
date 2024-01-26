@@ -119,10 +119,11 @@ const Container = styled.header`
   position: absolute;
   top: 55px;
   width: 880px;
-  ${({ theme }) => theme.BoxCenter};
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  ${({ theme }) => theme.FlexRow};
+  align-items: center;
+  justify-content: space-between;
+  gap: 0 50px;
   height: 100px;
-  background-color: ${({ theme }) => theme.bgColor2};
   border-radius: 6px;
   @media (max-width: 900px) {
     width: 90%;
@@ -130,7 +131,7 @@ const Container = styled.header`
 `;
 
 const TitleArea = styled.div`
-  width: 30%;
+  width: 320px;
   height: 100%;
   ${({ theme }) => theme.BoxCenter};
   gap: 0 20px;
@@ -147,9 +148,12 @@ const Title = styled.h3`
 `;
 
 const MenuArea = styled.div`
-  width: 60%;
+  width: 410px;
   height: 100%;
   ${({ theme }) => theme.FlexRow};
+  border-radius: 8px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  background-color: ${({ theme }) => theme.bgColor2};
 `;
 
 const MemuItem = styled.div`

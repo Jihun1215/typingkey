@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import styled from "styled-components";
-import { tooltipAnimation, tooltipMoveAnimation } from "styles/Animation";
+// import { tooltipAnimation, tooltipMoveAnimation } from "styles/Animation";
 
 type TooltipProps = {
   message: string;
@@ -36,16 +36,13 @@ const Container = styled.aside`
   cursor: pointer;
   ${({ theme }) => theme.FlexRow};
   justify-content: center;
-  /* border: 1px solid red; */
   &:hover > .tooltip,
   &:active > .tooltip {
     display: block;
-    /* animation: ${tooltipAnimation} 0.2s ease-in-out; */
   }
-  &:hover > svg,
+  /* &:hover > svg,
   &:active > svg {
-    /* animation: ${tooltipMoveAnimation} 0.45s ease-in-out; */
-  }
+  } */
 `;
 
 const Content = styled.div`
