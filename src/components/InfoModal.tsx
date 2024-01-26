@@ -215,4 +215,7 @@ const Button = styled.button`
   height: 40px;
   border-radius: 8px;
   background-color: ${({ theme }) => theme.colors.greey};
+  color: ${({ theme }) => theme.colors.white};
+  font-size: 16px;
+  font-weight: 600;
 `;

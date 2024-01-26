@@ -17,6 +17,7 @@ import {
   TypingCpmArrState,
   // TypingCpmState,
   TypingSpeedState,
+  TypingincorrectArrState,
 } from "state/atoms";
 
 import { defaultKRTypingData, defaultEnTypingData } from "utils/TypingMockData";
@@ -56,7 +57,9 @@ export const Typing = () => {
   // 타이핑된 값
   const [typingValue, setTypingValue] = useRecoilState(TextValueState);
   // 틀린부분 인덱스를 보관하는 State
-  const [incorrectIndices, setIncorrectIndices] = useState<number[]>([]);
+  const [incorrectIndices, setIncorrectIndices] = useRecoilState<number[]>(
+    TypingincorrectArrState
+  );
 
   // 현재 문장의 정확도 관리하는 State
   const [accuracy, setAccuracy] = useState(0);
@@ -99,6 +102,10 @@ export const Typing = () => {
     };
   }, [timecheck, startTime, setTime]);
 
+  useEffect(() => {
+    setTimeCheck(false);
+  }, [TypingKrCheck]);
+
   // CPM을 저장하는 State
   const [cpm, setCpm] = useState(0);
   const [, setCurrentCpm] = useRecoilState(TypingCpmState);
@@ -111,7 +118,6 @@ export const Typing = () => {
   let textChars = 0;
   let correctChars = 0;
   let incorrectChars = 0;
-  // let resultSpeed = 0;
 
   const onChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;

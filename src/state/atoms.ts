@@ -69,3 +69,8 @@ export const TypingSpeedState = atom<number>({
   key: "TypingSpeed",
   default: 0,
 });
+
+export const TypingincorrectArrState = atom<number[]>({
+  key: "TypingincorrectArr",
+  default: [],
+});

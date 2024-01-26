@@ -9,6 +9,7 @@ import {
   TypingTimeState,
   TypingSpeedState,
   TypingProgressState,
+  TypingincorrectArrState,
 } from "state/atoms";
 
 import { Tooltip } from "components/Tooltip";
@@ -28,7 +29,9 @@ export const Header = () => {
   // const [, setAccuracyArr] = useRecoilState(TypingAccuracyArrState);
   const [TypingKrCheck, setTypingKrCheck] = useRecoilState(TypingKRState);
 
-
+  const [, setIncorrectIndices] = useRecoilState<number[]>(
+    TypingincorrectArrState
+  );
 
   const onClickChangeDarkMode = () => {
     SetDarkmode(!darkmode);
@@ -41,6 +44,7 @@ export const Header = () => {
     setTypingCount(0);
     setSpeed(0);
     setProgress(0);
+    setIncorrectIndices([]);
   };
 
   const onClickChangeTypingLanguageEn = () => {
@@ -50,6 +54,7 @@ export const Header = () => {
     setTypingCount(0);
     setSpeed(0);
     setProgress(0);
+    setIncorrectIndices([]);
   };
 
   const onClickReStart = () => {
