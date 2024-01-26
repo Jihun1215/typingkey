@@ -17,7 +17,7 @@ export const TextValueState = atom<string>({
 
 export const TypingCountState = atom<number>({
   key: "TypingCount",
-  default: 0,
+  default: 9,
 });
 
 export const TypingWrongCountState = atom<number>({
@@ -68,4 +68,9 @@ export const TypingCpmArrState = atom<number[]>({
 export const TypingSpeedState = atom<number>({
   key: "TypingSpeed",
   default: 0,
+});
+
+export const TypingincorrectArrState = atom<number[]>({
+  key: "TypingincorrectArr",
+  default: [],
 });
