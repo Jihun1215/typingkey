@@ -174,6 +174,11 @@ export const Typing = () => {
     setTypingValue(inputValue);
     setTimeCheck(true);
 
+    if (timecheck && inputLength === 0) {
+      setTimeCheck(false);
+      setTime(0);
+    }
+
     // 최초로 타이핑이 시작되고 timecheck가 false일 때만 timecheck를 true로 설정
     if (!timecheck && inputValue.length > 0) {
       setTimeCheck(true);

@@ -28,6 +28,8 @@ export const Header = () => {
   // const [, setAccuracyArr] = useRecoilState(TypingAccuracyArrState);
   const [TypingKrCheck, setTypingKrCheck] = useRecoilState(TypingKRState);
 
+
+
   const onClickChangeDarkMode = () => {
     SetDarkmode(!darkmode);
   };
