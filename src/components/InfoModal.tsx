@@ -107,7 +107,7 @@ export const InfoModal = () => {
                 <p>{cpmAverage}</p>
               </InfoItem>
               <InfoItem>
-                <h1> 틀린갯수 / 정확도</h1>
+                <h1> 틀린글자 수</h1>
                 <p>{wrongCount}</p>
               </InfoItem>
             </CardInfo>

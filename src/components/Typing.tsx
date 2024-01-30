@@ -319,7 +319,7 @@ const Container = styled.div`
   ${({ theme }) => theme.FlexCenter};
   background-color: ${({ theme }) => theme.bgColor2};
   border-radius: 8px;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 `;
 
 const TextView = styled.div`

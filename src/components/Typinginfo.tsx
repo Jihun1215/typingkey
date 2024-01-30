@@ -41,7 +41,7 @@ export const TypingInfo = () => {
     <Container>
       <Tooltip message="타자속도" placement="typinginfo">
         <Item style={{ borderRight: "none" }}>
-          Speed:
+          Speed
           <Percent value={speed} type="speed" />
         </Item>
       </Tooltip>
@@ -86,27 +86,12 @@ const Container = styled.div`
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   border-radius: 8px;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 `;
-// ced4da
-// ced4da
+
 const Item = styled.div`
-  position: relative;
   ${({ theme }) => theme.WH100};
   ${({ theme }) => theme.FlexCol};
   ${({ theme }) => theme.FlexCenter};
   gap: 10px 0;
-  p {
-    width: 80px;
-    height: 20px;
-    color: ${({ theme }) => theme.colors.greey};
-    ${({ theme }) => theme.BoxCenter};
-    border-radius: 4px;
-  }
-  svg {
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    bottom: 40px;
-  }
 `;
