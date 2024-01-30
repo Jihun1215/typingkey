@@ -4,16 +4,6 @@
 
 🗓[지금 바로 Typingkey 방문하기](https://typingkey.store/)
 
-## 기술스택
-
-<div> 
-  <p>vite</p>
-  <p>React</p>
-  <p>TypeScript</p>
-  <p>Recoil</p>
-  <p>styled-components</p>
-</div>
-
 ## 프로젝트 기능
 
 ### 😊 다크 모드
@@ -45,7 +35,7 @@
 <details>  
 <summary>미리보기</summary>
   <div>
-   
+    <img src="https://github.com/Jihun1215/typingkey/assets/95469708/0740dc27-7c24-4708-97d5-aa4f5bdcfbe1"/>
   </div>
 </details>
 
@@ -58,10 +48,6 @@
 ### ◻ CI/CD
 
 > 빌드와 배포를 효율적으로 하기 위해 CI/CD를 구축했습니다
-
-### ◻ 
-
-> 이미지 데이터를 관리하기 위해 S3를 사용했습니다
 
 ## 🚨 Trouble Shooting
 
