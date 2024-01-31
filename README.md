@@ -49,47 +49,11 @@
 
 > 빌드와 배포를 효율적으로 하기 위해 CI/CD를 구축했습니다
 
-## 🚨 Trouble Shooting
-
-<details>
-  <summary>문제 한줄 요약</summary>
-
-  <br/>
-  문제
-  
-- ㅇ
-
-시도
-
-- ㅇ
-
-  해결
-
-- ㅇ
-</details>
-
-<details>
-  <summary>타이핑 시간 측정이 안되는 오류</summary>
-
-<br/>
-문제
-
-- 본래 회원 가입 페이지에서 생일 정보는 사용자가 직접 태어난 달과 날짜를 네자리 수로 적어 Input box에 적어 제출하도록 구현했다.
-
-시도
-
-- 첫 시
-
-해결
-
-- 알잘딱으로 시도
-
-</details>
 
 ## 🌐 배포 Architecture
 
 <div>
-  <img src = "">
+ <img src = "https://github.com/Jihun1215/typingkey/assets/95469708/9bb5832b-7566-448b-a85a-15c3995ce4eb">
 </div>
 
 ### 감사합니다.
