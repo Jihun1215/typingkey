@@ -74,7 +74,6 @@ export const Typing = () => {
       // 시작 시간 기록
       if (startTime === null) {
         setStartTime(Date.now());
-        // setTypingValue("");
       }
 
       // 1초마다 현재 시간 갱신
@@ -191,69 +190,64 @@ export const Typing = () => {
     }
   };
 
-  // 엔터 클릭 시
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      e.preventDefault();
-      // 타자 Length와 따라칠 타자 Length가 같을 경우에
-      if (typingValue.length === currentTypingText?.contents.length) {
-        // 엔터 키를 누르면 타이핑 멈춤
-        // stopTypingInterval();
-        const mismatchIndexes: number[] = [];
+      hadleSumit();
+      setTypingValue("");
+      setTimeCheck(false);
+      setIncorrectIndices([]);
+    }
+  };
 
-        const isMatch = typingValue.split("").every((char, index) => {
-          if (char !== currentTypingText.contents[index]) {
-            mismatchIndexes.push(index);
-            return false;
-          }
-          return true;
-        });
-        // 오타가 없을 경우
-        if (isMatch) {
-          setTypingValue("");
-          setTypingCount(typingCount + 1);
+  const hadleSumit = () => {
+    if (typingValue.length === currentTypingText?.contents.length) {
+      const mismatchIndexes: number[] = [];
 
-          if (typingCount === 9) {
-            console.log("끝");
-            // 여기서 끝나는 로직 추가
-          }
+      const isMatch = typingValue.split("").every((char, index) => {
+        if (char !== currentTypingText.contents[index]) {
+          mismatchIndexes.push(index);
+          return false;
         }
-        // 오타가 있을 경우
-        else {
-          setTypingValue("");
-          setTypingCount(typingCount + 1);
-          SetWrongCount(wrongCount + incorrectIndices.length);
-        }
-
-        // 첫문장 타이핑 중이라면
-        if (typingCount === 0) {
-          setAccuracyArr([accuracy]);
-          setTimeArr([time]);
-          setCpmArr([cpm]);
-          setTimeCheck(false);
-        } else {
-          // 문장 당 정확도
-          const copyAccArr = [...accuracyArr];
-          copyAccArr.push(accuracy);
-          setAccuracyArr(copyAccArr);
-
-          // 문장 당 타이핑 시간
-          const copyTimeArr = [...timeArr];
-          copyTimeArr.push(time);
-          setTimeArr(copyTimeArr);
-
-          const copyCpmArr = [...cpmArr];
-          copyCpmArr.push(cpm);
-          setCpmArr(copyCpmArr);
-
-          setTimeCheck(false);
-        }
-        setIncorrectIndices([]);
-        setCurrentCpm(0);
-        setResultSpeed(0);
+        return true;
+      });
+      // 오타가 없을 경우
+      if (isMatch) {
+        setTypingCount(typingCount + 1);
         setTypingValue("");
-        SetProgress(0);
       }
+      // 오타가 있을 경우
+      else {
+        setTypingCount(typingCount + 1);
+        SetWrongCount(wrongCount + incorrectIndices.length);
+        setTypingValue("");
+      }
+      if (typingCount === 0) {
+        setAccuracyArr([accuracy]);
+        setTimeArr([time]);
+        setCpmArr([cpm]);
+        setTimeCheck(false);
+      } else {
+        // 문장 당 정확도
+        const copyAccArr = [...accuracyArr];
+        copyAccArr.push(accuracy);
+        setAccuracyArr(copyAccArr);
+
+        // 문장 당 타이핑 시간
+        const copyTimeArr = [...timeArr];
+        copyTimeArr.push(time);
+        setTimeArr(copyTimeArr);
+
+        const copyCpmArr = [...cpmArr];
+        copyCpmArr.push(cpm);
+        setCpmArr(copyCpmArr);
+
+        setTimeCheck(false);
+      }
+      setIncorrectIndices([]);
+      setCurrentCpm(0);
+      setResultSpeed(0);
+      setTypingValue("");
+      SetProgress(0);
     }
   };
 
@@ -299,6 +293,7 @@ export const Typing = () => {
           value={typingValue}
           onChange={onChangeValue}
           onKeyDown={onKeyDown}
+          // onKeyPress={onKeyPress}
           placeholder="위 문장을 타이핑 하세요."
           mode={mode.toString()}
         />
