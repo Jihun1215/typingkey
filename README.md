@@ -17,18 +17,18 @@
 </p>
 </details>
 
-### ❤️ 타이핑 언어 변경
+### ✏️ 타이핑 언어 변경
 
 > 탭버튼을 클릭 하여 타이핑 할 언어를 변경 할 수 있습니다.
 
 <details>
 <summary>미리보기</summary>
   <p>
-  <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/95469708/300267041-c8fa3091-bffa-4704-a273-60750261c259.gif?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20240128%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240128T134705Z&X-Amz-Expires=300&X-Amz-Signature=b4f0f2d177020e54969be76f5a40ad8899083739f53310a2f02c091cd7b27897&X-Amz-SignedHeaders=host&actor_id=95469708&key_id=0&repo_id=736592641">
+  <img src="https://github.com/Jihun1215/typingkey/assets/95469708/434f21f0-827b-4619-872c-d34a1cefa4fb">
 </p>
 </details>
 
-### ✏️ 타이핑 스피드 & 시간 & 진행도 & 진행된 문장 수
+### 💯 타이핑 스피드 & 시간 & 진행도 & 진행된 문장 수
 
 > UI를 사용자에게 더 친숙한 퍼센트지를 사용하였습니다.
 
@@ -49,11 +49,28 @@
 
 > 빌드와 배포를 효율적으로 하기 위해 CI/CD를 구축했습니다
 
+## 🚨 Trouble Shooting
+
+
+<details>
+  <summary>타이핑 마지막 글자가 한글로 끝날 시 다음 input Value의 마지막글자가 남는 오류</summary>
+
+  <br/>
+
+시도
+
+- 최초에는 onKeyDown 이벤트 대신 onKeyPress 이벤트를 사용하여 문제를 해결했다. 하지만 MDN 에서onKeyPress 방식을 지양하지 않기 때문에 onKeyDown을 사용해서 해결해야했다.
+
+해결
+
+- 기존 코드에서 로직부분을 함수로 만들어서 분리하여 사용
+
+</details>
 
 ## 🌐 배포 Architecture
 
 <div>
- <img src = "https://github.com/Jihun1215/typingkey/assets/95469708/9bb5832b-7566-448b-a85a-15c3995ce4eb">
+ <img src ="https://github.com/Jihun1215/typingkey/assets/95469708/9bb5832b-7566-448b-a85a-15c3995ce4eb">
 </div>
 
 ### 감사합니다.

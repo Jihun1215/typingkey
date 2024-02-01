@@ -248,7 +248,6 @@ export const Typing = () => {
       setResultSpeed(0);
       setTypingValue("");
       SetProgress(0);
-      console.log(typingValue);
     }
   };
 
