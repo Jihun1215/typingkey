@@ -141,9 +141,18 @@ const Container = styled(motion.div)`
 
 const ModalCard = styled(motion.section)`
   position: absolute;
+  z-index: 5px;
   width: 350px;
   height: 500px;
-  background-color: ${({ theme }) => theme.colors.white};
+  background-image: linear-gradient(
+    264deg,
+    rgba(255, 174, 238, 1),
+    rgba(218, 110, 255, 1),
+    rgba(107, 186, 255, 1),
+    rgb(73, 210, 253),
+    rgb(116, 255, 205),
+    rgba(223, 255, 89, 1)
+  );
   top: 20%;
   border-radius: 16px;
   ${({ theme }) => theme.FlexCol};
@@ -169,7 +178,6 @@ const CardInfo = styled.div`
   height: 300px;
   ${({ theme }) => theme.FlexCol};
   /* gap: 5px 0; */
-  background: linear-gradient(0deg, #ebfbee 33%, #d3f9d8 66%, #ebfbee 100%);
 `;
 
 const InfoItem = styled.div`
@@ -211,11 +219,11 @@ const ButtonArea = styled.div`
 `;
 
 const Button = styled.button`
-  width: 260px;
+  width: 150px;
   height: 40px;
-  border-radius: 8px;
-  background-color: ${({ theme }) => theme.colors.greey};
-  color: ${({ theme }) => theme.colors.white};
+  border-radius: 12px;
+  background-color: ${({ theme }) => theme.colors.white};
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   font-size: 16px;
   font-weight: 600;
 `;
