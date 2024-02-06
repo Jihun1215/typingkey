@@ -222,7 +222,7 @@ export const Typing = () => {
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       const currentContents = currentTypingText?.contents;
-
+      // typingValue 마지막 길이 값이 따라칠 문장 마지막 글자와 동일 할 때만 작동하는  
       if (currentContents && typingValue.endsWith(currentContents.slice(-1))) {
         hadleSumit();
         setTypingValue("");
