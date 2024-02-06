@@ -190,9 +190,40 @@ export const Typing = () => {
     }
   };
 
+  // const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  //   if (e.key === "Enter") {
+  //     if (typingValue.length === currentTypingText?.contents.length) {
+  //       hadleSumit();
+  //       setTypingValue("");
+  //       setTimeCheck(false);
+  //       setIncorrectIndices([]);
+  //     }
+  //   }
+  // };
+
+  // 타이핑된 값
+  // const [typingValue, setTypingValue] = useRecoilState(TextValueState);
+
+  // const Event = () => {
+  //   console.log("d");
+  // };
+
+  // const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  //   if (e.key === "Enter") {
+  //     if (typingValue.length === currentTypingText?.contents.length) {
+  //       hadleSumit();
+  //       setTypingValue("");
+  //       setTimeCheck(false);
+  //       setIncorrectIndices([]);
+  //     }
+  //   }
+  // };
+
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      if (typingValue.length === currentTypingText?.contents.length) {
+      const currentContents = currentTypingText?.contents;
+      // typingValue 마지막 길이 값이 따라칠 문장 마지막 글자와 동일 할 때만 작동하는  
+      if (currentContents && typingValue.endsWith(currentContents.slice(-1))) {
         hadleSumit();
         setTypingValue("");
         setTimeCheck(false);
@@ -203,7 +234,6 @@ export const Typing = () => {
 
   const hadleSumit = () => {
     const mismatchIndexes: number[] = [];
-
     const isMatch = typingValue.split("").every((char, index) => {
       if (char !== currentTypingText!.contents[index]) {
         mismatchIndexes.push(index);
