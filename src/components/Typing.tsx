@@ -192,63 +192,63 @@ export const Typing = () => {
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      hadleSumit();
-      setTypingValue("");
-      setTimeCheck(false);
-      setIncorrectIndices([]);
+      if (typingValue.length === currentTypingText?.contents.length) {
+        hadleSumit();
+        setTypingValue("");
+        setTimeCheck(false);
+        setIncorrectIndices([]);
+      }
     }
   };
 
   const hadleSumit = () => {
-    if (typingValue.length === currentTypingText?.contents.length) {
-      const mismatchIndexes: number[] = [];
+    const mismatchIndexes: number[] = [];
 
-      const isMatch = typingValue.split("").every((char, index) => {
-        if (char !== currentTypingText.contents[index]) {
-          mismatchIndexes.push(index);
-          return false;
-        }
-        return true;
-      });
-      // 오타가 없을 경우
-      if (isMatch) {
-        setTypingCount(typingCount + 1);
-        setTypingValue("");
+    const isMatch = typingValue.split("").every((char, index) => {
+      if (char !== currentTypingText!.contents[index]) {
+        mismatchIndexes.push(index);
+        return false;
       }
-      // 오타가 있을 경우
-      else {
-        setTypingCount(typingCount + 1);
-        SetWrongCount(wrongCount + incorrectIndices.length);
-        setTypingValue("");
-      }
-      if (typingCount === 0) {
-        setAccuracyArr([accuracy]);
-        setTimeArr([time]);
-        setCpmArr([cpm]);
-        setTimeCheck(false);
-      } else {
-        // 문장 당 정확도
-        const copyAccArr = [...accuracyArr];
-        copyAccArr.push(accuracy);
-        setAccuracyArr(copyAccArr);
-
-        // 문장 당 타이핑 시간
-        const copyTimeArr = [...timeArr];
-        copyTimeArr.push(time);
-        setTimeArr(copyTimeArr);
-
-        const copyCpmArr = [...cpmArr];
-        copyCpmArr.push(cpm);
-        setCpmArr(copyCpmArr);
-
-        setTimeCheck(false);
-      }
-      setIncorrectIndices([]);
-      setCurrentCpm(0);
-      setResultSpeed(0);
+      return true;
+    });
+    // 오타가 없을 경우
+    if (isMatch) {
+      setTypingCount(typingCount + 1);
       setTypingValue("");
-      SetProgress(0);
     }
+    // 오타가 있을 경우
+    else {
+      setTypingCount(typingCount + 1);
+      SetWrongCount(wrongCount + incorrectIndices.length);
+      setTypingValue("");
+    }
+    if (typingCount === 0) {
+      setAccuracyArr([accuracy]);
+      setTimeArr([time]);
+      setCpmArr([cpm]);
+      setTimeCheck(false);
+    } else {
+      // 문장 당 정확도
+      const copyAccArr = [...accuracyArr];
+      copyAccArr.push(accuracy);
+      setAccuracyArr(copyAccArr);
+
+      // 문장 당 타이핑 시간
+      const copyTimeArr = [...timeArr];
+      copyTimeArr.push(time);
+      setTimeArr(copyTimeArr);
+
+      const copyCpmArr = [...cpmArr];
+      copyCpmArr.push(cpm);
+      setCpmArr(copyCpmArr);
+
+      setTimeCheck(false);
+    }
+    setIncorrectIndices([]);
+    setCurrentCpm(0);
+    setResultSpeed(0);
+    setTypingValue("");
+    SetProgress(0);
   };
 
   return (
