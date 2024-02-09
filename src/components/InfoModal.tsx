@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -21,6 +22,10 @@ export const InfoModal = () => {
     visible: { opacity: 1, y: 0 },
     hidden: { opacity: 0, y: "-50%", transition: { duration: 0.1 } },
   };
+
+  useEffect(() => {
+    setTypingCount(0);
+  }, []);
 
   const [alertmodal, setAlertmodla] = useRecoilState(AlertModalState);
 
