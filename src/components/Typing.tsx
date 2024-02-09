@@ -6,16 +6,15 @@ import {
   ModeToggleState,
   TypingKRState,
   TextValueState,
+  AlertModalState,
   TypingCountState,
   TypingWrongCountState,
   TypingProgressState,
-  // TypingAccuracyState,
   TypingAccuracyArrState,
   TypingTimeState,
   TypingTimeArrState,
   TypingCpmState,
   TypingCpmArrState,
-  // TypingCpmState,
   TypingSpeedState,
   TypingincorrectArrState,
 } from "state/atoms";
@@ -30,13 +29,20 @@ import {
 export const Typing = () => {
   const mode = useRecoilValue(ModeToggleState);
   const TypingKrCheck = useRecoilValue(TypingKRState);
+  const AlertModalCheck = useRecoilValue(AlertModalState);
+
+  // input Ref
+  const valueRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    if (AlertModalCheck) {
+      valueRef.current = null;
+    }
+  }, [AlertModalCheck]);
 
   const typingText = useRandomTypingText(
     TypingKrCheck ? defaultKRTypingData : defaultEnTypingData
   );
-
-  // input Ref
-  const valueRef = useRef<HTMLInputElement>(null);
 
   // 타이핑 된 문장 갯수를 카우팅 하는 State
   const [typingCount, setTypingCount] = useRecoilState(TypingCountState);
@@ -120,9 +126,9 @@ export const Typing = () => {
 
   const onChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
+    // console.log(valueRef.current?.value);
 
     const inputLength = inputValue.length;
-    // onChangeSpeed();
 
     const currentTextLength = currentTypingArr?.length;
 
@@ -201,28 +207,10 @@ export const Typing = () => {
   //   }
   // };
 
-  // 타이핑된 값
-  // const [typingValue, setTypingValue] = useRecoilState(TextValueState);
-
-  // const Event = () => {
-  //   console.log("d");
-  // };
-
-  // const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-  //   if (e.key === "Enter") {
-  //     if (typingValue.length === currentTypingText?.contents.length) {
-  //       hadleSumit();
-  //       setTypingValue("");
-  //       setTimeCheck(false);
-  //       setIncorrectIndices([]);
-  //     }
-  //   }
-  // };
-
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       const currentContents = currentTypingText?.contents;
-      // typingValue 마지막 길이 값이 따라칠 문장 마지막 글자와 동일 할 때만 작동하는  
+      // typingValue 마지막 길이 값이 따라칠 문장 마지막 글자와 동일 할 때만 작동하는
       if (currentContents && typingValue.endsWith(currentContents.slice(-1))) {
         hadleSumit();
         setTypingValue("");

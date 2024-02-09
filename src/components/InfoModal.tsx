@@ -99,15 +99,15 @@ export const InfoModal = () => {
                 <p>{timesum}s</p>
               </InfoItem>
               <InfoItem>
-                <h1> 평균 Acc</h1>
+                <h1>평균 정확도 (Acc)</h1>
                 <p>{average}</p>
               </InfoItem>
               <InfoItem>
-                <h1> 평균 CPM</h1>
+                <h1>평균 CPM</h1>
                 <p>{cpmAverage}</p>
               </InfoItem>
               <InfoItem>
-                <h1> 틀린글자 수</h1>
+                <h1>틀린글자 수</h1>
                 <p>{wrongCount}</p>
               </InfoItem>
             </CardInfo>
