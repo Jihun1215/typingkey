@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -21,6 +22,10 @@ export const InfoModal = () => {
     visible: { opacity: 1, y: 0 },
     hidden: { opacity: 0, y: "-50%", transition: { duration: 0.1 } },
   };
+
+  useEffect(() => {
+    setTypingCount(0);
+  }, []);
 
   const [alertmodal, setAlertmodla] = useRecoilState(AlertModalState);
 
@@ -99,15 +104,15 @@ export const InfoModal = () => {
                 <p>{timesum}s</p>
               </InfoItem>
               <InfoItem>
-                <h1> 평균 Acc</h1>
+                <h1>평균 정확도 (Acc)</h1>
                 <p>{average}</p>
               </InfoItem>
               <InfoItem>
-                <h1> 평균 CPM</h1>
+                <h1>평균 CPM</h1>
                 <p>{cpmAverage}</p>
               </InfoItem>
               <InfoItem>
-                <h1> 틀린글자 수</h1>
+                <h1>틀린글자 수</h1>
                 <p>{wrongCount}</p>
               </InfoItem>
             </CardInfo>
