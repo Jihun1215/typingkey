@@ -52,6 +52,6 @@ const Item = styled.div`
   ${({ theme }) => theme.BoxCenter};
   gap: 0 3px;
   p {
-    font-weight: 700;
+    font-weight: 600;
   }
 `;

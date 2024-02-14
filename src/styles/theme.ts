@@ -23,6 +23,12 @@ const KCCFontTitle = css`
   font-family: "KCC-Ganpan";
 `;
 
+const PretendardFontBody = css`
+  /* font-size: 30px; */
+  font-weight: 500;
+  font-family: "Pretendard-Regular";
+`;
+
 const WH100 = css`
   width: 100%;
   height: 100%;
@@ -57,6 +63,7 @@ const theme = {
   FlexCenter,
   BoxCenter,
   KCCFontTitle,
+  PretendardFontBody,
 };
 
 export const Theme: DefaultTheme = {

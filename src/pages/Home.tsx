@@ -18,7 +18,7 @@ export const Home = () => {
   );
 };
 
-const Container = styled.div`
+const Container = styled.main`
   width: 880px;
   height: 300px;
   ${({ theme }) => theme.FlexCol};
