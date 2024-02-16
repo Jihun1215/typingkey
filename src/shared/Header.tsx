@@ -64,7 +64,10 @@ export const Header = () => {
   return (
     <Container>
       <TitleArea>
-        <Logo src={MainLogo} alt="logo" />
+        <Logo
+          src={MainLogo}
+          alt="logo"
+        />
         <Title>TypingKey</Title>
       </TitleArea>
       <MenuArea>
@@ -146,7 +149,7 @@ const TitleArea = styled.div`
 
 const Logo = styled.img`
   width: 64px;
-  height: 50%;
+  height: 60px;
 `;
 
 const Title = styled.h3`

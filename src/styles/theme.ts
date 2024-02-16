@@ -18,13 +18,12 @@ const colors: DefaultTheme["colors"] = {
 };
 
 const KCCFontTitle = css`
-  font-size: 30px;
+  font-size: 1.875rem;
   font-weight: 700;
   font-family: "KCC-Ganpan";
 `;
 
 const PretendardFontBody = css`
-  /* font-size: 30px; */
   font-weight: 500;
   font-family: "Pretendard-Regular";
 `;

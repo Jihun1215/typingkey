@@ -76,7 +76,7 @@ export const Typing = () => {
   const [, SetProgress] = useRecoilState(TypingProgressState);
 
   useEffect(() => {
-    let timer: number | null = null;
+    let timer: NodeJS.Timeout | number | null = null;
 
     if (timecheck) {
       // 시작 시간 기록
@@ -134,7 +134,6 @@ export const Typing = () => {
     const isAllHangulOrSpaceOrSpecialChar = Array.from(inputValue).every(
       (char) => Hangul.isComplete(char) || char === " " || /[.,;'"]/g.test(char)
     );
-
 
     const inputLength = inputValue.length;
 
@@ -288,7 +287,7 @@ export const Typing = () => {
           <TypingWord>
             {currentTypingArr?.map((char, index) => {
               return (
-                <div
+                <p
                   key={index}
                   style={{
                     position: "relative",
@@ -308,7 +307,7 @@ export const Typing = () => {
                   ) : (
                     char
                   )}
-                </div>
+                </p>
               );
             })}
           </TypingWord>
@@ -328,8 +327,7 @@ export const Typing = () => {
           mode={mode.toString()}
         />
         <NextTypingTextArea>
-          NEXT
-          <p>{nextTypingText}</p>
+          <p>NEXT {nextTypingText}</p>
         </NextTypingTextArea>
       </InputArea>
     </Container>
@@ -428,6 +426,6 @@ const NextTypingTextArea = styled.div`
   color: ${({ theme }) => theme.colors.gray3};
   p {
     color: ${({ theme }) => theme.colors.gray4};
-    font-weight: 600;
+    font-weight: 500;
   }
 `;

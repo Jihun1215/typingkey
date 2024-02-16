@@ -22,7 +22,7 @@ export const BeforeInfo = () => {
       <Item>
         Acc:
         {accuracy.length === 0 ? (
-          <p> XX</p>
+          <p>XX</p>
         ) : (
           <p>{accuracy[typingCount - 1]}%</p>
         )}
@@ -41,7 +41,6 @@ const Container = styled.div<{ mode: string }>`
   height: 30px;
   background-color: ${(props) =>
     props.mode === "true" ? "#4D4D4D" : "#adb5bd"};
-  /* background-color: ${({ theme }) => theme.colors.gray3}; */
   border-bottom-left-radius: 14px;
   border-bottom-right-radius: 14px;
   display: grid;

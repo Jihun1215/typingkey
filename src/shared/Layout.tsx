@@ -59,5 +59,4 @@ const LayoutContainer = styled.div`
   gap: 20px 0;
   background-color: ${({ theme }) => theme.bgColor};
   color: ${({ theme }) => theme.color};
-  ${({ theme }) => theme.PretendardFontBody};
 `;

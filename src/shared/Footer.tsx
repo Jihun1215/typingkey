@@ -26,8 +26,9 @@ export const Footer = () => {
       <Item>Developer: Jirune</Item>
 
       <Item>
-        <p>Ver_1.0.5</p>
+        <p>Ver_1.0.6</p>
       </Item>
+      
     </Container>
   );
 };
@@ -42,6 +43,7 @@ const Container = styled.footer`
   ${({ theme }) => theme.BoxCenter};
   background-color: ${({ theme }) => theme.bgColor2};
   border-radius: 6px;
+  ${({ theme }) => theme.PretendardFontBody};
   @media (max-width: 900px) {
     width: 90%;
   }

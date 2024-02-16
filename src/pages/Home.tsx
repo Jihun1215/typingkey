@@ -27,4 +27,6 @@ const Container = styled.main`
   @media (max-width: 900px) {
     width: 90%;
   }
+  ${({ theme }) => theme.PretendardFontBody}; 
+  font-display: swap;
 `;
