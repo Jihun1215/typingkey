@@ -28,5 +28,4 @@ const Container = styled.main`
     width: 90%;
   }
   ${({ theme }) => theme.PretendardFontBody}; 
-  font-display: swap;
 `;

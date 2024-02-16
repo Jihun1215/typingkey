@@ -1,11 +1,6 @@
 import { createGlobalStyle } from "styled-components";
-// import { styleSheet } from "./font";
-
-// import KCC_Ganpan from "assets/fonts/KCC-Ganpan.woff";
-// import Pretendard_Medium from "assets/fonts/Pretendard-Medium.woff";
 
 export const GlobalStyle = createGlobalStyle`
-
 *{
   margin: 0;
   padding: 0;

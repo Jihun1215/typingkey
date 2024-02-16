@@ -28,7 +28,6 @@ export const Footer = () => {
       <Item>
         <p>Ver_1.0.6</p>
       </Item>
-      
     </Container>
   );
 };
