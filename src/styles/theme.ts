@@ -18,9 +18,14 @@ const colors: DefaultTheme["colors"] = {
 };
 
 const KCCFontTitle = css`
-  font-size: 30px;
+  font-size: 1.875rem;
   font-weight: 700;
   font-family: "KCC-Ganpan";
+`;
+
+const PretendardFontBody = css`
+  font-weight: 500;
+  font-family: "Pretendard-Regular";
 `;
 
 const WH100 = css`
@@ -57,6 +62,7 @@ const theme = {
   FlexCenter,
   BoxCenter,
   KCCFontTitle,
+  PretendardFontBody,
 };
 
 export const Theme: DefaultTheme = {
@@ -71,7 +77,6 @@ export const DarkTheme: DefaultTheme = {
   ...theme,
   bgColor: "#111827",
   bgColor2: "#1F2937",
-  // color: "#FFFFFF99",
   color: "#FFF",
   color2: "#191A23",
 };

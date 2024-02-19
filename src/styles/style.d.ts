@@ -8,6 +8,7 @@ declare module "styled-components" {
     FlexCenter: RuleSet<object>;
     BoxCenter: RuleSet<object>;
     KCCFontTitle: RuleSet<object>;
+    PretendardFontBody: RuleSet<object>;
     bgColor: string;
     bgColor2: string;
     color: string;

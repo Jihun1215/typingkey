@@ -1,5 +1,10 @@
 import { atom } from "recoil";
 
+export const UserCheckState = atom<boolean>({
+  key: "UserCheck",
+  default: false,
+});
+
 export const ModeToggleState = atom<boolean>({
   key: "ModeToggleState",
   default: true,

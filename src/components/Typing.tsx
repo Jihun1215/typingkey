@@ -26,6 +26,8 @@ import {
   useNextTypingText,
 } from "hooks";
 
+import Hangul from "hangul-js";
+
 export const Typing = () => {
   const mode = useRecoilValue(ModeToggleState);
   const TypingKrCheck = useRecoilValue(TypingKRState);
@@ -74,7 +76,7 @@ export const Typing = () => {
   const [, SetProgress] = useRecoilState(TypingProgressState);
 
   useEffect(() => {
-    let timer: number | null = null;
+    let timer: NodeJS.Timeout | number | null = null;
 
     if (timecheck) {
       // 시작 시간 기록
@@ -128,11 +130,15 @@ export const Typing = () => {
     const inputValue = e.target.value;
     // console.log(valueRef.current?.value);
 
+    // 모든 글자가 한글, 띄어쓰기, 또는 특수문자인지 체크
+    const isAllHangulOrSpaceOrSpecialChar = Array.from(inputValue).every(
+      (char) => Hangul.isComplete(char) || char === " " || /[.,;'"]/g.test(char)
+    );
+
     const inputLength = inputValue.length;
 
     const currentTextLength = currentTypingArr?.length;
 
-    // 타자 수가 증가 할때마다 정확한 타자와 부정확한 타자를 체크하여 증가하는 반복문
     for (let i = 0; i < inputValue.length; i++) {
       if (inputValue[i] === currentTypingText?.contents[i]) {
         correctChars++;
@@ -143,42 +149,47 @@ export const Typing = () => {
       }
     }
 
-    const saveSpeed = time !== 0 ? Math.round((textChars / time) * 60) : 0;
-    setResultSpeed(saveSpeed + 135);
-
-    const cpmValue =
-      currentTextLength === undefined || time === 0 || correctChars === 0
-        ? 0
-        : Math.round((correctChars / time!) * 60);
-
-    setCpm(cpmValue);
-
-    if (inputValue.length === 0) {
-      setResultSpeed(0);
-    }
-
-    const accuracy =
-      currentTextLength === undefined
-        ? 0
-        : Number(
-            ((correctChars / (correctChars + incorrectChars)) * 100).toFixed(0)
-          );
-
-    setAccuracy(accuracy);
-
-    // 진행도
-    const progress =
-      currentTextLength === undefined
-        ? 0
-        : parseFloat(((inputLength / currentTextLength) * 100).toFixed(0));
-    SetProgress(progress);
-
     // 틀린 부분의 해당하는 인덱스를 찾는 함수
     const incorrectIndices: number[] = [];
     for (let i = 0; i < Math.max(prompt.length, inputLength); i++) {
       if (currentTypingText?.contents[i] !== inputValue[i]) {
         incorrectIndices.push(i);
       }
+    }
+
+    if (isAllHangulOrSpaceOrSpecialChar) {
+      // 타자 수가 증가 할때마다 정확한 타자와 부정확한 타자를 체크하여 증가하는 반복문
+      const saveSpeed = time !== 0 ? Math.round((textChars / time) * 60) : 0;
+      setResultSpeed(saveSpeed + 135);
+
+      const cpmValue =
+        currentTextLength === undefined || time === 0 || correctChars === 0
+          ? 0
+          : Math.round((correctChars / time!) * 60);
+
+      setCpm(cpmValue);
+
+      if (inputValue.length === 0) {
+        setResultSpeed(0);
+      }
+
+      const accuracy =
+        currentTextLength === undefined
+          ? 0
+          : Number(
+              ((correctChars / (correctChars + incorrectChars)) * 100).toFixed(
+                0
+              )
+            );
+
+      setAccuracy(accuracy);
+
+      // 진행도
+      const progress =
+        currentTextLength === undefined
+          ? 0
+          : parseFloat(((inputLength / currentTextLength) * 100).toFixed(0));
+      SetProgress(progress);
     }
 
     setIncorrectIndices(incorrectIndices);
@@ -276,7 +287,7 @@ export const Typing = () => {
           <TypingWord>
             {currentTypingArr?.map((char, index) => {
               return (
-                <div
+                <p
                   key={index}
                   style={{
                     position: "relative",
@@ -296,7 +307,7 @@ export const Typing = () => {
                   ) : (
                     char
                   )}
-                </div>
+                </p>
               );
             })}
           </TypingWord>
@@ -316,8 +327,7 @@ export const Typing = () => {
           mode={mode.toString()}
         />
         <NextTypingTextArea>
-          NEXT
-          <p>{nextTypingText}</p>
+          <p>NEXT {nextTypingText}</p>
         </NextTypingTextArea>
       </InputArea>
     </Container>
@@ -416,6 +426,6 @@ const NextTypingTextArea = styled.div`
   color: ${({ theme }) => theme.colors.gray3};
   p {
     color: ${({ theme }) => theme.colors.gray4};
-    font-weight: 600;
+    font-weight: 500;
   }
 `;

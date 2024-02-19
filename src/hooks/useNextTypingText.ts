@@ -1,8 +1,6 @@
-import { useState, useEffect } from "react";
-
+import { useState, useEffect, useCallback } from "react";
 import { useRecoilState } from "recoil";
 import { AlertModalState } from "state/atoms";
-
 import { TextItem } from "types/type";
 
 export const useNextTypingText = (
@@ -12,7 +10,8 @@ export const useNextTypingText = (
   const [nextTypingText, setNextTypingText] = useState("");
   // 결과창 모달 관리하는 State
   const [, SetModalVisibility] = useRecoilState(AlertModalState);
-  useEffect(() => {
+
+  const setNextText = useCallback(() => {
     if (typingText.length > 0) {
       if (typingCount >= 10) {
         setNextTypingText("");
@@ -23,7 +22,11 @@ export const useNextTypingText = (
         setNextTypingText(typingText[typingCount + 1]?.contents || "");
       }
     }
-  }, [typingCount, typingText]);
+  }, [typingCount, typingText, SetModalVisibility]);
+
+  useEffect(() => {
+    setNextText();
+  }, [setNextText]);
 
   return nextTypingText;
 };

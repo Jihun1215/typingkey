@@ -18,7 +18,7 @@ export const Home = () => {
   );
 };
 
-const Container = styled.div`
+const Container = styled.main`
   width: 880px;
   height: 300px;
   ${({ theme }) => theme.FlexCol};
@@ -27,4 +27,5 @@ const Container = styled.div`
   @media (max-width: 900px) {
     width: 90%;
   }
+  ${({ theme }) => theme.PretendardFontBody}; 
 `;
