@@ -359,7 +359,6 @@ const Text = styled.div`
   font-size: 20px;
   ${({ theme }) => theme.FlexCol};
   align-items: center;
-  padding-left: 10px;
 `;
 
 const TypingWord = styled.div`
@@ -406,14 +405,16 @@ const TextInput = styled.input<{ mode: string }>`
   font-size: 20px;
   color: ${({ theme }) => theme.color};
   transition: 0.3s;
-  padding-left: 10px;
+  ${({theme}) => theme.PretendardFontBody}
   background-color: transparent;
+
   &::placeholder {
     color: ${({ theme }) => theme.colors.gray4};
   }
   &:focus {
     border-bottom: 3px solid ${({ theme }) => theme.colors.greey};
   }
+  
 `;
 
 const NextTypingTextArea = styled.div`
