@@ -14,7 +14,7 @@ import {
 
 import { Tooltip } from "components/Tooltip";
 
-import MainLogo from "assets/webLogo.png";
+import MainLogo from "assets/webLogo.svg?react";
 import { IoSunnySharp, IoMoon } from "react-icons/io5";
 import { VscDebugRestart } from "react-icons/vsc";
 
@@ -64,10 +64,7 @@ export const Header = () => {
   return (
     <Container>
       <TitleArea>
-        <Logo
-          src={MainLogo}
-          alt="logo"
-        />
+          <MainLogo/>
         <Title>TypingKey</Title>
       </TitleArea>
       <MenuArea>
@@ -147,13 +144,11 @@ const TitleArea = styled.div`
   gap: 0 20px;
 `;
 
-const Logo = styled.img`
-  width: 64px;
-  height: 60px;
-`;
 
 const Title = styled.h3`
   ${({ theme }) => theme.KCCFontTitle};
+  /* 브라우저에게 해당 요소에 변환 효과가 있다고 미리 알리는 CSS 속성으로,렌더링 최적화를 수행할 수 있도록 도와준다 */
+  /* will-change: transform; */
   color: ${({ theme }) => theme.color};
 `;
 

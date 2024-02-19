@@ -1,17 +1,17 @@
-import { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Outlet } from "react-router-dom";
 
-import { useRecoilValue } from "recoil";
-import { UserCheckState } from "state/atoms";
+// import { useRecoilValue } from "recoil";
+// import { UserCheckState } from "state/atoms";
 
 import { Header, Footer } from "shared";
-import { UserInfoModal } from "components/UserInfoModal";
+// import { UserInfoModal } from "components/UserInfoModal";
 // import { firestore } from "utils/firebase";
 // import { collection } from "firebase/firestore";
 
 export const Layout = () => {
-  const userCheck = useRecoilValue(UserCheckState);
+  // const userCheck = useRecoilValue(UserCheckState);
 
   // const [userData, setUserData] = useState(null); // 사용자 데이터 상태
 
@@ -42,7 +42,7 @@ export const Layout = () => {
 
   return (
     <LayoutContainer>
-      {userCheck ? <UserInfoModal /> : null}
+      {/* {userCheck ? <UserInfoModal /> : null} */}
       <Header />
       <Outlet />
       <Footer />
