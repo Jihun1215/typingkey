@@ -157,40 +157,77 @@ export const Typing = () => {
       }
     }
 
-    if (isAllHangulOrSpaceOrSpecialChar) {
-      // 타자 수가 증가 할때마다 정확한 타자와 부정확한 타자를 체크하여 증가하는 반복문
-      const saveSpeed = time !== 0 ? Math.round((textChars / time) * 60) : 0;
-      setResultSpeed(saveSpeed + 135);
-
-      const cpmValue =
-        currentTextLength === undefined || time === 0 || correctChars === 0
-          ? 0
-          : Math.round((correctChars / time!) * 60);
-
-      setCpm(cpmValue);
-
-      if (inputValue.length === 0) {
-        setResultSpeed(0);
+    // 타이핑 언어가 한글일 때
+    if(TypingKrCheck){
+      if (isAllHangulOrSpaceOrSpecialChar) {
+        // 타자 수가 증가 할때마다 정확한 타자와 부정확한 타자를 체크하여 증가하는 반복문
+        const saveSpeed = time !== 0 ? Math.round((textChars / time) * 60) : 0;
+        setResultSpeed(saveSpeed + 135);
+  
+        const cpmValue =
+          currentTextLength === undefined || time === 0 || correctChars === 0
+            ? 0
+            : Math.round((correctChars / time!) * 60);
+  
+        setCpm(cpmValue);
+  
+        if (inputValue.length === 0) {
+          setResultSpeed(0);
+        }
+  
+        const accuracy =
+          currentTextLength === undefined
+            ? 0
+            : Number(
+                ((correctChars / (correctChars + incorrectChars)) * 100).toFixed(
+                  0
+                )
+              );
+  
+        setAccuracy(accuracy);
+  
+        // 진행도
+        const progress =
+          currentTextLength === undefined
+            ? 0
+            : parseFloat(((inputLength / currentTextLength) * 100).toFixed(0));
+        SetProgress(progress);
       }
-
-      const accuracy =
-        currentTextLength === undefined
-          ? 0
-          : Number(
-              ((correctChars / (correctChars + incorrectChars)) * 100).toFixed(
-                0
-              )
-            );
-
-      setAccuracy(accuracy);
-
-      // 진행도
-      const progress =
-        currentTextLength === undefined
-          ? 0
-          : parseFloat(((inputLength / currentTextLength) * 100).toFixed(0));
-      SetProgress(progress);
+    }else{
+             // 타자 수가 증가 할때마다 정확한 타자와 부정확한 타자를 체크하여 증가하는 반복문
+             const saveSpeed = time !== 0 ? Math.round((textChars / time) * 60) : 0;
+             setResultSpeed(saveSpeed + 135);
+       
+             const cpmValue =
+               currentTextLength === undefined || time === 0 || correctChars === 0
+                 ? 0
+                 : Math.round((correctChars / time!) * 60);
+       
+             setCpm(cpmValue);
+       
+             if (inputValue.length === 0) {
+               setResultSpeed(0);
+             }
+       
+             const accuracy =
+               currentTextLength === undefined
+                 ? 0
+                 : Number(
+                     ((correctChars / (correctChars + incorrectChars)) * 100).toFixed(
+                       0
+                     )
+                   );
+       
+             setAccuracy(accuracy);
+       
+             // 진행도
+             const progress =
+               currentTextLength === undefined
+                 ? 0
+                 : parseFloat(((inputLength / currentTextLength) * 100).toFixed(0));
+             SetProgress(progress);
     }
+
 
     setIncorrectIndices(incorrectIndices);
     setTypingValue(inputValue);
