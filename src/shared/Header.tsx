@@ -189,8 +189,6 @@ const Tab = styled.p<{ typingkrcheck: string }>`
     background-color: ${(props) =>
       props.typingkrcheck === "true" ? "#00db84" : "#575757"};
   }
-  /* #8A7EBE */
-  /* #74c0fc */
   &.en {
     background-color: ${(props) =>
       props.typingkrcheck === "false" ? `#00db84` : "#575757"};

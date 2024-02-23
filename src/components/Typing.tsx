@@ -157,40 +157,77 @@ export const Typing = () => {
       }
     }
 
-    if (isAllHangulOrSpaceOrSpecialChar) {
-      // 타자 수가 증가 할때마다 정확한 타자와 부정확한 타자를 체크하여 증가하는 반복문
-      const saveSpeed = time !== 0 ? Math.round((textChars / time) * 60) : 0;
-      setResultSpeed(saveSpeed + 135);
-
-      const cpmValue =
-        currentTextLength === undefined || time === 0 || correctChars === 0
-          ? 0
-          : Math.round((correctChars / time!) * 60);
-
-      setCpm(cpmValue);
-
-      if (inputValue.length === 0) {
-        setResultSpeed(0);
+    // 타이핑 언어가 한글일 때
+    if(TypingKrCheck){
+      if (isAllHangulOrSpaceOrSpecialChar) {
+        // 타자 수가 증가 할때마다 정확한 타자와 부정확한 타자를 체크하여 증가하는 반복문
+        const saveSpeed = time !== 0 ? Math.round((textChars / time) * 60) : 0;
+        setResultSpeed(saveSpeed + 135);
+  
+        const cpmValue =
+          currentTextLength === undefined || time === 0 || correctChars === 0
+            ? 0
+            : Math.round((correctChars / time!) * 60);
+  
+        setCpm(cpmValue);
+  
+        if (inputValue.length === 0) {
+          setResultSpeed(0);
+        }
+  
+        const accuracy =
+          currentTextLength === undefined
+            ? 0
+            : Number(
+                ((correctChars / (correctChars + incorrectChars)) * 100).toFixed(
+                  0
+                )
+              );
+  
+        setAccuracy(accuracy);
+  
+        // 진행도
+        const progress =
+          currentTextLength === undefined
+            ? 0
+            : parseFloat(((inputLength / currentTextLength) * 100).toFixed(0));
+        SetProgress(progress);
       }
-
-      const accuracy =
-        currentTextLength === undefined
-          ? 0
-          : Number(
-              ((correctChars / (correctChars + incorrectChars)) * 100).toFixed(
-                0
-              )
-            );
-
-      setAccuracy(accuracy);
-
-      // 진행도
-      const progress =
-        currentTextLength === undefined
-          ? 0
-          : parseFloat(((inputLength / currentTextLength) * 100).toFixed(0));
-      SetProgress(progress);
+    }else{
+             // 타자 수가 증가 할때마다 정확한 타자와 부정확한 타자를 체크하여 증가하는 반복문
+             const saveSpeed = time !== 0 ? Math.round((textChars / time) * 60) : 0;
+             setResultSpeed(saveSpeed + 135);
+       
+             const cpmValue =
+               currentTextLength === undefined || time === 0 || correctChars === 0
+                 ? 0
+                 : Math.round((correctChars / time!) * 60);
+       
+             setCpm(cpmValue);
+       
+             if (inputValue.length === 0) {
+               setResultSpeed(0);
+             }
+       
+             const accuracy =
+               currentTextLength === undefined
+                 ? 0
+                 : Number(
+                     ((correctChars / (correctChars + incorrectChars)) * 100).toFixed(
+                       0
+                     )
+                   );
+       
+             setAccuracy(accuracy);
+       
+             // 진행도
+             const progress =
+               currentTextLength === undefined
+                 ? 0
+                 : parseFloat(((inputLength / currentTextLength) * 100).toFixed(0));
+             SetProgress(progress);
     }
+
 
     setIncorrectIndices(incorrectIndices);
     setTypingValue(inputValue);
@@ -359,7 +396,6 @@ const Text = styled.div`
   font-size: 20px;
   ${({ theme }) => theme.FlexCol};
   align-items: center;
-  padding-left: 10px;
 `;
 
 const TypingWord = styled.div`
@@ -406,14 +442,16 @@ const TextInput = styled.input<{ mode: string }>`
   font-size: 20px;
   color: ${({ theme }) => theme.color};
   transition: 0.3s;
-  padding-left: 10px;
+  ${({theme}) => theme.PretendardFontBody}
   background-color: transparent;
+
   &::placeholder {
     color: ${({ theme }) => theme.colors.gray4};
   }
   &:focus {
     border-bottom: 3px solid ${({ theme }) => theme.colors.greey};
   }
+  
 `;
 
 const NextTypingTextArea = styled.div`
